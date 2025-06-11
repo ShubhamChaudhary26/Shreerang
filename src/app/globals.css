@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* globals.css */
+@import "leaflet/dist/leaflet.css";
+ 
+:root {
+  --text-color: black;
+}
+:root{
+  --background-color: #ffffff;
+}
+.dark{
+  --text-color: white;
+}
+.light {
+  --text-color: #0e4d89 !important;
+} 
+.bg-light {
+  background-color: #F9FAFB;
+}
+.bg-dark{ 
+  background-color: #087dba;
+}
+.bg-Darkblack{
+  background-color: black;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--bg-color);
+}
+
+.Text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none; 
+}
+.underline-animate {
+  position: relative;
+  display: inline-block;
+}
+
+.underline-animate::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.underline-animate:hover::before {
+  width: 100%;
+}
+
+.b1 {
+  @apply px-6 py-2 bg-blue text-white rounded-full 
+    font-medium transition-all duration-500 ease-in-out 
+    hover:scale-105 hover:shadow-xl hover:-translate-y-1 
+    hover:font-bold;
+}
+
+.b2 {
+  @apply flex items-center gap-2 text-sm uppercase hover:font-bold transition-all duration-200 tracking-wide font-medium text-blue;
+}
+.Arrow {
+  @apply bg-black text-white w-6 h-6 flex items-center justify-center rounded-full 
+                         transition uppercase duration-300;
+}
+
+.h1 {
+  @apply text-3xl md:text-7xl  font-bold mb-6 leading-tight capitalize;
+  color: var(--text-color);
+ 
+}
+.h2 {
+  @apply text-2xl md:text-4xl font-bold mb-6 transition-all duration-300 capitalize; 
+  color: var(--text-color);
+  
+}
+.h3 {
+  @apply text-xl font-semibold mb-2 capitalize;
+  color: var(--text-color);
+ 
+}
+/* .h4{
+  @apply text-base  mb-2 text-black;
+} */
+.h5 {
+  @apply text-sm;
+  color: var(--text-color);
+  
+}
+/* .p1{
+  @apply text-xl text-black mb-4;
+} */
+
+.p2 {
+  @apply text-base font-normal mb-2;
+  color: var(--text-color);
+  
+}
+
+/* Custom styles for images */
+.custom-image {
+  width: 300px; /* Fixed size for consistency; adjust as needed */
+  height: 200px;
+  object-fit: cover; /* Matches Tailwind's object-cover */
+  border-radius: 0.75rem; /* Matches Tailwind's rounded-xl (12px) */
+  opacity: 0;
+  transform: scale(0.7);
+  animation: fadeInAndScale 2s ease-in-out forwards;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+
+
+
+
+@keyframes fadeInAndScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
