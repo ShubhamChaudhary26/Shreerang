@@ -32,6 +32,13 @@ const config: Config = {
       },
       keyframes: {
         // Keep your existing keyframes
+        borderColorCycle: {
+      '0%': { borderColor: '#9c7324' },     
+      '25%': { borderColor: '#087dba' },    
+      '50%': { borderColor: '#efdb6a' },    
+      '75%': { borderColor: '#a8822e' },     
+      '100%': { borderColor: '#0e4d89' },
+    },
         fadeInUp: {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
@@ -65,6 +72,7 @@ const config: Config = {
       },
       animation: {
         // Keep your existing animations
+        borderColorCycle: 'borderColorCycle 3s linear infinite',
         fadeInUp: "fadeInUp 0.6s ease-out forwards",
         slideInRight: "slideInRight 0.8s ease-out forwards",
         fadeInScale: "fadeInScale 0.5s ease-out forwards",

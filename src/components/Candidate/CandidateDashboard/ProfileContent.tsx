@@ -311,203 +311,128 @@ const ProfileContent: React.FC = () => {
           <p className="text-gray-500">Ready to explore opportunities?</p>
         </motion.div>
 
-        {/* Metrics Cards Section */}
-        {/* <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 px-4"
-          variants={containerVariants}
-        >
-          {profileMetrics.map((metric, index) => (
-            <motion.div
-              key={metric.id}
-              className="bg-white rounded-xl shadow-sm p-6 flex flex-col items-start space-y-2 border border-gray-200"
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              custom={index}
-            >
-              <div className={`p-3 rounded-full ${getIconBgClass(metric.id)} flex items-center justify-center`}>
-                <metric.icon size={24} className={getIconColorClass(metric.id)} />
-              </div>
-              <p className="text-3xl font-bold text-gray-900 mt-4">{metric.value}</p>
-              <p className="text-gray-500 text-lg">{metric.label}</p>
-            </motion.div>
-          ))}
-        </motion.div> */}
-
-        {/* Profile Views Chart and Notifications Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-4">
-          {/* Profile Views Chart Card */}
-          {/* <motion.div
-            className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6 border border-gray-200"
-            variants={itemVariants}
-          >
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-gray-800">Your Profile Views</h3>
-              <Select
-                defaultValue="Last 6 Months"
-                style={{ width: 150 }}
-                onChange={(value) => setSelectedPeriod(value as string)}
-                className="text-gray-700"
-              >
-                <Select.Option value="Last 6 Months">Last 6 Months</Select.Option>
-                <Select.Option value="Last 3 Months">Last 3 Months</Select.Option>
-                <Select.Option value="Last 12 Months">Last 12 Months</Select.Option>
-              </Select>
-            </div>
-            <div style={{ width: '100%', height: 300 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={profileViewsData}
-                  margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e0e0e0" />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} />
-                  <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="views"
-                    stroke="#2563eb"
-                    strokeWidth={2}
-                    dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
-                    activeDot={{ r: 6, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </motion.div> */}
-
-          {/* Notifications Card */}
-          {/* <motion.div
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-200"
-            variants={itemVariants}
-          >
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Notifications</h3>
-            <ul className="space-y-4">
-              {notifications.map((notification) => (
-                <li key={notification.id} className="flex items-start space-x-3">
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                    {notification.avatarUrl ? (
-                      <img
-                        src={notification.avatarUrl}
-                        alt={notification.userName}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-blue-100 text-blue-800 flex items-center justify-center text-sm font-bold rounded-full">
-                        {notification.userName.charAt(0)}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-gray-700">
-                      <span className="font-semibold text-gray-800">{notification.userName}</span>{' '}
-                      applied for a job <span className="font-semibold text-gray-800">{notification.jobTitle || 'Project'}</span>,{' '}
-                      <span className="text-gray-500 text-sm">{notification.jobStatus || 'N/A'}</span>
-                    </p>
-                    <p className="text-xs text-gray-400">{notification.time}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </motion.div> */}
-        </div>
-
         {/* Projects Section */}
-        <motion.div className="px-4 mt-6" variants={itemVariants}>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Available Projects</h3>
-          <div className="mb-4">
-            <p className="text-gray-700">Total Available Projects: {projects.length}</p>
-            <p className="text-gray-700">Applied Projects: {appliedProjects.length}</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.length > 0 ? (
-              projects.map((project, index) => (
-                <motion.div
-                  key={project._id}
-                  variants={cardVariants}
-                  custom={index}
-                  className="bg-white rounded-lg shadow-md p-4 flex flex-col"
+       <motion.div
+  className="px-6 py-10 mt-10 bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-3xl shadow-2xl max-w-7xl mx-auto border border-gray-200"
+  variants={itemVariants}
+>
+  <h3 className="text-4xl font-extrabold text-gray-900 mb-10 relative after:content-[''] after:absolute after:left-0 after:bottom-[-10px] ">
+    Available Projects
+  </h3>
+
+  <div className="mb-10 flex flex-col sm:flex-row sm:space-x-8 space-y-4 sm:space-y-0">
+    <div className="flex items-center bg-blue-50 rounded-2xl p-6 shadow-md hover:shadow-lg hover:bg-blue-100 transition-all duration-200">
+      <Briefcase className="text-blue-700 mr-4" size={30} />
+      <p className="text-gray-800 text-lg font-semibold">
+        Total Available Projects: <span className="text-blue-700">{projects.length}</span>
+      </p>
+    </div>
+    <div className="flex items-center bg-green-50 rounded-2xl p-6 shadow-md hover:shadow-lg hover:bg-green-100 transition-all duration-200">
+      <FileText className="text-green-700 mr-4" size={30} />
+      <p className="text-gray-800 text-lg font-semibold">
+        Applied Projects: <span className="text-green-700">{appliedProjects.length}</span>
+      </p>
+    </div>
+  </div>
+
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+    {projects.length > 0 ? (
+      projects.map((project, index) => (
+        <motion.div
+          key={project._id}
+          variants={cardVariants}
+          custom={index}
+          className="bg-white rounded-2xl shadow-lg p-6 flex flex-col hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
+        >
+          <Link href="/candidate/projects" className="flex-grow">
+            {playingVideoId === project._id && project.youtubeLink ? (
+              <div className="relative w-full h-56 mb-6 rounded-lg overflow-hidden">
+                <iframe
+                  src={getYouTubeEmbedUrl(project.youtubeLink)}
+                  title={project.title}
+                  className="w-full h-full rounded-lg"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+                <Button
+                  size="small"
+                  className="absolute top-3 right-3 bg-gray-900/80 text-white hover:bg-gray-900 transition-colors rounded-md"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPlayingVideoId(null);
+                  }}
                 >
-                  <Link href="/candidate/projects" className="flex-grow">
-                    {playingVideoId === project._id && project.youtubeLink ? (
-                      <div className="relative w-full h-40 mb-4">
-                        <iframe
-                          src={getYouTubeEmbedUrl(project.youtubeLink)}
-                          title={project.title}
-                          className="w-full h-full rounded-md"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                        <Button
-                          size="small"
-                          className="absolute top-2 right-2 bg-gray-800 text-white"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPlayingVideoId(null);
-                          }}
-                        >
-                          Close
-                        </Button>
-                      </div>
-                    ) : (
-                      <div
-                        className="relative w-full h-40 rounded-md mb-4 cursor-pointer bg-gray-200 flex items-center justify-center text-gray-400"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (project.youtubeLink) {
-                            setPlayingVideoId(project._id);
-                          }
-                        }}
-                      >
-                        {project.youtubeLink ? (
-                          <>
-                            <img
-                              src={getYouTubeThumbnailUrl(project.youtubeLink)}
-                              alt={project.title}
-                              className="w-full h-full object-cover rounded-md"
-                              onError={() => console.log(`Failed to load thumbnail for ${project.youtubeLink}`)}
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 hover:bg-opacity-30 transition-opacity rounded-md">
-                              <Play size={40} className="text-white opacity-80 hover:opacity-100" />
-                            </div>
-                          </>
-                        ) : (
-                          'No Video'
-                        )}
-                      </div>
-                    )}
-                    <Title level={4} className="text-lg font-semibold text-gray-800 mb-2 line-clamp-1">
-                      {project.title}
-                    </Title>
-                    <Text className="text-sm text-gray-600 mb-2 line-clamp-2">{project.description}</Text>
-                    <div className="flex flex-col space-y-1 mb-4">
-                      <Text className="text-xs text-gray-500">
-                        <strong>Category:</strong> {project.category || 'N/A'}
-                      </Text>
-                      <Text className="text-xs text-gray-500">
-                        <strong>Start Date:</strong>{' '}
-                        {project.startDate
-                          ? new Date(project.startDate).toLocaleDateString('en-GB')
-                          : 'N/A'}
-                      </Text>
-                    </div>
-                  </Link>
-                  <Button
-                    type="primary"
-                    onClick={() => handleApply(project._id)}
-                    disabled={appliedProjects.includes(project._id)}
-                    className="mt-auto"
-                  >
-                    {appliedProjects.includes(project._id) ? 'Applied' : 'Apply Now'}
-                  </Button>
-                </motion.div>
-              ))
+                  Close
+                </Button>
+              </div>
             ) : (
-              <p className="text-gray-500">No projects available at the moment.</p>
+              <div
+                className="relative w-full h-56 rounded-lg mb-6 cursor-pointer bg-gray-100 flex items-center justify-center text-gray-400 overflow-hidden group"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (project.youtubeLink) {
+                    setPlayingVideoId(project._id);
+                  }
+                }}
+              >
+                {project.youtubeLink ? (
+                  <>
+                    <img
+                      src={getYouTubeThumbnailUrl(project.youtubeLink)}
+                      alt={project.title}
+                      className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+                      onError={() => console.log(`Failed to load thumbnail for ${project.youtubeLink}`)}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition duration-200 rounded-lg">
+                      <Play size={48} className="text-white opacity-90 group-hover:opacity-100" />
+                    </div>
+                  </>
+                ) : (
+                  <span className="text-gray-500 font-medium">No Video Available</span>
+                )}
+              </div>
             )}
-          </div>
+
+            <Title
+              level={4}
+              className="text-2xl font-semibold text-gray-900 mb-3 line-clamp-1 hover:text-blue-600 transition-colors"
+            >
+              {project.title}
+            </Title>
+            <Text className="text-base text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+              {project.description}
+            </Text>
+            <div className="flex flex-col space-y-2 mb-5 text-sm text-gray-500 font-medium">
+              <p><strong>Category:</strong> {project.category || 'N/A'}</p>
+              <p>
+                <strong>Start Date:</strong>{' '}
+                {project.startDate ? new Date(project.startDate).toLocaleDateString('en-GB') : 'N/A'}
+              </p>
+            </div>
+          </Link>
+
+          <Button
+            type="primary"
+            onClick={() => handleApply(project._id)}
+            disabled={appliedProjects.includes(project._id)}
+            className={`mt-auto rounded-xl py-3 px-6 font-semibold text-base transition-all duration-300 ${
+              appliedProjects.includes(project._id)
+                ? 'bg-gray-300 cursor-not-allowed text-gray-600'
+                : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md'
+            }`}
+          >
+            {appliedProjects.includes(project._id) ? 'Applied' : 'Apply Now'}
+          </Button>
         </motion.div>
+      ))
+    ) : (
+      <div className="text-center py-12 bg-gray-100 rounded-xl border border-gray-200 shadow-sm col-span-full">
+        <p className="text-gray-600 text-lg font-semibold">No projects available at the moment.</p>
+      </div>
+    )}
+  </div>
+</motion.div>
+
       </motion.div>
     </>
   );

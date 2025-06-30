@@ -61,7 +61,8 @@ const InsightsSection: React.FC = () => {
         <h2 className="h2 text-center">
           From Data to Decisions: MintSurvey’s Marketing Edge
         </h2>
-
+<Link href={'./inspiration#blog'}> 
+         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-10 mt-10">
           {/* First Card - Static */}
           <motion.div
@@ -161,7 +162,7 @@ const InsightsSection: React.FC = () => {
             ))
           )}
         </div>
-
+</Link>
         {/* CTA */}
         {/* <div className="mt-10 text-center">
           <button className="b1">See all insights</button>

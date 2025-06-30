@@ -167,16 +167,16 @@ const Navbar: React.FC = () => {
                 isHoveringSolutions ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
             >
-              <div className="w-[900px] px-4 pt-12 grid grid-cols-2 gap-x-10 gap-y-2 border-t bg-white border-gray-200">
+              <div className="w-[900px] px-4 pt-8 grid grid-cols-2 gap-x-10 gap-y-2 border-t bg-white border-gray-200">
                 {solutionLinks.map(({ href, label }) => (
                   <Link
                     href={href}
                     key={label}
-                    className="text-base hover:text-blue hover:font-bold hover:underline cursor-pointer transition"
+                    className="text-base hover:text-blue mb-2 hover:font-bold hover:underline cursor-pointer transition"
                   >
                     <span className="relative group-hover:text-blue group-hover:font-bold">
                       {label}
-                      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue transition-all duration-300 group-hover:w-full"></span>
+                      <span className="absolute left-0 -bottom-1 w-0 h-[2px]  bg-blue transition-all duration-300 group-hover:w-full"></span>
                     </span>
                   </Link>
                 ))}
@@ -215,12 +215,14 @@ const Navbar: React.FC = () => {
           {isCandidateDashboard ? (
             <AccountDropdown profilePicture={profilePicture} />
           ) : (
-            <Link
-              href="/login"
-              className="b1 animate__animated animate__bounce animate__repeat-2"
-            >
-              Join Us
-            </Link>
+           <Link
+  href="/login"
+  className="b1 border-4 animate-borderColorCycle"
+>
+  Join Us
+</Link>
+
+
           )}
 
           {/* Cart Icon */}
@@ -238,119 +240,119 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile menu button and Join Us/Cart */}
-        <div className="md:hidden flex items-center gap-2">
-          {/* Profile Picture Avatar for Mobile (before Join Us) */}
-          {isCandidateDashboard && userEmail && (
-            <Avatar
-              src={profilePicture || undefined}
-              icon={!profilePicture ? <User /> : undefined}
-              size={32}
-              className="w-8 h-8 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer"
-            >
-              {!profilePicture && initials}
-            </Avatar>
-          )}
-          <Link
-            href="/login"
-            className="b1 text-sm py-2 border border-blue text-blue rounded hover:bg-light hover:blue-default transition"
-            onClick={handleNavLinkClick}
+       <div className="md:hidden flex  gap-2">
+  {/* Profile Picture Avatar for Mobile (before Join Us) */}
+  {isCandidateDashboard && userEmail && (
+    <Avatar
+      src={profilePicture || undefined}
+      icon={!profilePicture ? <User /> : undefined}
+      size={32}
+      className="w-8 h-8 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer"
+    >
+      {!profilePicture && initials}
+    </Avatar>
+  )}
+  <Link
+    href="/login"
+    className="b1 text-sm item-end mt-5 border border-blue text-blue rounded hover:bg-light hover:blue-default transition"
+    onClick={handleNavLinkClick}
+  >
+    Join Us
+  </Link>
+  <button
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    className=""
+  >
+    {mobileMenuOpen ? <Menu size={24} className="mt-5" /> : <Menu size={24} className="mt-5" />}
+  </button>
+</div>
+</div>
+
+{/* Mobile Menu Container with Slide-in Animation */}
+<AnimatePresence>
+  {mobileMenuOpen && (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      variants={mobileMenuContainerVariants}
+      className="fixed left-0 w-[80%]  z-40 md:hidden shadow-lg flex flex-col bg-gradient-to-br bg-light"
+      style={{ top: navbarHeight, height: `calc(100vh - ${navbarHeight}px)` }}
+    >
+      {/* Profile Picture and AccountDropdown for Mobile */}
+      {isCandidateDashboard && userEmail && (
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
+          <Avatar
+            src={profilePicture || undefined}
+            icon={!profilePicture ? <User /> : undefined}
+            size={40}
+            className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
           >
-            Join Us
-          </Link>
-          {/* <Link href="/checkout" className="hover:text-blue transition-colors">
-            <ShoppingCart size={24} className="h-6 w-6 md:h-7 md:w-7" />
-          </Link> */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className=""
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {!profilePicture && initials}
+          </Avatar>
+          <AccountDropdown profilePicture={profilePicture} />
         </div>
+      )}
+      <div className="flex justify-end p-4 pb-0">
+        <button
+          onClick={() => setMobileMenuOpen(false)}
+          className="hover:text-blue-lightest"
+        >
+          <X size={28}  />
+        </button>
       </div>
 
-      {/* Mobile Menu Container with Slide-in Animation */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={mobileMenuContainerVariants}
-            className="fixed left-0 w-full z-40 md:hidden shadow-lg flex flex-col bg-gradient-to-br bg-light"
-            style={{ top: navbarHeight, height: `calc(100vh - ${navbarHeight}px)` }}
+      <div className="px-6 flex-1 flex flex-col pt-0 overflow-y-auto">
+        
+
+        {[
+          { href: "/", label: "Home" },
+          { href: "/about", label: "About" },
+          { href: "/brandgrowth", label: "Brand Growth" },
+          { href: "/inspiration", label: "Inspiration" },
+          { href: "/contact", label: "Contact" },
+          { href: "/requestquote", label: "Request Quote" },
+        ].map(({ href, label }) => (
+          <Link
+            href={href}
+            key={label}
+            className={`block text-xl mt-5  hover:text-blue-lightest hover:font-bold py-2 border-b border-blue ${pathname === href ? 'text-blue' : ''}`}
+            onClick={handleNavLinkClick}
           >
-            {/* Profile Picture and AccountDropdown for Mobile */}
-            {isCandidateDashboard && userEmail && (
-              <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
-                <Avatar
-                  src={profilePicture || undefined}
-                  icon={!profilePicture ? <User /> : undefined}
-                  size={40}
-                  className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
-                >
-                  {!profilePicture && initials}
-                </Avatar>
-                <AccountDropdown profilePicture={profilePicture} />
-              </div>
-            )}
-            <div className="flex justify-end p-4 pb-0">
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-blue-lightest"
+            {label}
+          </Link>
+        ))}
+
+        <details className="text-xl  mt-5">
+          <summary className="cursor-pointer py-2 border-b border-blue">Solutions</summary>
+          <div className="ml-4 mt-2 space-y-3 border-l border-white/50 pl-4">
+            {solutionLinks.map(({ href, label }) => (
+              <Link
+                href={href}
+                key={label}
+                className={`block text-lg hover:text-blue-lightest hover:font-bold py-1 border-b border-blue ${pathname === href ? 'text-blue' : ''}`}
+                onClick={handleNavLinkClick}
               >
-                <X size={24} />
-              </button>
-            </div>
+                {label}
+              </Link>
+            ))}
+            <Link
+              href="/solution"
+              className={`text-blue-lightest font-semibold hover:underline cursor-pointer mt-3 block text-lg py-1 border-b border-blue ${pathname === '/solution' ? 'text-blue' : ''}`}
+              onClick={handleNavLinkClick}
+            >
+              All Solutions →
+            </Link>
+          </div>
+        </details>
 
-            <div className="px-6 flex-1 flex flex-col pt-0">
-              <details className="text-xl font-semibold mb-4">
-                <summary className="cursor-pointer py-2">Solutions</summary>
-                <div className="ml-4 mt-2 space-y-3 border-l border-white/50 pl-4">
-                  {solutionLinks.map(({ href, label }) => (
-                    <Link
-                      href={href}
-                      key={label}
-                      className="block text-lg hover:text-blue-lightest hover:font-bold py-1"
-                      onClick={handleNavLinkClick}
-                    >
-                      {label}
-                    </Link>
-                  ))}
-                  <Link
-                    href="/solution"
-                    className="text-blue-lightest font-semibold hover:underline cursor-pointer mt-3 block text-lg py-1"
-                    onClick={handleNavLinkClick}
-                  >
-                    All Solutions →
-                  </Link>
-                </div>
-              </details>
-
-              {[
-                { href: "/about", label: "About" },
-                { href: "/brandgrowth", label: "Brand Growth" },
-                { href: "/inspiration", label: "Inspiration" },
-                { href: "/contact", label: "Contact" },
-                { href: "/requestquote", label: "Request Quote" },
-              ].map(({ href, label }) => (
-                <Link
-                  href={href}
-                  key={label}
-                  className="block text-xl font-semibold hover:text-blue-lightest hover:font-bold py-2"
-                  onClick={handleNavLinkClick}
-                >
-                  {label}
-                </Link>
-              ))}
-
-              <div className="mt-auto pt-8 text-center text-sm opacity-80">
-                <p>© 2025 MintSurvey</p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <div className="mt-auto pt-8 text-center text-sm opacity-80">
+          <p>© 2025 MintSurvey</p>
+        </div>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </nav>
   );
 };

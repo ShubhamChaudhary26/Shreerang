@@ -255,45 +255,47 @@ export default function Footer() {
   </h1>
 </div>
 
-<div className="max-w-[1200px] mx-auto px-4 sm:px-4 mb-5 mt-5 md:mb-10">
+<div className="max-w-[1000px] mx-auto px-4 sm:px-4 mb-5 mt-5 md:mb-10">
   <form
     onSubmit={handleSubscribe}
     className="flex flex-col gap-4 w-full"
   >
     <div className="flex flex-col md:flex-row items-start gap-4 md:gap-7">
       <input
-        type="email"
-        required
-        placeholder="Enter your email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="px-4 sm:px-8 md:ml-5 py-2 rounded-md w-full md:w-[300px] outline-none border border-gray-300"
-        disabled={loading}
-      />
+  type="email"
+  required
+  placeholder="Enter your email address"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  className="px-4 py-[9px] rounded-md w-full md:w-[240px] h-[38px] outline-none border border-gray-300"
+  disabled={loading}
+/>
 
-      <div className="flex flex-col md:flex-row gap-4 md:gap-5">
-        <Select
-          showSearch
-          placeholder="Select Industry"
-          value={industry || undefined}
-          onChange={(value) => setIndustry(value)}
-          className="w-full md:w-[300px] h-[34px]"
-          disabled={loading}
-          filterOption={(input, option) =>
-            (option?.children as unknown as string)
-              ?.toLowerCase()
-              .includes(input.toLowerCase())
-          }
-        >
-          {linkedinIndustries.map((ind) => (
-            <Option
-              key={ind}
-              value={ind.toLowerCase().replace(/ & /g, "-").replace(/\//g, "-")}
-            >
-              {ind}
-            </Option>
-          ))}
-        </Select>
+<div className="flex flex-col md:flex-row gap-4 md:gap-5">
+  <Select
+    showSearch
+    placeholder="Select Industry"
+    value={industry || undefined}
+    onChange={(value) => setIndustry(value)}
+    className="w-full md:w-[300px] h-[38px]"
+    disabled={loading}
+    style={{ height: 38 }}
+    filterOption={(input, option) =>
+      (option?.children as unknown as string)
+        ?.toLowerCase()
+        .includes(input.toLowerCase())
+    }
+  >
+    {linkedinIndustries.map((ind) => (
+      <Option
+        key={ind}
+        value={ind.toLowerCase().replace(/ & /g, "-").replace(/\//g, "-")}
+      >
+        {ind}
+      </Option>
+    ))}
+  </Select>
+
 
         <div className="flex flex-col gap-4 md:gap-3 md:flex-row md:items-start w-full">
           <div className="flex flex-col gap-3">
@@ -344,7 +346,7 @@ export default function Footer() {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
       {/* Consultation Section */}
       <div className="flex flex-col justify-between mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl md:text-5xl font-bold ml-1 mb-6 md:mb-12 mt-8 sm:mt-10">
+        <h2 className="text-xl sm:text-2xl md:text-5xl font-bold ml-1 mb-6 text-center md:text-left md:mb-12 mt-8 sm:mt-10">
           Ready to make <br /> data-driven decisions?
         </h2>
         <Link href="/requestquote#form">
@@ -391,13 +393,13 @@ export default function Footer() {
             />
           </motion.button>
         </Link>
-        <p className="text-sm sm:text-sm font-medium leading-relaxed mt-2 px-4 sm:px-0">
+        <p className="text-sm sm:text-sm font-medium leading-relaxed mt-2 px-4 sm:px-0 text-center md:text-left">
           Book a Free Consultation, and we’ll recommend the perfect data strategy aligned with your business goals.
         </p>
       </div>
 
       {/* Solutions Section */}
-      <div className="sm:ml-0 md:ml-[150px]">
+      <div className="sm:ml-0 md:ml-[150px] md:text-left text-center">
   <h3 className="text-lg sm:text-xl font-semibold mb-4">Solutions</h3>
   <ul className="space-y-3 text-xs sm:text-sm leading-relaxed">
     {[
@@ -423,7 +425,7 @@ export default function Footer() {
   </ul>
 </div>
       {/* About Section */}
-      <div className="md:ml-8">
+      <div className="md:ml-8 md:text-left text-center">
         <h3 className="text-lg sm:text-xl font-semibold mb-4">About</h3>
         <ul className="space-y-3 text-xs sm:text-sm leading-relaxed">
           <li><Link href="/about" className="underline-animate">About Us</Link></li>
@@ -438,23 +440,27 @@ export default function Footer() {
 
       {/* Offices Section */}
       <div>
-        <h3 className="text-lg sm:text-xl font-semibold mb-4">Our Offices</h3>
-        <h4 className="text-base sm:text-lg font-semibold mb-2">India Office</h4>
-        <address className="text-xs sm:text-sm space-y-2 mb-6 not- personally">
-          <p>E-401, Pramukh Paramount, Kudasan, Gandhinagar – 382421, Gujarat</p>
+      <h3 className="text-lg sm:text-xl text-center md:text-left font-semibold underline underline-offset-4 md:no-underline mb-4">
+  Our Offices
+</h3>
+
+
+        <h4 className="text-base sm:text-lg font-semibold mb-2 text-center md:text-left">India Office</h4>
+        <address className="text-xs sm:text-sm space-y-2 mb-6 not- personally text-center md:text-left">
           <p>E-19, Eden, #630, Innovations Park, Arkere, BG Road, Bengaluru – 560076, Karnataka</p>
+          <p>E-401, Pramukh Paramount, Kudasan, Gandhinagar – 382421, Gujarat</p>
           <p>
-            <a href="mailto:IndiaResearch@mintsurvey.com" className="underline-animate">IndiaResearch@mintsurvey.com</a>
+            <a href="mailto:IndiaResearch@mintsurvey.com" className="underline-animate text-center md:text-left">IndiaResearch@mintsurvey.com</a>
           </p>
         </address>
-        <h4 className="text-base sm:text-lg font-semibold mb-2">UAE Office</h4>
-        <address className="text-xs sm:text-sm space-y-2 mb-6 not-italic">
+        <h4 className="text-base sm:text-lg font-semibold mb-2 text-center md:text-left">UAE Office</h4>
+        <address className="text-xs sm:text-sm space-y-2 mb-6 not-italic text-center md:text-left">
           <p>Office 10, Sharjah Media City, Al Messaned, Sharjah, United Arab Emirates</p>
           <p>
-            <a href="mailto:MENAResearch@mintsurvey.com" className="underline-animate">MENAResearch@mintsurvey.com</a>
+            <a href="mailto:MENAResearch@mintsurvey.com" className="underline-animate text-center md:text-left">MENAResearch@mintsurvey.com</a>
           </p>
         </address>
-        <div className="flex items-center gap-4 text-xl sm:text-2xl">
+        <div className="flex md:justify-normal justify-center gap-4 text-xl sm:text-2xl ">
           <a href="https://www.linkedin.com/company/mintsurvey/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="hover:text-blue">
             <LinkedinOutlined />
           </a>
@@ -469,9 +475,9 @@ export default function Footer() {
     </div>
 
     {/* Footer Bottom */}
-    <div className="border-t border-gray-700 pt-6 sm:pt-8 mt-8 sm:mt-12 flex flex-col md:flex-row items-end justify-end text-xs sm:text-xs gap-4">
+    <div className="border-t   border-gray-700 pt-6 sm:pt-8 mt-8 sm:mt-12 flex flex-col md:flex-row items-end justify-end text-xs sm:text-xs gap-4">
       <div className="flex flex-wrap items-end justify-end gap-3">
-        <a className="underline-animate">© MintSurvey Group and Affiliates 2025</a>
+        <a className="underline-animate text-center md:text-left">© MintSurvey Group and Affiliates 2025</a>
         <span>|</span>
         <Link href="/termsandconditions" className="underline-animate">Terms and conditions</Link>
         <span>|</span>

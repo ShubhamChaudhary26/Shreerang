@@ -15,23 +15,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Email, OTP, and reCAPTCHA token are required." }, { status: 400 });
     }
 
-    // // Verify reCAPTCHA
-    // const recaptchaResponse = await fetch(
-    //   `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
-    //   { method: "POST" }
-    // );
-    // const recaptchaData = await recaptchaResponse.json();
-    // console.log("reCAPTCHA Data:", recaptchaData);
-
-    // if (!recaptchaData.success) {
-    //   console.error("reCAPTCHA verification failed:", recaptchaData);
-    //   return NextResponse.json({ message: "reCAPTCHA verification failed. Please try again." }, { status: 400 });
-    // }
-
-    // if (recaptchaData.score < 0.5) {
-    //   console.warn("reCAPTCHA score too low:", recaptchaData.score);
-    //   return NextResponse.json({ message: "Suspicious activity detected. Please try again." }, { status: 400 });
-    // }
+  
 
     // Validate termsAgreed and newsletterOptIn
     if (typeof termsAgreed !== "boolean" || !termsAgreed) {

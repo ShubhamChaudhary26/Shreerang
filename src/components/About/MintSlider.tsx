@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import ScrollFadeIn from '../../hooks/ScrollFadeIn';
+import Link from 'next/link';
 
 export default function LogoSlider() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -53,6 +54,7 @@ export default function LogoSlider() {
   // Handle loading and error states
   if (loading) {
     return (
+
       <section className="w-full bg-light py-12 mt-10 overflow-hidden">
         <h2 className="h2 light !mb-20 tracking-wider text-center">
           Our Featured Case Studies
@@ -74,18 +76,21 @@ export default function LogoSlider() {
   }
 
   return (
+    
     <ScrollFadeIn delay={0.2}>
       <section className="w-full bg-light py-12 mt-10 overflow-hidden">
         <h2 className="h2 !mb-20 tracking-wider text-center">
           Our Featured Case Studies
         </h2>
 
+      
         <div
           ref={scrollRef}
           className="flex gap-14 whitespace-nowrap overflow-hidden w-full"
           style={{ scrollBehavior: 'smooth' }}
         >
           {[...blogs, ...blogs].map((item, index) => (
+
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -95,6 +100,7 @@ export default function LogoSlider() {
               className="flex-shrink-0 flex flex-col items-center justify-center w-[180px] opacity-60 hover:opacity-100 transition-opacity duration-300"
             >
               <div className="relative w-[160px] h-[100px]">
+                <Link  href={'./inspiration#blog'}> 
                 <Image
                   src={item.featuredImage || '/grt.jpg'}
                   alt={item.title || `Blog ${index}`}
@@ -103,6 +109,7 @@ export default function LogoSlider() {
                   className="object-contain rounded-xl shadow-md"
                   sizes="(max-width: 768px) 100vw, 160px"
                 />
+               </Link>
               </div>
               <p className="mt-2 text-sm font-medium text-center">
                 {item.title || 'Untitled Blog'}
@@ -110,6 +117,7 @@ export default function LogoSlider() {
             </motion.div>
           ))}
         </div>
+    
       </section>
     </ScrollFadeIn>
   );

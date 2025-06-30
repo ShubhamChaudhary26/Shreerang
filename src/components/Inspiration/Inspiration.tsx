@@ -14,7 +14,7 @@ const Inspiration = () => {
     <>
       <div className="px-6 md:px-20 max-w-[1440px] mx-auto py-9">
       <InspirationHeader />
- 
+
 <CaseStudiesSection
   title={["On-field Check", "Meta-data Check", "Logical Check", "Back-check"]}
   descriptions={[
@@ -49,12 +49,16 @@ const Inspiration = () => {
     }
   ]}
 />
+  <div id="blog">
         <div >
           <h1 className="h2 !mb-10 ">
             Dig deep in to the depth and breadth of our knowledge.
           </h1>
           <FilterBar filters={filters} setFilters={setFilters} />
+
+         
           <InsightsGrid filters={filters} />
+         </div>
         </div>
         <div >
           {/* <ArticleCards /> */}

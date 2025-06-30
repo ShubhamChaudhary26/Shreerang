@@ -25,6 +25,8 @@ export default function BlogPreviewContent({ blog }: { blog: Blog | null }) {
   useEffect(() => {
     if (blog) {
       setIsLoading(false);
+      // Debug the featuredImage value
+      console.log('Featured Image:', blog.featuredImage);
     } else {
       setError('Failed to load blog');
       setIsLoading(false);
@@ -58,6 +60,10 @@ export default function BlogPreviewContent({ blog }: { blog: Blog | null }) {
               src={blog.featuredImage}
               alt={blog.title}
               className="w-full h-64 md:h-96 object-cover"
+              onError={(e) => {
+                console.error('Failed to load image:', blog.featuredImage);
+                e.currentTarget.src = '/images/default-blog-image.jpg'; // Fallback image
+              }}
             />
           )}
           <div className="p-6 md:p-8">

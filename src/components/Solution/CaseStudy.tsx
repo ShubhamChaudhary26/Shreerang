@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import ScrollFadeIn from "../../hooks/ScrollFadeIn";
+import Link from "next/link";
 
 interface Blog {
   title: string;
@@ -81,6 +82,7 @@ export default function CaseStudiesSection() {
         </ScrollFadeIn>
 
         {/* Blog Grid */}
+        <Link  href={'./inspiration#blog'}> 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {displayedBlogs.map((item, index) => (
             <ScrollFadeIn key={item.slug} delay={0.6 + index * 0.1}>
@@ -98,6 +100,7 @@ export default function CaseStudiesSection() {
             </ScrollFadeIn>
           ))}
         </div>
+        </Link>
 
         {/* Load More */}
         {currentCount < blogs.length && ( // Show button only if more blogs are available

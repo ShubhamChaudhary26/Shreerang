@@ -70,8 +70,8 @@ const TellUsAboutIt: React.FC = () => {
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
-  const handleIndustryChange = (value: string[]) => {
-    setFormData((prev) => ({ ...prev, industry: value.join(', ') }));
+  const handleIndustryChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, industry: value || '' }));
     setErrors((prev) => ({ ...prev, industry: '' }));
   };
 
@@ -117,17 +117,13 @@ const TellUsAboutIt: React.FC = () => {
       isValid = false;
     }
     if (!formData.industry) {
-      newErrors.industry = 'Please select at least one industry';
+      newErrors.industry = 'Please select an industry';
       isValid = false;
     }
     if (!formData.termsAgreed) {
       newErrors.termsAgreed = 'You must agree to the terms and confirm you’ve read the privacy notice';
       isValid = false;
     }
-    // if (!formData.newsletterOptIn) {
-    //   newErrors.newsletterOptIn = 'Please opt-in to receive the weekly newsletter';
-    //   isValid = false;
-    // }
 
     setErrors(newErrors);
     return isValid;
@@ -144,20 +140,11 @@ const TellUsAboutIt: React.FC = () => {
       return;
     }
 
-    // if (!executeRecaptcha) {
-    //   setErrors((prev) => ({ ...prev, general: 'reCAPTCHA not loaded.' }));
-    //   message.error('reCAPTCHA not loaded. Please try again.');
-    //   setLoading(false);
-    //   return;
-    // }
-
     try {
-      // const recaptchaToken = await executeRecaptcha('requestquote_form');
       const payload = {
         ...formData,
         phone: `${selectedCountry}${formData.phone}`,
         role: 'client',
-        // recaptchaToken,
       };
       const response = await fetch('/api/requestquote', {
         method: 'POST',
@@ -286,11 +273,10 @@ const TellUsAboutIt: React.FC = () => {
           <div className="mb-4">
             <label className="p2 font-bold mb-1 block">Industry</label>
             <Select
-              mode="multiple"
               allowClear
-              value={formData.industry ? formData.industry.split(', ') : []}
+              value={formData.industry || undefined}
               onChange={handleIndustryChange}
-              placeholder="Select industries"
+              placeholder="Select an industry"
               className={`border-gray w-full ${errors.industry ? 'border-rose-800' : ''}`}
               showSearch
               optionFilterProp="children"

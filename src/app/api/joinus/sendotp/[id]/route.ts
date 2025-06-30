@@ -18,37 +18,18 @@ export async function POST(request: Request, { params }: { params: { id: string 
   await connectDB();
 
   try {
-    const { email, recaptchaToken } = await request.json();
+    const { email } = await request.json();
 
     if (!email) {
       return NextResponse.json({ message: 'Email is required' }, { status: 400 });
     }
 
-    if (!recaptchaToken) {
-      return NextResponse.json({ message: 'reCAPTCHA token is required' }, { status: 400 });
-    }
 
     // Server-side email format validation
     if (!validateEmailFull(email)) {
       return NextResponse.json({ message: 'Please provide a valid email address format.' }, { status: 400 });
     }
 
-    // Verify reCAPTCHA
-    // const recaptchaResponse = await fetch(
-    //   `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
-    //   { method: 'POST' }
-    // );
-    // const recaptchaData = await recaptchaResponse.json();
-
-    // if (!recaptchaData.success) {
-    //   console.error('reCAPTCHA verification failed:', recaptchaData);
-    //   return NextResponse.json({ message: 'reCAPTCHA verification failed. Please try again.' }, { status: 400 });
-    // }
-
-    // if (recaptchaData.score < 0.5) {
-    //   console.warn('reCAPTCHA score too low:', recaptchaData.score);
-    //   return NextResponse.json({ message: 'Suspicious activity detected. Please try again.' }, { status: 400 });
-    // }
 
     // Generate a 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();

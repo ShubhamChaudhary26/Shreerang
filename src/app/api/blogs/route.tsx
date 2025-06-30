@@ -1,33 +1,29 @@
-
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { writeFile } from 'fs/promises';
+import { join } from 'path';
+import { mkdirSync } from 'fs';
 import Blog from '@/schema/blog';
 import connectDB from '@/lib/db';
 
-export async function POST(request: Request) {
+// Ensure the uploads directory exists
+const uploadDir = join(process.cwd(), 'public', 'uploads');
+try {
+  mkdirSync(uploadDir, { recursive: true });
+} catch (error) {
+  console.error('Error creating uploads directory:', error);
+}
+
+export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    const data = await request.json();
-    const { title, slug, category, content, status, featuredImage } = data;
 
-    // Validate reCAPTCHA token
-    // if (!recaptchaToken) {
-    //   return NextResponse.json({ message: 'reCAPTCHA token is missing' }, { status: 400 });
-    // }
-
-    // const recaptchaResponse = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //   body: new URLSearchParams({
-    //     secret: process.env.RECAPTCHA_SECRET_KEY as string,
-    //     // response: recaptchaToken,
-    //   }).toString(),
-    // });
-
-    // const recaptchaData = await recaptchaResponse.json();
-    // console.log('reCAPTCHA response:', recaptchaData);
-    // if (!recaptchaData.success || recaptchaData.score < 0.5) {
-    //   return NextResponse.json({ message: 'reCAPTCHA verification failed' }, { status: 400 });
-    // }
+    const formData = await request.formData();
+    const title = formData.get('title') as string;
+    const slug = formData.get('slug') as string;
+    const category = formData.get('category') as string;
+    const content = formData.get('content') as string;
+    const status = formData.get('status') as string;
+    const file = formData.get('featuredImage') as File;
 
     // Validate required fields
     if (!title || !title.trim()) {
@@ -40,17 +36,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Content is required' }, { status: 400 });
     }
 
+    let featuredImageUrl = '';
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const filename = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`; // Sanitize filename
+      const filepath = join(uploadDir, filename);
+      await writeFile(filepath, buffer);
+      featuredImageUrl = `/uploads/${filename}`; // e.g., /uploads/123456-image.jpg
+    }
+
     const blog = new Blog({
       title: title || 'Default Title',
       slug: slug || 'default-slug-' + Date.now(),
       category: category || 'General',
       content: content || 'Default Content',
       status: status || 'Draft',
-      featuredImage: featuredImage || undefined,
+      featuredImage: featuredImageUrl || undefined,
     });
 
     await blog.save();
-    // console.log('Blog saved:', blog);
     return NextResponse.json({ message: 'Blog created', blog }, { status: 201 });
   } catch (error: any) {
     console.error('Error creating blog:', error.message);
@@ -60,14 +64,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    // console.log('GET /api/blogs called');
     await connectDB();
     const blogs = await Blog.find();
-    // console.log('Fetched blogs:', blogs);
     return NextResponse.json(blogs, { status: 200 });
   } catch (error: any) {
-    // console.error('Error fetching blogs:', error.message);
     return NextResponse.json({ message: 'Error fetching blogs', error: error.message }, { status: 500 });
   }
 }
-
