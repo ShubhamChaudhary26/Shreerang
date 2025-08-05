@@ -13,8 +13,6 @@ const otpSchema: Schema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true, 
-      index: true,  
     },
     otp: {
       type: String,
@@ -31,10 +29,11 @@ const otpSchema: Schema = new Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
+// ✅ Define index only here
 otpSchema.index({ email: 1 }, { unique: true });
 
 const OtpSchema = mongoose.models.Otp || mongoose.model<IOTP>('Otp', otpSchema);
