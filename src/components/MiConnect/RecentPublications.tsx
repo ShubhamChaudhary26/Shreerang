@@ -102,40 +102,33 @@ export const RecentPublications = ({ heading }: RecentPublicationsProps) => {
           viewport={{ once: true }}
         >
           {publications.map((item, idx) => (
-            <Link href={item.link}>
-            <motion.div
-              key={idx}
-              variants={cardVariants}
-              whileHover={{ scale: 1.02 }}
-              className="bg-light rounded-2xl shadow-md overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-lg"
-            >
-              <motion.img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-48 object-cover transition-transform duration-300"
-                whileHover={{ scale: 1.05 }}
-              />
-              <div className="p-5 flex flex-col flex-grow justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="h3">{item.title}</h3>
-                    <span className="bg-blue dark p2 px-2 py-1 rounded-full">
-                      {item.type}
-                    </span>
-                  </div>
-                  <p className="p2">{item.description}</p>
-                </div>
+  <Link href={item.link} key={idx}>
+    <motion.div
+      variants={cardVariants}
+      whileHover={{ scale: 1.02 }}
+      className="bg-light rounded-2xl shadow-md overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-lg"
+    >
+      <motion.img
+        src={item.image}
+        alt={item.title}
+        className="w-full h-48 object-cover transition-transform duration-300"
+        whileHover={{ scale: 1.05 }}
+      />
+      <div className="p-5 flex flex-col flex-grow justify-between">
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="h3">{item.title}</h3>
+            <span className="bg-blue dark p2 px-2 py-1 rounded-full">
+              {item.type}
+            </span>
+          </div>
+          <p className="p2">{item.description}</p>
+        </div>
+      </div>
+    </motion.div>
+  </Link>
+))}
 
-                {/* <div className="flex items-center justify-between mt-6 h5">
-              
-                    Read more →
-             
-                  <span>{item.date}</span>
-                </div> */}
-              </div>
-            </motion.div>
-            </Link>
-          ))}
         </motion.div>
       )}
     </section>
