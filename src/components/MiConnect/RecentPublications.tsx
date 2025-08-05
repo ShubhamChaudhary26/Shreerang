@@ -102,7 +102,7 @@ export const RecentPublications = ({ heading }: RecentPublicationsProps) => {
           viewport={{ once: true }}
         >
           {publications.map((item, idx) => (
-            <Link  href={'./inspiration#blog'}> 
+            <Link href={item.link}>
             <motion.div
               key={idx}
               variants={cardVariants}
