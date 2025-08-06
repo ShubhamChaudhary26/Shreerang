@@ -212,7 +212,7 @@ const ClientList: React.FC = () => {
         </Card>
         {selectedClient && (
           <Modal
-            title={<h2 className="text-lg font-semibold">{selectedClient.fullName}'s Details</h2>}
+            title={<h2 className="text-lg font-semibold">{selectedClient.fullName}&apos;s Details</h2>}
             visible={isModalVisible}
             onCancel={handleModalClose}
             footer={null}
