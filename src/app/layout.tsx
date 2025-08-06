@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'MintSurvey',
   description: 'Data Driven Insights',
   icons: {
-    icon: '/Icon.png',
+    icon: '/inspirationcard1.jpg', // Ensure this exists in /public/
   },
 };
 
