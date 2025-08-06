@@ -2,8 +2,6 @@ import CaseStudy from "./CaseStudy";
 import FeatureBlocks from "./FeatureBlocks";
 import HeroSection from "./HeroSection";
 import floorLogo from "../../../public/icon.webp";
-import { FeatureGrid } from "./FeatureGrid";
-import { RecentPublications } from "./RecentPublications";
 import { CallToActionSection } from "./CallToActionSection";
 import LogoSlider from "../About/MintSlider";
 import { ChartsSection } from "./ChartsSection";
@@ -206,18 +204,12 @@ export default function HomePage() {
   return (
     <div className="px-6 md:px-20 max-w-[1440px] mx-auto ">
      <HeroSection
-  title={`Revolutionize \nQualitative Research \nWith MiConnect`}
-  description="Harness In-Depth Interviews, Focus Groups, Ethnographic Research, Online Communities, Neuroscience, and Expert Panels to uncover deep, actionable consumer insights across diverse audiences."
-  imageSrc="/miconnect/MiConnectHomeSection.svg"
-  imageAlt="Qualitative Research Illustration"
-  buttonText="Book a Free Consultation"
+  title="Registered Rent Agreement Service in Maharashtra"
+  description="Calculate your stamp duty and registration fees instantly. Get doorstep biometric & agreement registration with Anulom."
+  buttonText="Book Now"
 />
-      {/* <TrustedBrands
-        heading="Loved & trusted by thousands of industry leaders"
-        brands={brandList}
-        showLink={true}
-        // linkHref="#"
-      /> */}
+
+      
 
       {/* <CaseStudyCarousel slides={slides} /> */}
       <FeatureBlocks features={features} />
@@ -239,10 +231,8 @@ export default function HomePage() {
         button1Label="Read full case study"
         // button1Link="#"
       />
-      <FeatureGrid heading="Doing Data Right" features={featuresGrid} />
-      <RecentPublications
-        heading="Recent Publications"
-      />
+      {/* <FeatureGrid heading="Doing Data Right" features={featuresGrid} /> */}
+      
       {/* <ChartsSection /> */}
       {/* <TestimonialSwitcher /> */}
       <CallToActionSection

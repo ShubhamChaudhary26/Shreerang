@@ -5,6 +5,7 @@ const nextConfig = {
     domains: [
       'via.placeholder.com',
       'localhost',
+      'res.cloudinary.com', 
        // Add this line for placeholder images
     ],
   },

@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const HeroSection = () => {
   return (
-    <section className="relative h-auto md:h-[590px]  w-full mt-4 md:mt-12 overflow-hidden  px-1 md:px-0">
+    <section className="relative h-auto md:h-[590px] w-full mt-4 md:mt-12 overflow-hidden px-1 md:px-0">
       <div className="grid grid-cols-1 md:grid-cols-2 h-full mx-auto relative z-10 py-20 md:py-0"> 
 
         <motion.div
@@ -17,17 +17,19 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-xl mx-auto md:mx-0">
-            {/* <p className="h5">Solutions</p> */}
             <h1 className="h1"> 
-               Data-Driven Decisions Start with Real-Time Research
+              Rent Agreement Services at Your Doorstep
             </h1>
+            <p className="p1 mt-4 text-muted-foreground">
+              Get your Registered Rent Agreement done with biometric verification, official e-stamp, and expert support — all from the comfort of your home.
+            </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="b1 ml-2" 
+              className="b1 mt-6"
             >
-              <Link href="/requestquote" >
-             Book a Free Consultation
+              <Link href="tel:+917498776389">
+                📞 Call Now: +91 7498776389
               </Link>
             </motion.button>
           </div>

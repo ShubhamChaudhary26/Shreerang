@@ -7,7 +7,6 @@ import InsightsSection from "./InsightsSection";
 import HeroBanner from "./HeroSection";
 import Services from "./OurServices";
 import ContentWithImage from "./ContentWithImage";
-import { Countries } from "./Country";
 import TestimonialSlider from "./Testimonial";
 import WhyBrandsSection from "./Brand";
 
@@ -19,8 +18,6 @@ const Home = () => {
         <Card />
         {/* <FeaturedProductCard /> */}
         <WhyBrandsSection/>
-        
-        <Countries />
         <InsightsSection />
         <PeopleStatsSection />
         <Services />

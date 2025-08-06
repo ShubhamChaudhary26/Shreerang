@@ -12,16 +12,9 @@ import { Avatar } from 'antd';
 import AccountDropdown from '../Common/AccountDropdown';
 
 const solutionLinks = [
-  { href: '/miconnect', label: 'MiConnect' },
+  { href: '/rentagrement', label: 'Rent Agrement Registration' },
   { href: '/micorrelate', label: 'MiCorrelate' },
   { href: '/micompliance', label: 'MiCompliance' },
-  { href: '/micollection', label: 'MiCollection' },
-  { href: '/miconcept', label: 'MiConcept' },
-  { href: '/micompilation', label: 'MiCompilation' },
-  { href: '/miclinic', label: 'MiClinic' },
-  { href: '/miclick', label: 'MiClick' },
-  { href: '/miauto', label: 'MiAuto' },
-  // { href: '/shop', label: 'MarketPlace' },
 ];
 
 const mobileMenuContainerVariants = {

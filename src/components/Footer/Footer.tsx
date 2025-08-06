@@ -430,7 +430,7 @@ export default function Footer() {
         <ul className="space-y-3 text-xs sm:text-sm leading-relaxed">
           <li><Link href="/about" className="underline-animate">About Us</Link></li>
           {/* <li><Link href="/contact" className="underline-animate">Contact</Link></li> */}
-          <li><Link href="/miauto" className="underline-animate">Mi Auto</Link></li>
+          
           <li><Link href="/contact#presence" className="underline-animate">Presence</Link></li>
           <li><Link href="/about#research" className="underline-animate">Research Team</Link></li>
           {/* <li><Link href="#" className="underline-animate">Company News</Link></li> */}
