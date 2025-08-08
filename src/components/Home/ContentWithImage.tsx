@@ -30,11 +30,41 @@ export default function ShreerangTestimonials() {
   const animationRef = useRef<NodeJS.Timeout | null>(null);
 
   const testimonials = [
-    { name: "Tushar Chaskar", designation: "Business Owner", location: "Mumbai, Maharashtra", rating: 5, text: "Superb rent agreement service. Quick, professional and hassle-free." },
-    { name: "Rajesh Patil", designation: "IT Professional", location: "Pune, Maharashtra", rating: 5, text: "Rent agreement was seamless and delivered within 24 hours." },
-    { name: "Priya Deshmukh", designation: "Marketing Manager", location: "Nagpur, Maharashtra", rating: 5, text: "Very professional and responsive service for rent agreement." },
-    { name: "Vikash Shinde", designation: "Consultant", location: "Thane, Maharashtra", rating: 5, text: "Amazing doorstep service! All documents done in one visit." },
-    { name: "Anjali More", designation: "HR Executive", location: "Nashik, Maharashtra", rating: 5, text: "Quick and reliable rent agreement service with fair pricing." },
+    {
+      name: "Tushar Chaskar",
+      designation: "Business Owner",
+      location: "Mumbai, Maharashtra",
+      rating: 5,
+      text: "Superb rent agreement service. Quick, professional and hassle-free.",
+    },
+    {
+      name: "Rajesh Patil",
+      designation: "IT Professional",
+      location: "Pune, Maharashtra",
+      rating: 5,
+      text: "Rent agreement was seamless and delivered within 24 hours.",
+    },
+    {
+      name: "Priya Deshmukh",
+      designation: "Marketing Manager",
+      location: "Nagpur, Maharashtra",
+      rating: 5,
+      text: "Very professional and responsive service for rent agreement.",
+    },
+    {
+      name: "Vikash Shinde",
+      designation: "Consultant",
+      location: "Thane, Maharashtra",
+      rating: 5,
+      text: "Amazing doorstep service! All documents done in one visit.",
+    },
+    {
+      name: "Anjali More",
+      designation: "HR Executive",
+      location: "Nashik, Maharashtra",
+      rating: 5,
+      text: "Quick and reliable rent agreement service with fair pricing.",
+    },
   ];
 
   const loopTestimonials = [...testimonials, ...testimonials];
@@ -70,7 +100,7 @@ export default function ShreerangTestimonials() {
           Rent Agreement Services in Maharashtra
         </h2>
         <p className="text-gray-600 text-center text-lg mb-10 max-w-2xl mx-auto">
-          Here’s what our customers across Maharashtra say about our rent agreement service.
+          Here&apos;s what our customers across Maharashtra say about our rent agreement service.
         </p>
 
         <div
@@ -101,7 +131,7 @@ export default function ShreerangTestimonials() {
                     ))}
                   </div>
                   <p className="text-gray-700 italic break-words mb-4 leading-relaxed text-center">
-                    "{t.text}"
+                    &quot;{t.text}&quot;
                   </p>
                 </div>
                 <div className="text-center border-t pt-4">
