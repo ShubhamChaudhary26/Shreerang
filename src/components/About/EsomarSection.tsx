@@ -19,7 +19,7 @@ const About = () => {
       icon: <Eye className="h-12 w-12 text-primary" />,
       title: "Our Vision",
       description:
-        "To be India's leading digital platform for e-governance solutions, making government services accessible to all.",
+        "To be India&apos;s leading digital platform for e-governance solutions, making government services accessible to all.",
     },
     {
       icon: <Target className="h-12 w-12 text-primary" />,
@@ -100,8 +100,6 @@ const About = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-
       {/* Vision Mission Values */}
       <div className="py-20 bg-background">
         <div className="container mx-auto px-4">
@@ -125,72 +123,69 @@ const About = () => {
       </div>
 
       {/* Our Story */}
-      <div className="bg-[#DAECFF] rounded-2xl " >
-      <div className="py-20 bg-muted ">
-        <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl font-bold mb-6 text-blue-900">Our Story</h2>
-            <div className="space-y-4 text-lg text-muted-foreground">
-              Shreerang was founded in 2018 with a simple yet powerful vision:
-              to bridge the gap between citizens and government services through
-              technology. What started as a small team passionate about solving
-              bureaucratic challenges has grown into India's trusted
-              e-governance platform. <br /> <br />
-              We recognized that traditional government processes were
-              time-consuming, complex, and often required multiple visits to
-              different offices. Our founders, coming from technology and
-              government sectors, decided to create a platform that would make
-              these services accessible from the comfort of people's homes.{" "}
-              <br /> <br />
-              Today, we serve thousands of customers across India, helping them
-              with rent agreements, financial services, and business solutions.
-              Our commitment to transparency, efficiency, and customer
-              satisfaction has made us a trusted partner for individuals and
-              businesses alike.
-            </div>
-          </div>
-          <div className="bg-white p-8 rounded-lg shadow-lg space-y-6">
-            <div className="flex items-center gap-4">
-              <Shield className="h-8 w-8 text-primary text-blue-900" />
-              <div>
-                <h3 className="font-semibold">100% Secure</h3>
-                <p className="text-sm text-muted-foreground">
-                  Bank-level security for all transactions
-                </p>
+      <div className="bg-[#DAECFF] rounded-2xl ">
+        <div className="py-20 bg-muted ">
+          <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold mb-6 text-blue-900">Our Story</h2>
+              <div className="space-y-4 text-lg text-muted-foreground">
+                Shreerang was founded in 2018 with a simple yet powerful vision:
+                to bridge the gap between citizens and government services through
+                technology. What started as a small team passionate about solving
+                bureaucratic challenges has grown into India&apos;s trusted
+                e-governance platform. <br /> <br />
+                We recognized that traditional government processes were
+                time-consuming, complex, and often required multiple visits to
+                different offices. Our founders, coming from technology and
+                government sectors, decided to create a platform that would make
+                these services accessible from the comfort of people&apos;s homes.{" "}
+                <br /> <br />
+                Today, we serve thousands of customers across India, helping them
+                with rent agreements, financial services, and business solutions.
+                Our commitment to transparency, efficiency, and customer
+                satisfaction has made us a trusted partner for individuals and
+                businesses alike.
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <Globe className="h-8 w-8 text-primary text-blue-900" />
-              <div>
-                <h3 className="font-semibold">Pan-India Service</h3>
-                <p className="text-sm text-muted-foreground">
-                  Available across major Indian cities
-                </p>
+            <div className="bg-white p-8 rounded-lg shadow-lg space-y-6">
+              <div className="flex items-center gap-4">
+                <Shield className="h-8 w-8 text-primary text-blue-900" />
+                <div>
+                  <h3 className="font-semibold">100% Secure</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Bank-level security for all transactions
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Award className="h-8 w-8 text-primary text-blue-900" />
-              <div>
-                <h3 className="font-semibold">Award Winning</h3>
-                <p className="text-sm text-muted-foreground">
-                  Recognized for innovation in e-governance
-                </p>
+              <div className="flex items-center gap-4">
+                <Globe className="h-8 w-8 text-primary text-blue-900" />
+                <div>
+                  <h3 className="font-semibold">Pan-India Service</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Available across major Indian cities
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <Award className="h-8 w-8 text-primary text-blue-900" />
+                <div>
+                  <h3 className="font-semibold">Award Winning</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Recognized for innovation in e-governance
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-</div>
-    
-
-  
 
       {/* Achievements */}
       <div className="py-20 bg-background">
         <div className="container mx-auto px-4 text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-blue-900">Our Achievements</h2>
           <p className="text-xl text-muted-foreground">
-            Recognition and milestones we're proud of
+            Recognition and milestones we&apos;re proud of
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -227,7 +222,7 @@ const About = () => {
         </div>
       </div>
 
-    {/* Team */}
+      {/* Team */}
       <div className="py-20 bg-muted bg-[#DAECFF] mt-20 rounded-3xl">
         <div className="container mx-auto px-4 text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-blue-900">Our Leadership Team</h2>
@@ -255,9 +250,6 @@ const About = () => {
           ))}
         </div>
       </div>
-
-
-
     </div>
   );
 };

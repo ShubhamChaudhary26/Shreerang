@@ -26,12 +26,13 @@ const AnimatedCounter = ({ target }: { target: number }) => {
     return () => clearInterval(timer);
   }, [target]);
 
-  const formatNumber = (num: number) => {
-    if (num >= 10000000) return `${(num / 10000000).toFixed(1)}Cr+`;
-    if (num >= 100000) return `${(num / 1000).toFixed(0)}K+`;
-    if (num >= 1000) return `${(num / 1000).toFixed(0)}K+`;
-    return `${num}+`;
-  };
+ const formatNumber = (num: number) => {
+  if (num >= 10000000) return `${(num / 10000000).toFixed(1)}Cr+`;
+  if (num >= 100000) return `${(num / 100000).toFixed(0)}K+`;  // changed divisor to 100000 here
+  if (num >= 1000) return `${(num / 1000).toFixed(0)}K+`;
+  return `${num}+`;
+};
+
 
   return <span>{formatNumber(count)}</span>;
 };

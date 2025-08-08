@@ -27,7 +27,7 @@ const StarIcon = (props: any) => (
 
 export default function ShreerangTestimonials() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<any>(null);
+  const animationRef = useRef<NodeJS.Timeout | null>(null);
 
   const testimonials = [
     { name: "Tushar Chaskar", designation: "Business Owner", location: "Mumbai, Maharashtra", rating: 5, text: "Superb rent agreement service. Quick, professional and hassle-free." },
@@ -39,7 +39,6 @@ export default function ShreerangTestimonials() {
 
   const loopTestimonials = [...testimonials, ...testimonials];
 
-  // Auto-scroll card-by-card
   const startScroll = () => {
     if (!scrollRef.current) return;
     const el = scrollRef.current;
@@ -50,12 +49,14 @@ export default function ShreerangTestimonials() {
       if (el.scrollLeft + cardWidth >= maxScroll) {
         el.scrollLeft = 0;
       } else {
-        el.scrollBy({ left: cardWidth + 24, behavior: "smooth" }); // 24 = gap-6
+        el.scrollBy({ left: cardWidth + 24, behavior: "smooth" });
       }
     }, 2500);
   };
 
-  const stopScroll = () => clearInterval(animationRef.current);
+  const stopScroll = () => {
+    if (animationRef.current) clearInterval(animationRef.current);
+  };
 
   useEffect(() => {
     startScroll();
@@ -63,7 +64,7 @@ export default function ShreerangTestimonials() {
   }, []);
 
   return (
-    <section className="bg-gradient-to-br  py-16 relative">
+    <section className="bg-gradient-to-br py-16 relative">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-4">
           Rent Agreement Services in Maharashtra
@@ -74,44 +75,42 @@ export default function ShreerangTestimonials() {
 
         <div
           ref={scrollRef}
-          className="flex gap-[75px]  md:mb-50 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory"
+          className="flex gap-[75px] md:mb-50 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory"
           onMouseEnter={stopScroll}
           onMouseLeave={startScroll}
         >
           {loopTestimonials.map((t, idx) => (
-          <Card
-  key={idx}
-  className={clsx(
-    "testimonial-card flex-shrink-0 snap-center items-center justify-center ",
-    "w-full max-w-[350px] h-[320px]",
-    "sm:w-[280px] sm:h-[340px]",
-    "lg:w-[350px] lg:h-auto",
-    "bg-white rounded-2xl mb-20 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
-  )}
->
-
-  <CardContent className="flex flex-col justify-between h-full">
-    <div>
-      <div className="flex justify-center mb-4">
-        {[...Array(t.rating)].map((_, i) => (
-          <StarIcon
-            key={i}
-            className="h-5 w-5 text-yellow-400 drop-shadow-[0_0_4px_rgba(255,215,0,0.6)]"
-          />
-        ))}
-      </div>
-      <p className="text-gray-700 italic break-words mb-4 leading-relaxed text-center">
-        "{t.text}"
-      </p>
-    </div>
-    <div className="text-center border-t pt-4">
-      <p className="font-semibold text-lg text-gray-900">{t.name}</p>
-      <p className="text-sm text-primary font-medium">{t.designation}</p>
-      <p className="text-xs text-gray-500">{t.location}</p>
-    </div>
-  </CardContent>
-</Card>
-
+            <Card
+              key={idx}
+              className={clsx(
+                "testimonial-card flex-shrink-0 snap-center items-center justify-center",
+                "w-full max-w-[350px] h-[320px]",
+                "sm:w-[280px] sm:h-[340px]",
+                "lg:w-[350px] lg:h-auto",
+                "bg-white rounded-2xl mb-20 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
+              )}
+            >
+              <CardContent className="flex flex-col justify-between h-full">
+                <div>
+                  <div className="flex justify-center mb-4">
+                    {[...Array(t.rating)].map((_, i) => (
+                      <StarIcon
+                        key={i}
+                        className="h-5 w-5 text-yellow-400 drop-shadow-[0_0_4px_rgba(255,215,0,0.6)]"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 italic break-words mb-4 leading-relaxed text-center">
+                    "{t.text}"
+                  </p>
+                </div>
+                <div className="text-center border-t pt-4">
+                  <p className="font-semibold text-lg text-gray-900">{t.name}</p>
+                  <p className="text-sm text-primary font-medium">{t.designation}</p>
+                  <p className="text-xs text-gray-500">{t.location}</p>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
