@@ -2,13 +2,11 @@ import React from "react";
 // import SolutionsSection from './SolutionSection';
 import Card from "./Card";
 import FeaturedProductCard from "./FeaturedProductCard";
-import PeopleStatsSection from "./PeopleStatsSection";
-import InsightsSection from "./InsightsSection";
+import PeopleStatsSection from "./ShreerangIndustries";
 import HeroBanner from "./HeroSection";
 import Services from "./OurServices";
 import ContentWithImage from "./ContentWithImage";
-import TestimonialSlider from "./Testimonial";
-import WhyBrandsSection from "./Brand";
+import UploadImage from "./UploadImage";
 
 const Home = () => {
   return (
@@ -17,33 +15,13 @@ const Home = () => {
         <HeroBanner />
         <Card />
         {/* <FeaturedProductCard /> */}
-        <WhyBrandsSection/>
-        <InsightsSection />
+
         <PeopleStatsSection />
         <Services />
-        <div className="w-full py-10 md:py-20 bg-light px-4">
-          <h2 className="h2 text-center pb-6">
-          Our Core Belief
-        </h2>
-        <ContentWithImage
-          subtitle="Our Vision"
-          title="To become the most reliable market research organization in the world, driven by technology and trust."
-          content=""
-          image="/home/ContentWithImage1.svg"
-          reverse={undefined}
-          />
+        <UploadImage />
 
-        {/* Second Section - Reversed */}
-        <ContentWithImage
-          subtitle="Our Mission"
-          title="To continuously adopt the best research techniques and provide actionable insights in the shortest possible time."
-          content=""
-          image="/home/ContentWithImage2.svg"
-          reverse
-          />
-          </div>
-          <TestimonialSlider/>
-          </div>
+      </div>
+        <ContentWithImage />
     </>
   );
 };

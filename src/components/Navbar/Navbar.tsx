@@ -5,21 +5,28 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, ShoppingCart, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from 'next/navigation';
-import { useUser } from '@/src/hooks/UserContext';
-import { Avatar } from 'antd';
+import { usePathname } from "next/navigation";
+import { useUser } from "@/src/hooks/UserContext";
+import { Avatar } from "antd";
+import { FaHome, FaFileContract } from "react-icons/fa";
 
-import AccountDropdown from '../Common/AccountDropdown';
+import AccountDropdown from "../Common/AccountDropdown";
 
 const solutionLinks = [
-  { href: '/rentagrement', label: 'Rent Agrement Registration' },
-  { href: '/micorrelate', label: 'MiCorrelate' },
-  { href: '/micompliance', label: 'MiCompliance' },
+  { href: "/rentagrement", label: "Rent Agrement Registration" },
+  { href: "/micorrelate", label: "MiCorrelate" },
+  { href: "/micompliance", label: "MiCompliance" },
 ];
 
 const mobileMenuContainerVariants = {
-  hidden: { x: '-100%', transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 } },
-  visible: { x: '0%', transition: { type: 'tween', ease: 'easeInOut', duration: 0.3 } },
+  hidden: {
+    x: "-100%",
+    transition: { type: "tween", ease: "easeInOut", duration: 0.3 },
+  },
+  visible: {
+    x: "0%",
+    transition: { type: "tween", ease: "easeInOut", duration: 0.3 },
+  },
 };
 
 const Navbar: React.FC = () => {
@@ -30,39 +37,15 @@ const Navbar: React.FC = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [navbarBg, setNavbarBg] = useState("");
   const [navbarHeight, setNavbarHeight] = useState(0);
-  const [profilePicture, setProfilePicture] = useState<string>('');
+  const [profilePicture, setProfilePicture] = useState<string>("");
 
   const pathname = usePathname();
-  const isCandidateDashboard = pathname.startsWith('/candidate/');
+  const isCandidateDashboard = pathname.startsWith("/candidate/");
 
   useEffect(() => {
-    const fetchProfilePicture = async () => {
-      if (!userEmail || !isCandidateDashboard) return;
-
-      try {
-        const response = await fetch(`/api/user/candidateprofile?email=${encodeURIComponent(userEmail)}`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch user data');
-        }
-        setProfilePicture(data.user.profilePicture || '');
-        console.log('Fetched profile picture:', {
-          email: userEmail,
-          profilePicture: data.user.profilePicture ? 'Present' : 'Absent',
-        });
-      } catch (err: any) {
-        console.error('Error fetching profile picture:', err.message);
-      }
-    };
-
-    fetchProfilePicture();
-  }, [userEmail, isCandidateDashboard]);
-
-  useEffect(() => {
-    const navbarElement = document.querySelector('nav.fixed-navbar') as HTMLElement | null;
+    const navbarElement = document.querySelector(
+      "nav.fixed-navbar"
+    ) as HTMLElement | null;
     if (navbarElement) {
       setNavbarHeight(navbarElement.offsetHeight);
     }
@@ -73,13 +56,13 @@ const Navbar: React.FC = () => {
       setShowNavbar(!scrollingDown || currentScrollY < 50);
       setLastScrollY(currentScrollY);
 
-      setNavbarBg(
-        currentScrollY > 30 ? "bg-white/70 backdrop-blur-md" : ""
-      );
+      setNavbarBg(currentScrollY > 30 ? "bg-white/70 backdrop-blur-md" : "");
     };
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener('resize', () => {
-      const currentNavbarElement = document.querySelector('nav.fixed-navbar') as HTMLElement | null;
+    window.addEventListener("resize", () => {
+      const currentNavbarElement = document.querySelector(
+        "nav.fixed-navbar"
+      ) as HTMLElement | null;
       if (currentNavbarElement) {
         setNavbarHeight(currentNavbarElement.offsetHeight);
       }
@@ -87,18 +70,18 @@ const Navbar: React.FC = () => {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener('resize', () => {});
+      window.removeEventListener("resize", () => {});
     };
   }, [lastScrollY]);
 
   useEffect(() => {
     if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [mobileMenuOpen]);
 
@@ -111,33 +94,37 @@ const Navbar: React.FC = () => {
     <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue transition-all duration-300 group-hover:w-full"></span>
   );
 
-  const initials = userEmail ? userEmail.charAt(0).toUpperCase() : 'U';
+  const initials = userEmail ? userEmail.charAt(0).toUpperCase() : "U";
 
-  const text = "MintSurvey";
   return (
     <nav
       className={`fixed-navbar ${navbarBg} border-b bg-gray-50 border-gray-100 drop-shadow-md fixed w-full top-0 z-50 shadow-sm transition-transform duration-200 ${
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="px-6 md:px-20 max-w-[1440px] mx-auto py-4 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex text-blue items-center font-semibold space-x-2 h-8 text-2xl !mb-0 "
-        >
-          <motion.img
-                src="/Logo/minsurveylogosvg.svg"
-                alt="MintSurvey Logo"
-                className="object-cover h-[55px] !py-0 !px-0"
-                style={{ filter: 'drop-shadow(0 0 2px rgba(0, 0, 0, 0.1))' }}
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{
-                  duration: 0.8,
-                  ease: 'easeOut',
-                }}
-              />
-         </Link>
+      <div className="px-6 md:px-20 max-w-[1440px] mx-auto py-3 flex items-center justify-between">
+
+<Link
+  href="/"
+  className="flex flex-col items-center justify-center relative group"
+>
+  <motion.span
+    initial={{ opacity: 0, y: -20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    className="flex items-center gap-2 font-extrabold text-4xl tracking-widest
+      bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900
+      bg-clip-text text-transparent drop-shadow-lg animate-textShimmer"
+  >
+    <FaFileContract size={32} className="text-blue-900" />
+    Shreerang
+  </motion.span>
+  {/* <span className="text-xs uppercase tracking-[0.3em] text-blue-900 mt-1">
+    Association
+  </span> */}
+</Link>
+
+
 
         {/* Desktop Menu and Account/Join Us/Cart Section */}
         <div className="hidden md:flex items-center gap-6 !pt-4">
@@ -157,7 +144,9 @@ const Navbar: React.FC = () => {
 
             <div
               className={`absolute left-1/2 -translate-x-1/3 top-[48px] shadow-xl transition-all duration-300 ease-in-out z-40 ${
-                isHoveringSolutions ? "opacity-100 visible" : "opacity-0 invisible"
+                isHoveringSolutions
+                  ? "opacity-100 visible"
+                  : "opacity-0 invisible"
               }`}
             >
               <div className="w-[900px] px-4 pt-8 grid grid-cols-2 gap-x-10 gap-y-2 border-t bg-white border-gray-200">
@@ -187,9 +176,8 @@ const Navbar: React.FC = () => {
 
           {/* Other Links */}
           {[
+            { href: "/rentagrement", label: "Registration Agrement" },
             { href: "/about", label: "About" },
-            { href: "/brandgrowth", label: "Brand Growth" },
-            { href: "/inspiration", label: "Inspiration" },
             { href: "/contact", label: "Contact" },
             { href: "/requestquote", label: "Request Quote" },
           ].map(({ href, label }) => (
@@ -201,151 +189,145 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
 
-          {/* Profile Picture Avatar for Desktop */}
-          
-
           {/* Conditional Rendering for AccountDropdown / Join Us */}
           {isCandidateDashboard ? (
             <AccountDropdown profilePicture={profilePicture} />
           ) : (
-           <Link
-  href="/login"
-  className="b1 border-4 animate-borderColorCycle"
->
-  Join Us
-</Link>
-
-
+            <Link
+              href="/login"
+              className="b1 border-4 animate-borderColorCycle"
+            >
+              Join Us
+            </Link>
           )}
-
-          {/* Cart Icon */}
-          {/* <Link href="/checkout" className="hover:text-blue transition-colors">
-            <ShoppingCart size={24} className="h-6 w-6 md:h-7 md:w-7" />
-          </Link> */}
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
 
         {/* Mobile menu button and Join Us/Cart */}
-       <div className="md:hidden flex  gap-2">
-  {/* Profile Picture Avatar for Mobile (before Join Us) */}
-  {isCandidateDashboard && userEmail && (
-    <Avatar
-      src={profilePicture || undefined}
-      icon={!profilePicture ? <User /> : undefined}
-      size={32}
-      className="w-8 h-8 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer"
-    >
-      {!profilePicture && initials}
-    </Avatar>
-  )}
-  <Link
-    href="/login"
-    className="b1 text-sm item-end mt-5 border border-blue text-blue rounded hover:bg-light hover:blue-default transition"
-    onClick={handleNavLinkClick}
-  >
-    Join Us
-  </Link>
-  <button
-    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-    className=""
-  >
-    {mobileMenuOpen ? <Menu size={24} className="mt-5" /> : <Menu size={24} className="mt-5" />}
-  </button>
-</div>
-</div>
-
-{/* Mobile Menu Container with Slide-in Animation */}
-<AnimatePresence>
-  {mobileMenuOpen && (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
-      variants={mobileMenuContainerVariants}
-      className="fixed left-0 w-[80%]  z-40 md:hidden shadow-lg flex flex-col bg-gradient-to-br bg-light"
-      style={{ top: navbarHeight, height: `calc(100vh - ${navbarHeight}px)` }}
-    >
-      {/* Profile Picture and AccountDropdown for Mobile */}
-      {isCandidateDashboard && userEmail && (
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
-          <Avatar
-            src={profilePicture || undefined}
-            icon={!profilePicture ? <User /> : undefined}
-            size={40}
-            className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
-          >
-            {!profilePicture && initials}
-          </Avatar>
-          <AccountDropdown profilePicture={profilePicture} />
-        </div>
-      )}
-      <div className="flex justify-end p-4 pb-0">
-        <button
-          onClick={() => setMobileMenuOpen(false)}
-          className="hover:text-blue-lightest"
-        >
-          <X size={28}  />
-        </button>
-      </div>
-
-      <div className="px-6 flex-1 flex flex-col pt-0 overflow-y-auto">
-        
-
-        {[
-          { href: "/", label: "Home" },
-          { href: "/about", label: "About" },
-          { href: "/brandgrowth", label: "Brand Growth" },
-          { href: "/inspiration", label: "Inspiration" },
-          { href: "/contact", label: "Contact" },
-          { href: "/requestquote", label: "Request Quote" },
-        ].map(({ href, label }) => (
+        <div className="md:hidden flex  gap-2">
+          {/* Profile Picture Avatar for Mobile (before Join Us) */}
+          {isCandidateDashboard && userEmail && (
+            <Avatar
+              src={profilePicture || undefined}
+              icon={!profilePicture ? <User /> : undefined}
+              size={32}
+              className="w-8 h-8 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer"
+            >
+              {!profilePicture && initials}
+            </Avatar>
+          )}
           <Link
-            href={href}
-            key={label}
-            className={`block text-xl mt-5  hover:text-blue-lightest hover:font-bold py-2 border-b border-blue ${pathname === href ? 'text-blue' : ''}`}
+            href="/login"
+            className="b1 text-sm item-end mt-5 border border-blue text-blue rounded hover:bg-light hover:blue-default transition"
             onClick={handleNavLinkClick}
           >
-            {label}
+            Join Us
           </Link>
-        ))}
-
-        <details className="text-xl  mt-5">
-          <summary className="cursor-pointer py-2 border-b border-blue">Solutions</summary>
-          <div className="ml-4 mt-2 space-y-3 border-l border-white/50 pl-4">
-            {solutionLinks.map(({ href, label }) => (
-              <Link
-                href={href}
-                key={label}
-                className={`block text-lg hover:text-blue-lightest hover:font-bold py-1 border-b border-blue ${pathname === href ? 'text-blue' : ''}`}
-                onClick={handleNavLinkClick}
-              >
-                {label}
-              </Link>
-            ))}
-            <Link
-              href="/solution"
-              className={`text-blue-lightest font-semibold hover:underline cursor-pointer mt-3 block text-lg py-1 border-b border-blue ${pathname === '/solution' ? 'text-blue' : ''}`}
-              onClick={handleNavLinkClick}
-            >
-              All Solutions →
-            </Link>
-          </div>
-        </details>
-
-        <div className="mt-auto pt-8 text-center text-sm opacity-80">
-          <p>© 2025 MintSurvey</p>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className=""
+          >
+            {mobileMenuOpen ? (
+              <Menu size={24} className="mt-5" />
+            ) : (
+              <Menu size={24} className="mt-5" />
+            )}
+          </button>
         </div>
       </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+
+      {/* Mobile Menu Container with Slide-in Animation */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={mobileMenuContainerVariants}
+            className="fixed left-0 w-[80%]  z-40 md:hidden shadow-lg flex flex-col bg-gradient-to-br bg-light"
+            style={{
+              top: navbarHeight,
+              height: `calc(100vh - ${navbarHeight}px)`,
+            }}
+          >
+            {/* Profile Picture and AccountDropdown for Mobile */}
+            {isCandidateDashboard && userEmail && (
+              <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
+                <Avatar
+                  src={profilePicture || undefined}
+                  icon={!profilePicture ? <User /> : undefined}
+                  size={40}
+                  className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm"
+                >
+                  {!profilePicture && initials}
+                </Avatar>
+                <AccountDropdown profilePicture={profilePicture} />
+              </div>
+            )}
+            <div className="flex justify-end p-4 pb-0">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="hover:text-blue-lightest"
+              >
+                <X size={28} />
+              </button>
+            </div>
+
+            <div className="px-6 flex-1 flex flex-col pt-0 overflow-y-auto">
+              {[
+                { href: "/", label: "Home" },
+                { href: "/rentagrement", label: "Registration Agrement " },
+                { href: "/about", label: "About" },
+                { href: "/contact", label: "Contact" },
+                { href: "/requestquote", label: "Request Quote" },
+              ].map(({ href, label }) => (
+                <Link
+                  href={href}
+                  key={label}
+                  className={`block text-xl mt-5  hover:text-blue-lightest hover:font-bold py-2 border-b border-blue ${
+                    pathname === href ? "text-blue" : ""
+                  }`}
+                  onClick={handleNavLinkClick}
+                >
+                  {label}
+                </Link>
+              ))}
+
+              <details className="text-xl  mt-5">
+                <summary className="cursor-pointer py-2 border-b border-blue">
+                  Solutions
+                </summary>
+                <div className="ml-4 mt-2 space-y-3 border-l border-white/50 pl-4">
+                  {solutionLinks.map(({ href, label }) => (
+                    <Link
+                      href={href}
+                      key={label}
+                      className={`block text-lg hover:text-blue-lightest hover:font-bold py-1 border-b border-blue ${
+                        pathname === href ? "text-blue" : ""
+                      }`}
+                      onClick={handleNavLinkClick}
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                  <Link
+                    href="/solution"
+                    className={`text-blue-lightest font-semibold hover:underline cursor-pointer mt-3 block text-lg py-1 border-b border-blue ${
+                      pathname === "/solution" ? "text-blue" : ""
+                    }`}
+                    onClick={handleNavLinkClick}
+                  >
+                    All Solutions →
+                  </Link>
+                </div>
+              </details>
+
+              <div className="mt-auto pt-8 text-center text-sm opacity-80">
+                <p>© 2025 MintSurvey</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

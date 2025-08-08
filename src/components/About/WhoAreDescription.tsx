@@ -1,70 +1,73 @@
 "use client";
 
 import Image from "next/image";
-import aboutImage from "../../../public/about/whoweare.svg";
+import aboutImage from "../../../public/about.jpg"; // Ensure this path is correct
 import { motion } from "framer-motion";
-import ScrollFadeIn from "../../hooks/ScrollFadeIn";
 
 export default function WhoWeAreDescription() {
   return (
-    <ScrollFadeIn delay={0.2}>
-      <section className="py-8 md:py-12 mt-4 md:mt-10 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* Image Animation */}
+    <section className="py-10 md:py-20 px-4 bg-white">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        {/* Floating Animated Image */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="relative h-[350px] sm:h-[450px] md:h-[70vh] w-full flex items-center justify-center"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="relative group overflow-hidden shadow-md rounded-md h-[250px] sm:h-[350px] md:h-[60vh] lg:h-[60vh] w-full" // Responsive height for image container
+            animate={{
+              y: [0, -15, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="w-full h-full relative"
           >
-            <div className="flex items-center justify-center h-full">
-              <Image
-                src={aboutImage}
-                alt="MintSurvey Office"
-                className="custom-image"
-                priority
-              />
-            </div>
+            <Image
+              src={aboutImage}
+              alt="Shreerang Associate Office"
+              fill
+              className="object-contain rounded-xl "
+              priority
+            />
           </motion.div>
+        </motion.div>
 
-          {/* Text Animation */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="space-y-4 py-4 md:py-0"
-          >
-            <h2 className="h2 text-center md:text-left">Who We Are</h2>
-            <p className="p2 text-center md:text-left">
-              Mint Survey is a full-service, independent market research and
-              analytics agency offering end-to-end solutions—from research
-              design and data collection to advanced analytics and strategic
-              insights.
-            </p>
-            <p className="p2 text-center md:text-left">
-              We are your one-stop research partner, powered by our proprietary
-              field force platform MIGFT, a trusted network of 25,000+ field
-              experts across Africa, the Middle East, the Indian subcontinent,
-              and Southeast Asia, ensuring deep reach and high-quality data—even
-              from rural and hard-to-reach segments.
-            </p>
-            <p className="p2 text-center md:text-left">
-              We do not outsource. Every step of your project—data collection,
-              technology, <br /> analysis—is handled in-house, keeping your data
-              secure, confidential, and compliant.
-            </p>
-            <p className="p2 text-center md:text-left">
-              We blend human intelligence with smart tools, delivering insights
-              that are not only accurate, but also actionable. Whether you’re
-              testing concepts, tracking performance, or decoding consumer
-              behavior—Mint Survey brings clarity, confidence, and speed to your
-              decisions.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-    </ScrollFadeIn>
+        {/* Text Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="space-y-5 text-center md:text-left"
+        >
+          <h2 className="text-4xl font-extrabold text-blue-900">
+            Who We Are
+          </h2>
+          <p className="text-lg text-gray-700">
+            At <strong>Shreerang Associate</strong>, we specialize in providing
+            fast, reliable, and legally compliant services—ranging from online
+            rent agreements and property documentation to registration and notary assistance.
+          </p>
+          <p className="text-lg text-gray-700">
+            Based in Maharashtra, we serve clients across the state with a hassle-free,
+            doorstep documentation experience. Our digital-first approach ensures that legal formalities
+            are completed quickly and securely.
+          </p>
+          <p className="text-lg text-gray-700">
+            From property owners to tenants, and businesses to individuals—our team is committed
+            to delivering transparent services with zero hidden charges and full legal compliance.
+          </p>
+          <p className="text-lg text-gray-700">
+            Choose <strong>Shreerang Associate</strong> for a seamless,
+            stress-free documentation journey backed by expert support and a customer-first mindset.
+          </p>
+        </motion.div>
+      </div>
+    </section>
   );
 }

@@ -136,3 +136,17 @@ body {
     transform: scale(1);
   }
 }
+
+ .no-scrollbar::-webkit-scrollbar { display: none; }
+ .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+ @keyframes textShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+.animate-textShimmer {
+  background-size: 200% auto;
+  animation: textShimmer 3s linear infinite;
+}
+

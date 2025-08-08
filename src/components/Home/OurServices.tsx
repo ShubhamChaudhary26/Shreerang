@@ -1,167 +1,77 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import {
-  FaEye, FaChartLine, FaUsers, FaBoxOpen, FaSmile, FaClipboard, FaLightbulb,
-  FaBullhorn, FaPeopleCarry, FaNetworkWired, FaTag,
-  FaStar
-} from "react-icons/fa";
-import { Fa42Group } from "react-icons/fa6";
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import { motion } from 'framer-motion';
+import { FaHome, FaMapMarkerAlt, FaIdCard, FaFileSignature, FaUserShield } from 'react-icons/fa';
 
-const servicesData = [
+const services = [
   {
-    icon: <FaEye className="text-2xl text-blue-light mb-2" />,
-    title: "Brand Perception & Awareness Studies",
-    description: "Gain deep insights into how your brand is perceived by your target audience, measure brand recall, and identify strategies to increase its visibility and recognition in the competitive market.",
-    image: "home/service1.svg",
+    icon: <FaHome size={28} />,
+    title: 'Home Biometric Service',
+    description: 'We visit your location for Aadhaar biometric verification & registration.',
   },
   {
-    icon: <FaChartLine className="text-2xl text-blue-light mb-2" />,
-    title: "Competitor & Market Analysis",
-    description: "Understand your competitors’ strengths and weaknesses, analyze market trends, and identify opportunities to position your business strategically for long-term growth and success.",
-    image: "home/service2.svg",
+    icon: <FaMapMarkerAlt size={28} />,
+    title: 'Service Across India',
+    description: 'Available in Mumbai, Pune, Nashik, Nagpur & other major cities.',
   },
   {
-    icon: <FaUsers className="text-2xl text-blue-light mb-2" />,
-    title: "Consumer Segmentation",
-    description: "Segment your audience based on demographics, behaviors, and preferences to create targeted marketing strategies that resonate with specific customer groups and drive engagement.",
-    image: "home/service3.svg",
+    icon: <FaIdCard size={28} />,
+    title: 'e-Stamp + Govt Registration',
+    description: 'Digitally e-stamped & registered rent agreement with legal validity.',
   },
   {
-    icon: <FaBoxOpen className="text-2xl text-blue-light mb-2" />,
-    title: "Usage & Attitude Study",
-    description: "Explore customer behaviors, preferences, and attitudes towards your products or services to uncover actionable insights that help refine your offerings and improve user experience.",
-    image: "home/service4.svg",
+    icon: <FaFileSignature size={28} />,
+    title: 'Online Draft Approval',
+    description: 'Preview & edit your agreement draft before final submission.',
   },
   {
-    icon: <FaStar className="text-2xl text-blue-light mb-2" />,
-    title: "Product Evaluation",
-    description: "Assess your product’s performance through user feedback, identify areas for improvement, and ensure it meets customer expectations while maintaining high quality and satisfaction levels.",
-    image: "home/service5.svg",
-  },
-  {
-    icon: <FaSmile className="text-2xl text-blue-light mb-2" />,
-    title: "Customer Satisfaction",
-    description: "Measure customer happiness with your products or services, identify pain points, and implement changes to enhance their overall experience and foster long-term loyalty.",
-    image: "home/service6.svg",
-  },
-  {
-    icon: <FaClipboard className="text-2xl text-blue-light mb-2" />,
-    title: "Market Sizing & Market Entrance Study",
-    description: "Analyze the potential size of your target market, evaluate entry barriers, and develop a strategic plan to successfully launch your products or services in new regions.",
-    image: "home/service7.svg",
-  },
-  {
-    icon: <FaLightbulb className="text-2xl text-blue-light mb-2" />,
-    title: "Concept Ideation & New Product Ideation",
-    description: "Generate innovative concepts and ideas for new products, test their viability with your audience, and bring creative solutions to market that drive growth and innovation.",
-    image: "home/service8.svg",
-  },
-  {
-    icon: <FaBullhorn className="text-2xl text-blue-light mb-2" />,
-    title: "Campaign Performance & Effectiveness",
-    description: "Evaluate the success of your marketing campaigns by analyzing key metrics, understanding audience response, and optimizing future campaigns for better ROI and engagement.",
-    image: "home/service9.svg",
-  },
-  {
-    icon: <FaPeopleCarry className="text-2xl text-blue-light mb-2" />,
-    title: "Ethnographic Research",
-    description: "Conduct in-depth studies of customer lifestyles, cultures, and behaviors to uncover deep insights that inform product development and marketing strategies.",
-    image: "home/service10.svg",
-  },
-  {
-    icon: <FaNetworkWired className="text-2xl text-blue-light mb-2" />,
-    title: "Contact Point Analysis",
-    description: "Analyze and optimize all customer touchpoints, from online interactions to in-store experiences, to improve engagement, conversions, and overall customer satisfaction.",
-    image: "home/service11.svg",
-  },
-  {
-    icon: <FaTag className="text-2xl text-blue-light mb-2" />,
-    title: "Pricing Study",
-    description: "Determine the optimal pricing strategy for your products or services by analyzing market trends, customer willingness to pay, and competitive pricing to maximize profitability.",
-    image: "home/service12.svg",
+    icon: <FaUserShield size={28} />,
+    title: '100% Legal Support',
+    description: 'Compliant with government rules, accepted by police & court.',
   },
 ];
 
-const cardVariants = {
-  offscreen: { opacity: 0, y: 40 },
-  onscreen: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", bounce: 0.2, duration: 0.9 },
-  },
-};
-
-const Services = () => {
-  const scrollRef = useRef(null);
-
-  useEffect(() => {
-    const scrollElement = scrollRef.current;
-    let animationFrameId;
-
-    const scroll = () => {
-      if (scrollElement) {
-        scrollElement.scrollLeft += 1;
-        if (scrollElement.scrollLeft >= scrollElement.scrollWidth - scrollElement.clientWidth) {
-          scrollElement.scrollLeft = 0;
-        }
-      }
-      animationFrameId = requestAnimationFrame(scroll);
-    };
-
-    animationFrameId = requestAnimationFrame(scroll);
-
-    return () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-    };
-  }, []);
-
+const RentAgreementSlider = () => {
   return (
-    <>
-      <h2 className="h2 !mb-12 text-center">
-        We are your all-in-one partner for every market research need
+    <section className="py-16 px-4 bg-gradient-to-br ">
+      <h2 className="text-3xl font-bold text-center mb-10 text-blue-900">
+        Why Choose Shreerang for Rent Agreement?
       </h2>
-      <div className="md:h-[505px] overflow-hidden">
-        <div
-          ref={scrollRef}
-          className="flex gap-6 whitespace-nowrap w-full max-w-[80rem] mx-auto overflow-x-auto scrollbar-hide"
-          style={{ scrollBehavior: "smooth" }}
-        >
-          {[...servicesData, ...servicesData].map((service, index) => (
+
+      <Swiper
+        modules={[Autoplay]}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
+        spaceBetween={30}
+        breakpoints={{
+          640: { slidesPerView: 1.2 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+        grabCursor
+        loop
+      >
+        {services.map((service, index) => (
+          <SwiperSlide key={index}>
             <motion.div
-              key={index}
-              className="bg-light shadow-lg mb-4 overflow-hidden rounded-lg relative h-[410px] w-[300px] flex-shrink-0 flex flex-col transform transition duration-300 hover:scale-105 hover:shadow-xl"
-              initial="offscreen"
-              whileInView="onscreen"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={cardVariants}
+              whileHover={{ scale: 1.05, rotate: 1 }}
+              transition={{ type: 'spring', stiffness: 150 }}
+              className="bg-white/40 backdrop-blur-md mb-10  rounded-2xl p-6 shadow-lg border border-blue-100 h-[260px] flex flex-col justify-between hover:shadow-2xl transition duration-300"
             >
-              <div className="relative h-48 w-full">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-contain bg-gray-100"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-                <div className="absolute top-0 left-0 p-1 px-2 right-0 z-10 flex flex-col items-start space-y-1">
-                  <div className="bg-white bg-opacity-80 rounded-full p-2">
-                    {service.icon}
-                  </div>
-                  <h3 className="h3 dark break-words whitespace-normal max-w-full">{service.title}</h3>
-                </div>
+              <div className="text-blue-900 bg-white p-3 w-fit rounded-full shadow">
+                {service.icon}
               </div>
-              <div className="p-4 flex-1 flex flex-col justify-between">
-                <p className="p2 break-words whitespace-normal">{service.description}</p>
-              </div>
+              <h3 className="text-xl font-semibold mt-4 text-blue-900">{service.title}</h3>
+              <p className="text-sm text-gray-700 mt-2">{service.description}</p>
             </motion.div>
-          ))}
-        </div>
-      </div>
-    </>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </section>
   );
 };
 
-export default Services;
+export default RentAgreementSlider;
