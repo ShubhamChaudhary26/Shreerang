@@ -3,12 +3,11 @@
 import "animate.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown, ShoppingCart, User } from "lucide-react";
+import { Menu, X, ChevronDown, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/src/hooks/UserContext";
 import { Avatar } from "antd";
-import { FaHome, FaFileContract } from "react-icons/fa";
 
 import AccountDropdown from "../Common/AccountDropdown";
 
@@ -32,7 +31,6 @@ const mobileMenuContainerVariants = {
 const Navbar: React.FC = () => {
   const { userEmail } = useUser();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isHoveringSolutions, setIsHoveringSolutions] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [navbarBg, setNavbarBg] = useState("");
@@ -102,84 +100,38 @@ const Navbar: React.FC = () => {
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="px-6 md:px-20 max-w-[1440px] mx-auto py-3 flex items-center justify-between">
-
-<Link
-  href="/"
-  className="flex flex-col items-center justify-center relative group"
->
+      <div
+        className="px-6 md:px-20 max-w-[1440px] mx-auto flex items-center justify-between"
+        style={{ height: "90px" }}
+      >
+        {/* Logo and Text */}
+      <Link href="/" className="flex items-center relative group">
   <motion.span
     initial={{ opacity: 0, y: -20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, ease: "easeOut" }}
-    className="flex items-center gap-2 font-extrabold text-4xl tracking-widest
+    className="font-extrabold tracking-widest
       bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900
       bg-clip-text text-transparent drop-shadow-lg animate-textShimmer"
   >
-    <FaFileContract size={32} className="text-blue-900" />
-    Shreerang
+    <img
+  src="/L.png"
+  alt="Logo"
+  className="h-[120px] mt-5 w-[150px]"
+/>
+
   </motion.span>
-  {/* <span className="text-xs uppercase tracking-[0.3em] text-blue-900 mt-1">
-    Association
-  </span> */}
 </Link>
 
 
 
-        {/* Desktop Menu and Account/Join Us/Cart Section */}
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6 !pt-4">
-          {/* Solutions Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setIsHoveringSolutions(true)}
-            onMouseLeave={() => setIsHoveringSolutions(false)}
-          >
-            <button className="flex items-center text-base group">
-              <span className="relative text-lg group-hover:text-blue group-hover:font-bold">
-                Solutions
-                <span className="absolute left-0 bottom-1 w-0 h-[2px] bg-blue transition-all duration-300 group-hover:w-full"></span>
-              </span>
-              <ChevronDown size={16} />
-            </button>
-
-            <div
-              className={`absolute left-1/2 -translate-x-1/3 top-[48px] shadow-xl transition-all duration-300 ease-in-out z-40 ${
-                isHoveringSolutions
-                  ? "opacity-100 visible"
-                  : "opacity-0 invisible"
-              }`}
-            >
-              <div className="w-[900px] px-4 pt-8 grid grid-cols-2 gap-x-10 gap-y-2 border-t bg-white border-gray-200">
-                {solutionLinks.map(({ href, label }) => (
-                  <Link
-                    href={href}
-                    key={label}
-                    className="text-base hover:text-blue mb-2 hover:font-bold hover:underline cursor-pointer transition"
-                  >
-                    <span className="relative group-hover:text-blue group-hover:font-bold">
-                      {label}
-                      <span className="absolute left-0 -bottom-1 w-0 h-[2px]  bg-blue transition-all duration-300 group-hover:w-full"></span>
-                    </span>
-                  </Link>
-                ))}
-                <div>
-                  <Link
-                    href="/solution"
-                    className="text-blue font-semibold hover:underline cursor-pointer"
-                  >
-                    All Solutions →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Other Links */}
-          {[
-            { href: "/rentagrement", label: "Registration Agrement" },
+          {[  
+            { href: "/home", label: "Home" },
             { href: "/about", label: "About" },
             { href: "/contact", label: "Contact" },
-            { href: "/requestquote", label: "Request Quote" },
+            { href: "/rentagrement", label: "Registration Agrement" },
           ].map(({ href, label }) => (
             <Link href={href} key={label} className={navLinkClass}>
               <span className="relative group-hover:text-blue group-hover:font-bold">
@@ -189,22 +141,17 @@ const Navbar: React.FC = () => {
             </Link>
           ))}
 
-          {/* Conditional Rendering for AccountDropdown / Join Us */}
           {isCandidateDashboard ? (
             <AccountDropdown profilePicture={profilePicture} />
           ) : (
-            <Link
-              href="/login"
-              className="b1 border-4 animate-borderColorCycle"
-            >
+            <Link href="/login" className="b1 border-4 animate-borderColorCycle">
               Join Us
             </Link>
           )}
         </div>
 
-        {/* Mobile menu button and Join Us/Cart */}
-        <div className="md:hidden flex  gap-2">
-          {/* Profile Picture Avatar for Mobile (before Join Us) */}
+        {/* Mobile menu button and Join Us */}
+        <div className="md:hidden flex gap-2 items-center">
           {isCandidateDashboard && userEmail && (
             <Avatar
               src={profilePicture || undefined}
@@ -217,17 +164,14 @@ const Navbar: React.FC = () => {
           )}
           <Link
             href="/login"
-            className="b1 text-sm item-end mt-5 border border-blue text-blue rounded hover:bg-light hover:blue-default transition"
+            className="b1 text-sm mt-5 border border-blue text-blue rounded hover:bg-light hover:blue-default transition"
             onClick={handleNavLinkClick}
           >
             Join Us
           </Link>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className=""
-          >
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? (
-              <Menu size={24} className="mt-5" />
+              <X size={24} className="mt-5" />
             ) : (
               <Menu size={24} className="mt-5" />
             )}
@@ -235,7 +179,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Container with Slide-in Animation */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -243,13 +187,12 @@ const Navbar: React.FC = () => {
             animate="visible"
             exit="hidden"
             variants={mobileMenuContainerVariants}
-            className="fixed left-0 w-[80%]  z-40 md:hidden shadow-lg flex flex-col bg-gradient-to-br bg-light"
+            className="fixed left-0 w-[80%] z-40 md:hidden shadow-lg flex flex-col bg-gradient-to-br bg-light"
             style={{
               top: navbarHeight,
               height: `calc(100vh - ${navbarHeight}px)`,
             }}
           >
-            {/* Profile Picture and AccountDropdown for Mobile */}
             {isCandidateDashboard && userEmail && (
               <div className="px-6 py-4 border-b border-gray-200 flex items-center gap-4">
                 <Avatar
@@ -273,17 +216,16 @@ const Navbar: React.FC = () => {
             </div>
 
             <div className="px-6 flex-1 flex flex-col pt-0 overflow-y-auto">
-              {[
+              {[  
                 { href: "/", label: "Home" },
-                { href: "/rentagrement", label: "Registration Agrement " },
                 { href: "/about", label: "About" },
                 { href: "/contact", label: "Contact" },
-                { href: "/requestquote", label: "Request Quote" },
+                { href: "/rentagrement", label: "Registration Agrement " },
               ].map(({ href, label }) => (
                 <Link
                   href={href}
                   key={label}
-                  className={`block text-xl mt-5  hover:text-blue-lightest hover:font-bold py-2 border-b border-blue ${
+                  className={`block text-xl mt-5 hover:text-blue-lightest hover:font-bold py-2 border-b border-blue ${
                     pathname === href ? "text-blue" : ""
                   }`}
                   onClick={handleNavLinkClick}
@@ -292,7 +234,7 @@ const Navbar: React.FC = () => {
                 </Link>
               ))}
 
-              <details className="text-xl  mt-5">
+              <details className="text-xl mt-5">
                 <summary className="cursor-pointer py-2 border-b border-blue">
                   Solutions
                 </summary>

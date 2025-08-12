@@ -1,28 +1,24 @@
 'use client';
 
-import React, { useState, ChangeEvent, useRef, useEffect } from "react";
+import React, { useState, ChangeEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { validate as validateEmailFull } from "email-validator";
 import { useUser } from "@/src/hooks/UserContext";
-import { Checkbox } from "antd";
-import { useGoogleReCaptcha, GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");          // add name state
+  const [phone, setPhone] = useState<string>("");        // add phone state
   const [otpDigits, setOtpDigits] = useState<string[]>(["", "", "", "", "", ""]);
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [otpError, setOtpError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [termsAgreed, setTermsAgreed] = useState<boolean>(false);
-  const [newsletterOptIn, setNewsletterOptIn] = useState<boolean>(false);
   const router = useRouter();
   const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const { setUserEmail } = useUser();
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
-  // Clears messages on email change
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setError("");
@@ -30,26 +26,39 @@ const LoginPage: React.FC = () => {
     setOtpError("");
   };
 
-  // Handles input for individual OTP boxes
+  // New handlers for name and phone
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    setError("");
+    setSuccess("");
+    setOtpError("");
+  };
+
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // Optional: phone validation can be added here
+    setPhone(e.target.value);
+    setError("");
+    setSuccess("");
+    setOtpError("");
+  };
+
   const handleOtpDigitChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    const { value } = e.target;
-    if (value.length > 1) return;
-    if (value && !/^\d$/.test(value)) return;
+    const val = e.target.value;
+    if (val.length > 1) return;
+    if (val && !/^\d$/.test(val)) return;
 
     const newOtpDigits = [...otpDigits];
-    newOtpDigits[index] = value;
+    newOtpDigits[index] = val;
     setOtpDigits(newOtpDigits);
-
     setOtpError("");
     setError("");
     setSuccess("");
 
-    if (value && index < otpDigits.length - 1) {
+    if (val && index < otpDigits.length - 1) {
       otpInputRefs.current[index + 1]?.focus();
     }
   };
 
-  // Handles backspace key for individual OTP boxes
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     if (e.key === "Backspace" && otpDigits[index] === "" && index > 0) {
       const newOtpDigits = [...otpDigits];
@@ -63,17 +72,19 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // Function to request OTP from backend
   const handleGetOtp = async () => {
     if (!validateEmailFull(email)) {
-      setError("Please enter a valid email address format (e.g., your.name@example.com).");
+      setError("Please enter a valid email address.");
       return;
     }
-
-    // if (!executeRecaptcha) {
-    //   setError("reCAPTCHA not loaded. Please refresh and try again.");
-    //   return;
-    // }
+    if (!name.trim()) {
+      setError("Please enter your full name.");
+      return;
+    }
+    if (!phone.trim()) {
+      setError("Please enter your phone number.");
+      return;
+    }
 
     setLoading(true);
     setError("");
@@ -81,11 +92,10 @@ const LoginPage: React.FC = () => {
     setOtpError("");
 
     try {
-      // const recaptchaToken = await executeRecaptcha('send_otp'); // Generate reCAPTCHA token for OTP request
       const response = await fetch("/api/joinus/sendotp/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, name, phone }), // send name and phone too
       });
 
       const data = await response.json();
@@ -95,45 +105,19 @@ const LoginPage: React.FC = () => {
         setSuccess(data.message || "OTP sent successfully!");
         setTimeout(() => otpInputRefs.current[0]?.focus(), 100);
       } else {
-        setError(data.message || "Failed to send OTP. Please try again.");
+        setError(data.message || "Failed to send OTP.");
       }
-
-      // Attempt to create user (if not already exists)
-      const userResponse = await fetch("/api/user/candidateprofile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const userData = await userResponse.json();
-    } catch (apiError) {
-      console.error("Error sending OTP:", apiError);
-      setError("An unexpected network error occurred. Please try again later.");
+    } catch (err) {
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Function to verify OTP with backend
   const handleVerifyOtp = async () => {
     const fullOtp = otpDigits.join("");
     if (fullOtp.length !== 6) {
       setOtpError("Please enter a complete 6-digit OTP.");
-      return;
-    }
-
-    // Validate checkboxes
-    if (!termsAgreed) {
-      setOtpError("You must agree to the terms and confirm you’ve read the privacy notice.");
-      return;
-    }
-
-    // if (!newsletterOptIn) {
-    //   setOtpError("Please opt-in to receive the weekly newsletter.");
-    //   return;
-    // }
-
-    if (!executeRecaptcha) {
-      setOtpError("reCAPTCHA not loaded. Please refresh and try again.");
       return;
     }
 
@@ -143,11 +127,10 @@ const LoginPage: React.FC = () => {
     setSuccess("");
 
     try {
-      // const recaptchaToken = await executeRecaptcha('login_form'); // Generate reCAPTCHA token
       const response = await fetch("/api/joinus/verifyotp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp: fullOtp, termsAgreed, newsletterOptIn }),
+        body: JSON.stringify({ email, otp: fullOtp }),
       });
 
       const data = await response.json();
@@ -155,32 +138,66 @@ const LoginPage: React.FC = () => {
       if (response.ok) {
         setSuccess(data.message || "Login successful!");
         setUserEmail(email);
-        router.push("/candidate/candidatedashboard");
+
+        if (data.redirectTo) {
+          router.push(data.redirectTo);
+        } else {
+          router.push("/");
+        }
       } else {
-        setOtpError(data.message || "Invalid or expired OTP. Please try again.");
+        setOtpError(data.message || "Invalid or expired OTP.");
       }
-    } catch (apiError) {
-      console.error("Error verifying OTP:", apiError);
-      setOtpError("An unexpected error occurred during OTP verification. Please try again later.");
+    } catch (err) {
+      setOtpError("Error verifying OTP. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Check if all OTP digits are filled to enable the Login button
   const isOtpComplete = otpDigits.every((digit) => digit !== "");
 
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover mt-[66px] bg-center px-4"
-      style={{
-        backgroundImage: "url('/slider_6.jpg')",
-      }}
+      style={{ backgroundImage: "url('/slider_6.jpg')" }}
     >
       <div className="w-full max-w-md backdrop-blur-2xl rounded-2xl shadow-2xl p-8 space-y-6">
         <h2 className="h2 light font-semibold text-center">Login</h2>
 
         <div className="space-y-4">
+           {/* Name input */}
+          <div>
+            <label htmlFor="name" className="p2 block h5 font-medium text-white">
+              Full Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={handleNameChange}
+              readOnly={otpSent}
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              placeholder="Enter your full name"
+              disabled={otpSent || loading}
+            />
+          </div>
+
+          {/* Phone input */}
+          <div>
+            <label htmlFor="phone" className="p2 block h5 font-medium text-white">
+              Phone Number
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              value={phone}
+              onChange={handlePhoneChange}
+              readOnly={otpSent}
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+              placeholder="Enter your phone number"
+              disabled={otpSent || loading}
+            />
+          </div>
           <div>
             <label htmlFor="email" className="p2 block h5 font-medium text-white">
               Email
@@ -197,11 +214,13 @@ const LoginPage: React.FC = () => {
             />
           </div>
 
+         
+
           {!otpSent ? (
             <button
               onClick={handleGetOtp}
               className="w-full b1 py-2 rounded-lg transition font-medium shadow-md disabled:opacity-50 disabled:cursor-not-allowed bg-blue-default text-white hover:bg-blue-dark"
-              disabled={loading || !email || !validateEmailFull(email)}
+              disabled={loading || !email || !name.trim() || !phone.trim() || !validateEmailFull(email)}
             >
               {loading ? "Sending OTP..." : "Get OTP"}
             </button>
@@ -232,36 +251,10 @@ const LoginPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Checkbox
-                  checked={newsletterOptIn}
-                  onChange={(e) => setNewsletterOptIn(e.target.checked)}
-                  disabled={loading}
-                  className="text-xs text-white"
-                >
-                  I’d like to receive MintSurvey’s weekly newsletter
-                </Checkbox>
-                <Checkbox
-                  checked={termsAgreed}
-                  onChange={(e) => setTermsAgreed(e.target.checked)}
-                  disabled={loading}
-                  className="text-xs text-white"
-                >
-                  I agree to MintSurvey’s{" "}
-                  <a href="/terms" className="text-blue-400 hover:underline">
-                    Terms
-                  </a>{" "}
-                  & confirm I’ve read the{" "}
-                  <a href="/privacy" className="text-blue-400 hover:underline">
-                    Privacy Notice
-                  </a>.
-                </Checkbox>
-              </div>
-
               <button
                 onClick={handleVerifyOtp}
                 className="w-full b1 py-2 rounded-lg transition font-medium shadow-md disabled:opacity-50 disabled:cursor-not-allowed bg-blue-default text-white hover:bg-blue-dark"
-                disabled={loading || !isOtpComplete || !termsAgreed || !newsletterOptIn}
+                disabled={loading || !isOtpComplete}
               >
                 {loading ? "Verifying..." : "Login"}
               </button>
@@ -283,11 +276,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-// Wrap the component with GoogleReCaptchaProvider
-const LoginPageWithRecaptcha = () => (
-  // <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}>
-    <LoginPage />
-  // </GoogleReCaptchaProvider>
-);
-
-export default LoginPageWithRecaptcha;
+export default LoginPage;

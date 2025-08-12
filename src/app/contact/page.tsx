@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import ContactPage from '../../components/Contact/Contact';
+import Contact from '../../components/Contact/RequestQuote';
 
 export const metadata: Metadata = {
   title: 'Contact Us - Mintsurvey',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 export default function ContactPageRoute() {
   return (
     <div>
-      <ContactPage />
+      <Contact />
     </div>
   );
 }

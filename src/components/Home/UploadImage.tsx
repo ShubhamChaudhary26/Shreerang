@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Upload, FileText, Image } from "lucide-react";
 
 const DocumentUploadForm = () => {
@@ -12,9 +12,59 @@ const DocumentUploadForm = () => {
     agreementImage: null as File | null,
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+  });
+
+  // Track if user touched (focused & blurred) the inputs
+  const [touched, setTouched] = useState({
+    name: false,
+    phone: false,
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validate = () => {
+    let nameError = "";
+    let phoneError = "";
+
+    // Validate name only if touched or on submit
+    if (touched.name || isSubmitting) {
+      if (!formData.name.trim()) {
+        nameError = "Full name is required";
+      } else if (formData.name.trim().length < 3) {
+        nameError = "Full name should be at least 3 characters";
+      }
+    }
+
+    // Validate phone only if touched or on submit
+    if (touched.phone || isSubmitting) {
+      if (!formData.phone.trim()) {
+        phoneError = "Phone number is required";
+      } else if (!/^\d{10}$/.test(formData.phone.trim())) {
+        phoneError = "Phone number must be exactly 10 digits";
+      }
+    }
+
+    setErrors({ name: nameError, phone: phoneError });
+
+    // Return true if no errors
+    return !(nameError || phoneError);
+  };
+
+  // Run validation when formData or touched changes
+  useEffect(() => {
+    validate();
+  }, [formData, touched]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBlur = (field: keyof typeof touched) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
   };
 
   const handleFileChange = (
@@ -22,13 +72,51 @@ const DocumentUploadForm = () => {
     fieldName: keyof typeof formData
   ) => {
     const file = e.target.files?.[0] || null;
+    if (file && file.size > 2 * 1024 * 1024) {
+      alert("File size should be less than 2MB");
+      return;
+    }
     setFormData((prev) => ({ ...prev, [fieldName]: file }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitted Data:", formData);
-    // Implement submission logic here
+
+    setIsSubmitting(true);
+
+    if (!validate()) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    const data = new FormData();
+    data.append("name", formData.name.trim());
+    data.append("phone", formData.phone.trim());
+    if (formData.aadharCard) data.append("aadharCard", formData.aadharCard);
+    if (formData.panCard) data.append("panCard", formData.panCard);
+    if (formData.agreementImage) data.append("agreementImage", formData.agreementImage);
+
+    try {
+      const res = await fetch("/api/document-upload", {
+        method: "POST",
+        body: data,
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        alert("Documents submitted successfully!");
+        setFormData({ name: "", phone: "", aadharCard: null, panCard: null, agreementImage: null });
+        setTouched({ name: false, phone: false });
+      } else {
+        alert("Upload failed");
+      }
+    } catch (error) {
+      alert("Error submitting the form. Please try again.");
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const FileUploadField = ({
@@ -89,7 +177,7 @@ const DocumentUploadForm = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-8" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Full Name */}
             <div>
@@ -106,9 +194,19 @@ const DocumentUploadForm = () => {
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={handleInputChange}
+                onBlur={() => handleBlur("name")}
                 required
-                className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900"
+                className={`w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 ${
+                  touched.name && errors.name ? "border-red-500" : "border-gray-300"
+                }`}
+                aria-invalid={!!errors.name}
+                aria-describedby="name-error"
               />
+              {touched.name && errors.name && (
+                <p className="text-red-500 text-sm mt-1" id="name-error">
+                  {errors.name}
+                </p>
+              )}
             </div>
 
             {/* Phone Number */}
@@ -123,12 +221,23 @@ const DocumentUploadForm = () => {
                 id="phone"
                 name="phone"
                 type="tel"
-                placeholder="Enter your phone number"
+                placeholder="Enter your 10-digit phone number"
                 value={formData.phone}
                 onChange={handleInputChange}
+                onBlur={() => handleBlur("phone")}
                 required
-                className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900"
+                maxLength={10}
+                className={`w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 ${
+                  touched.phone && errors.phone ? "border-red-500" : "border-gray-300"
+                }`}
+                aria-invalid={!!errors.phone}
+                aria-describedby="phone-error"
               />
+              {touched.phone && errors.phone && (
+                <p className="text-red-500 text-sm mt-1" id="phone-error">
+                  {errors.phone}
+                </p>
+              )}
             </div>
           </div>
 
@@ -158,10 +267,17 @@ const DocumentUploadForm = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="b1 flex items-center gap-2  text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition"
+              disabled={
+                !!errors.name || !!errors.phone || isSubmitting || !touched.name || !touched.phone
+              }
+              className={`b1 flex items-center gap-2 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition ${
+                !!errors.name || !!errors.phone || isSubmitting || !touched.name || !touched.phone
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-900 hover:bg-blue-700"
+              }`}
             >
-              <Upload className="h-5 w-5" />
-              Submit Documents
+              <Upload className={`h-5 w-5 ${isSubmitting ? "animate-spin" : ""}`} />
+              {isSubmitting ? "Submitting..." : "Submit Documents"}
             </button>
           </div>
         </form>

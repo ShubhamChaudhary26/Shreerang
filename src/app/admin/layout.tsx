@@ -90,7 +90,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         variants={sidebarAnimationVariants}
       >
         <div className="flex justify-between items-center pb-4 mb-4 border-b border-gray-200">
-          <h1 className="pl-10 font-bold light h3  ">Admin Panel</h1>
+          <h1 className="pl-10 font-bold light h3 mt-5">Admin Panel</h1>
           {!isLargeScreen && (
             <button className="text-gray-500 hover:text-gray-700 p-1" onClick={() => setIsSidebarOpen(false)}>
               <X size={24} />
@@ -99,10 +99,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
         <nav className="space-y-2">
           <LinkItem href="/admin" label="Dashboard" icon={LayoutDashboard} pathname={pathname} setIsSidebarOpen={setIsSidebarOpen} isLargeScreen={isLargeScreen} />
-          <LinkItem href="/admin/blog" label="Blogs" icon={Newspaper} pathname={pathname} setIsSidebarOpen={setIsSidebarOpen} isLargeScreen={isLargeScreen} />
-          <LinkItem href="/admin/project" label="Projects" icon={FolderKanban} pathname={pathname} setIsSidebarOpen={setIsSidebarOpen} isLargeScreen={isLargeScreen} />
-          <LinkItem href="/admin/candidate" label="Candidates" icon={FolderKanban} pathname={pathname} setIsSidebarOpen={setIsSidebarOpen} isLargeScreen={isLargeScreen} />
-          <LinkItem href="/admin/client" label="Clients" icon={FolderKanban} pathname={pathname} setIsSidebarOpen={setIsSidebarOpen} isLargeScreen={isLargeScreen} />
+           <LinkItem href="/admin/client" label="Clients" icon={FolderKanban} pathname={pathname} setIsSidebarOpen={setIsSidebarOpen} isLargeScreen={isLargeScreen} />
           {/* Add more links here */}
         </nav>
       </motion.aside>

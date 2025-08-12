@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import RequestQuote from '../../components/RequestQuote/RequestQuote';
+import RequestQuote from '../../components/Contact/RequestQuote';
 
 export const metadata: Metadata = {
   title: 'Request a Quote - Mintsurvey',

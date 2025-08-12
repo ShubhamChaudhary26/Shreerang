@@ -1,17 +1,20 @@
 import Home from '@/src/components/Home/Home';
 import React from 'react';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'shreerang',
-  description: 'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
+  description:
+    'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
+  metadataBase: new URL('https://shreerang.com'), // ✅ Added for consistency
   openGraph: {
     title: 'shreerang',
-    description: 'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
+    description:
+      'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
     images: [
       {
-        url: 'https://yourdomain.com/home/ContentWithImage1.png', // Absolute URL is safer
-        width: 1200, // Recommended for OG
+        url: 'https://yourdomain.com/home/ContentWithImage1.png', // ✅ Absolute URL
+        width: 1200,
         height: 630,
         alt: 'shreerang Preview',
       },
@@ -23,8 +26,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'shreerang',
-    description: 'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
-    images: ['https://yourdomain.com/home/ContentWithImage1.png'], // Absolute URL
+    description:
+      'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
+    images: ['https://yourdomain.com/home/ContentWithImage1.png'],
   },
 };
 

@@ -28,7 +28,7 @@ const AnimatedCounter = ({ target }: { target: number }) => {
 
   const formatNumber = (num: number) => {
     if (num >= 10000000) return `${(num / 10000000).toFixed(1)}Cr+`;
-    if (num >= 100000) return `${(num / 100000).toFixed(0)}K+`;  // changed divisor to 100000 here
+    if (num >= 100000) return `${(num / 100000).toFixed(0)}K+`;
     if (num >= 1000) return `${(num / 1000).toFixed(0)}K+`;
     return `${num}+`;
   };
@@ -49,7 +49,10 @@ const ShreerangStats = () => {
   ];
 
   return (
-    <div ref={statsRef} className="bg-gradient-to-br from-background via-muted/30 to-background py-20">
+    <div
+      ref={statsRef}
+      className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20" // Light gradient background
+    >
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -58,14 +61,11 @@ const ShreerangStats = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2
-            className="text-3xl lg:text-5xl font-bold mt-5 gradient-text text-blue-900 leading-tight"
-            style={{ lineHeight: "2" }}
-          >
+          <h2 className="text-3xl lg:text-5xl font-bold mt-5 text-blue-900 leading-tight">
             Cutting Edge Advantage
           </h2>
-          <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            Shreerang&apos;s digital platform offers innovative solutions that make government and banking services simple, efficient, and secure for businesses, ensuring a hassle-free experience for all.
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            Shreerang&apos;s digital platform offers innovative solutions that make government and banking services simple, efficient, and secure for businesses.
           </p>
         </motion.div>
 
@@ -77,19 +77,20 @@ const ShreerangStats = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={visibleItems.has(index) ? { opacity: 1, scale: 1 } : {}}
               whileHover={{
-                scale: 1.05,
-                boxShadow: "0 12px 24px rgba(0, 0, 0, 0.1)",
+                scale: 1.07,
+                boxShadow: "0 15px 30px rgba(0, 64, 128, 0.15)", // blue glow
+                borderColor: "#2563eb",
                 transition: { duration: 0.3 },
               }}
               transition={{ delay: index * 0.2, duration: 0.6 }}
-              className="text-center border-2 border-primary/20 bg-white p-8 rounded-lg shadow-md"
+              className="text-center border-2 border-blue-200 bg-white/90 p-8 rounded-xl shadow-lg hover:shadow-xl backdrop-blur-sm"
             >
               <div>
-                <div className="text-6xl font-bold gradient-text mb-4 font-mono text-blue-900">
+                <div className="text-6xl font-bold text-blue-900 mb-4 font-mono">
                   {statsVisible && <AnimatedCounter target={stat.target} />}
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">{stat.title}</h3>
-                <p className="text-muted-foreground">{stat.subtitle}</p>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">{stat.title}</h3>
+                <p className="text-gray-500">{stat.subtitle}</p>
               </div>
             </motion.div>
           ))}
@@ -102,11 +103,11 @@ const ShreerangStats = () => {
             animate={statsVisible ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-3xl font-bold text-foreground mb-6">Our Mission</h3>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Our mission is to simplify and streamline government services, making them easily accessible to individuals and businesses through our platform, and creating an environment where everyone can succeed.
+            <h3 className="text-3xl font-bold text-gray-800 mb-6">Our Mission</h3>
+            <p className="text-lg text-gray-600 leading-relaxed mb-6">
+              Our mission is to simplify and streamline government services, making them easily accessible to individuals and businesses.
             </p>
-            <button className="bg-primary text-white text-lg px-8 py-4 rounded-md hover:bg-primary/90 transition-transform hover:scale-105">
+            <button className="bg-blue-900 text-white text-lg px-8 py-4 rounded-md hover:bg-blue-800 transition-transform hover:scale-105 shadow-md">
               View more <span className="ml-2">→</span>
             </button>
           </motion.div>
@@ -116,13 +117,13 @@ const ShreerangStats = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={companyInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="bg-gradient-to-br from-primary/10 to-primary/5 p-8 rounded-lg shadow-md hover:shadow-lg"
+            className="bg-gradient-to-br  p-8 rounded-xl shadow-lg hover:shadow-2xl border border-blue-200"
           >
             <div className="text-center">
-              <div className="text-6xl font-bold gradient-text mb-4 font-mono text-blue-900">
+              <div className="text-6xl font-bold text-blue-900 mb-4 font-mono">
                 {companyInView && <AnimatedCounter target={100} />}
               </div>
-              <p className="text-lg text-foreground font-semibold">
+              <p className="text-lg text-gray-700 font-semibold">
                 Companies and industries who have bought our services
               </p>
             </div>

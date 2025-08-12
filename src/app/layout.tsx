@@ -5,27 +5,27 @@ import 'antd/dist/reset.css';
 import 'leaflet/dist/leaflet.css';
 import LayoutWrapper from '../components/LayoutWrapper';
 import { UserProvider } from '@/src/hooks/UserContext';
-// import ReCaptchaProvider from '../components/ReCaptchaProvider/ReCaptchaProvider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://shreerang.com'), // ✅ Added to remove metadata warning
   title: 'MintSurvey',
   description: 'Data Driven Insights',
   icons: {
-    icon: '/inspirationcard1.jpg', // Ensure this exists in /public/
+    icon: '/inspirationcard1.jpg',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        {/* <ReCaptchaProvider> */}
-          <UserProvider>
-            <LayoutWrapper>{children}</LayoutWrapper>
-          </UserProvider>
-        {/* </ReCaptchaProvider> */}
+    <html lang="en" className={roboto.className}>
+      <body>
+        <SpeedInsights />
+        <UserProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </UserProvider>
       </body>
     </html>
   );

@@ -15,35 +15,26 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
         >
           <div className=" mx-auto md:mx-0">
-            {/* <p className="h5">Solutions</p> */}
-            <h1 className="h1 leading-tight">
-             Comprehensive Research & Analytics Solutions Under One Roof
+            {/* <p className="h5 ">
+              Request Quote
+            </p> */}
+            <h1 className="h1 ">
+           Book a Free Consultation to scale with custom research.
             </h1>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="b1 ml-2"
-            >
-              <Link href="/requestquote" >
-              Book a Free Consultation
-              </Link>
-            </motion.button>
           </div>
         </motion.div>
 
         <motion.div
-          className="h-[300px] md:h-[450px] flex items-center justify-center md:justify-end mt-8 md:mt-10"
+          className="h-[300px] md:h-[410px] flex items-center justify-center md:justify-end mt-8 md:mt-10"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
         >
           <div className="w-full h-full max-w-sm md:max-w-full flex justify-center items-center">
             <img
-              src="/contact/HeroSection.svg"
+              src="/requestquote/HeroSection.svg"
               alt="Hero Section Image"
-              className="custom-image"
-              loading="lazy"
+              className="object-contain w-full h-full max-h-[500px] md:max-h-[600px] rounded-lg "
             />
           </div>
         </motion.div>
