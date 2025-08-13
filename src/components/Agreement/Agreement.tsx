@@ -104,18 +104,18 @@ const Accordion = ({ items }: { items: AccordionItemType[] }) => {
   const toggle = (id: string) => setOpenId(openId === id ? null : id);
 
   return (
-    <div className="w-[100vh] max-w-4xl mx-auto border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+    <div className="w-full max-w-4xl mx-auto border border-gray-200 rounded-xl overflow-hidden shadow-sm">
       {items.map(({ id, title, content }) => {
         const isOpen = openId === id;
         return (
           <div key={id} className="border-b last:border-b-0">
             <button
               onClick={() => toggle(id)}
-              className={`w-full flex justify-between items-center px-6 py-5 text-left font-semibold text-gray-800 bg-white hover:bg-gray-50 transition-colors duration-200 ${
+              className={`w-full flex justify-between items-center px-4 sm:px-6 py-4 text-left font-semibold text-gray-800 bg-white hover:bg-gray-50 transition-colors duration-200 ${
                 isOpen ? "bg-blue-50" : ""
               }`}
             >
-              <span>{title}</span>
+              <span className="text-sm sm:text-base">{title}</span>
               <svg
                 className={`w-5 h-5 text-blue-600 transform transition-transform duration-300 ${
                   isOpen ? "rotate-180" : ""
@@ -133,7 +133,7 @@ const Accordion = ({ items }: { items: AccordionItemType[] }) => {
               </svg>
             </button>
             <div
-              className={`px-6 text-gray-700 overflow-hidden transition-all duration-300 ${
+              className={`px-4 sm:px-6 text-gray-700 overflow-hidden transition-all duration-300 ${
                 isOpen ? "py-4 max-h-96" : "max-h-0"
               }`}
             >
@@ -145,6 +145,7 @@ const Accordion = ({ items }: { items: AccordionItemType[] }) => {
     </div>
   );
 };
+
 
 // --- Main Page ---
 export default function RegistrationAgreement() {
@@ -246,14 +247,19 @@ export default function RegistrationAgreement() {
 
       <WhyChooseShreerang />
       {/* FAQs */}
-      <section className="py-16 bg-gray-100 " id="faq">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-2xl font-semibold mb-6 text-center">
-            Frequently Asked Questions
-          </h2>
-          <Accordion items={faqs} />
-        </div>
-      </section>
+      <section className="py-16 bg-gray-100" id="faq">
+  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 className="text-2xl sm:text-3xl font-semibold mb-8 text-center">
+      Frequently Asked Questions
+    </h2>
+    <div className="w-full">
+      <Accordion items={faqs} />
+    </div>
+  </div>
+</section>
+
+
+
       <section className="py-10 bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
               <div className="container mx-auto px-4 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
