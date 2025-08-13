@@ -25,6 +25,7 @@
     "formidable-serverless": "^1.1.1",
     "frappe-gantt": "^1.0.3",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.509.0",
     "mongoose": "^8.17.1",

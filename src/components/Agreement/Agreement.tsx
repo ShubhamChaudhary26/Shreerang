@@ -9,6 +9,7 @@ import WhyChooseShreerang from "./WhyChooseus";
 import Image from "next/image";
 import Link from "next/link";
 import DocumentUploadForm from "../Home/UploadImage";
+import { Phone } from "lucide-react";
 
 // --- Schema ---
 const MAX_IMG_SIZE = 2 * 1024 * 1024; // 2MB
@@ -253,6 +254,33 @@ export default function RegistrationAgreement() {
           <Accordion items={faqs} />
         </div>
       </section>
+      <section className="py-10 bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
+              <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                  Ready to Work With Us?
+                </h2>
+                <p className="text-xl mb-8 max-w-2xl mx-auto">
+                  Let our experienced team help you with all your property rental and
+                  legal documentation needs.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    href="/login"
+                    className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-medium hover:bg-yellow-500 transition"
+                  >
+                    Get Started Today
+                  </Link>
+                  <a
+                    href="tel:5551234567"
+                    className="flex items-center justify-center gap-2 border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition"
+                  >
+                    <Phone className="w-5 h-5" />
+                    Call (555) 123-4567
+                  </a>
+                </div>
+              </div>
+            </section>
     </div>
+    
   );
 }
