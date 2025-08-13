@@ -45,7 +45,7 @@ export default function WhoWeAreDescription() {
           viewport={{ once: true }}
           className="space-y-5 text-center md:text-left"
         >
-          <h2 className="text-4xl font-extrabold text-blue-900">
+          <h2 className="text-4xl font-extrabold text-black">
             Who We Are
           </h2>
           <p className="text-lg text-gray-700">

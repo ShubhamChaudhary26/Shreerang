@@ -56,7 +56,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [pathname, isLargeScreen]);
 
   return (
-    <div className="flex  mt-[68px] bg-gray-100 relative"> {/* Main container doesn't need mt here */}
+    <div className="flex  mt-[30px] bg-gray-100 relative"> {/* Main container doesn't need mt here */}
 
       {/* Mobile Sidebar Overlay */}
       <AnimatePresence>

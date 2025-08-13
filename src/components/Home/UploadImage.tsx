@@ -12,24 +12,14 @@ const DocumentUploadForm = () => {
     agreementImage: null as File | null,
   });
 
-  const [errors, setErrors] = useState({
-    name: "",
-    phone: "",
-  });
-
-  // Track if user touched (focused & blurred) the inputs
-  const [touched, setTouched] = useState({
-    name: false,
-    phone: false,
-  });
-
+  const [errors, setErrors] = useState({ name: "", phone: "" });
+  const [touched, setTouched] = useState({ name: false, phone: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validate = () => {
     let nameError = "";
     let phoneError = "";
 
-    // Validate name only if touched or on submit
     if (touched.name || isSubmitting) {
       if (!formData.name.trim()) {
         nameError = "Full name is required";
@@ -38,7 +28,6 @@ const DocumentUploadForm = () => {
       }
     }
 
-    // Validate phone only if touched or on submit
     if (touched.phone || isSubmitting) {
       if (!formData.phone.trim()) {
         phoneError = "Phone number is required";
@@ -48,19 +37,15 @@ const DocumentUploadForm = () => {
     }
 
     setErrors({ name: nameError, phone: phoneError });
-
-    // Return true if no errors
     return !(nameError || phoneError);
   };
 
-  // Run validation when formData or touched changes
   useEffect(() => {
     validate();
   }, [formData, touched]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleBlur = (field: keyof typeof touched) => {
@@ -72,16 +57,23 @@ const DocumentUploadForm = () => {
     fieldName: keyof typeof formData
   ) => {
     const file = e.target.files?.[0] || null;
-    if (file && file.size > 2 * 1024 * 1024) {
-      alert("File size should be less than 2MB");
-      return;
+    if (file) {
+      const maxSize =
+        fieldName === "agreementImage" ? 5 * 1024 * 1024 : 2 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert(
+          `${fieldName === "agreementImage" ? "Agreement" : "Image"} file size should be less than ${
+            fieldName === "agreementImage" ? "5MB" : "2MB"
+          }`
+        );
+        return;
+      }
     }
     setFormData((prev) => ({ ...prev, [fieldName]: file }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setIsSubmitting(true);
 
     if (!validate()) {
@@ -101,19 +93,23 @@ const DocumentUploadForm = () => {
         method: "POST",
         body: data,
       });
-
       const result = await res.json();
 
       if (result.success) {
         alert("Documents submitted successfully!");
-        setFormData({ name: "", phone: "", aadharCard: null, panCard: null, agreementImage: null });
+        setFormData({
+          name: "",
+          phone: "",
+          aadharCard: null,
+          panCard: null,
+          agreementImage: null,
+        });
         setTouched({ name: false, phone: false });
       } else {
         alert("Upload failed");
       }
     } catch (error) {
       alert("Error submitting the form. Please try again.");
-      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -131,10 +127,7 @@ const DocumentUploadForm = () => {
     accept: string;
   }) => (
     <div className="space-y-2">
-      <label
-        htmlFor={fieldName}
-        className="text-sm font-medium text-gray-800 dark:text-gray-200"
-      >
+      <label htmlFor={fieldName} className="text-sm font-medium text-gray-800">
         {label}
       </label>
       <div className="relative">
@@ -146,10 +139,10 @@ const DocumentUploadForm = () => {
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
         <div
-          className={`flex items-center justify-center w-full h-36 border-2 border-dashed rounded-xl transition-colors duration-300 p-4 text-center ${
+          className={`flex items-center justify-center w-full h-36 border-2 border-dashed rounded-xl p-4 text-center transition ${
             formData[fieldName]
               ? "border-green-500 bg-green-50"
-              : "border-gray-300 hover:border-blue-900 hover:bg-blue-50"
+              : "border-gray-300 hover:border-blue-500 hover:bg-blue-50"
           }`}
         >
           <div className="pointer-events-none">
@@ -166,25 +159,21 @@ const DocumentUploadForm = () => {
   );
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 py-10">
-      <div className="bg-white shadow-2xl rounded-2xl p-8 md:p-12 dark:bg-gray-900">
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="agreement">
+      <div className="bg-white shadow-none md:shadow-sm rounded-2xl p-6 sm:p-10 lg:p-12 border border-gray-100">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-900 dark:text-white">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
             Rent Agreement Document Submission
           </h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Please fill in your details and upload the required documents.
+          <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+            Please fill in your details and upload the required documents. Our team will contact you shortly.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-10" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Full Name */}
             <div>
-              <label
-                htmlFor="name"
-                className="text-sm font-medium text-gray-800 dark:text-gray-200"
-              >
+              <label htmlFor="name" className="text-sm font-medium text-gray-800">
                 Full Name
               </label>
               <input
@@ -195,26 +184,17 @@ const DocumentUploadForm = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 onBlur={() => handleBlur("name")}
-                required
-                className={`w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 ${
+                className={`w-full mt-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 transition ${
                   touched.name && errors.name ? "border-red-500" : "border-gray-300"
                 }`}
-                aria-invalid={!!errors.name}
-                aria-describedby="name-error"
               />
               {touched.name && errors.name && (
-                <p className="text-red-500 text-sm mt-1" id="name-error">
-                  {errors.name}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
               )}
             </div>
 
-            {/* Phone Number */}
             <div>
-              <label
-                htmlFor="phone"
-                className="text-sm font-medium text-gray-800 dark:text-gray-200"
-              >
+              <label htmlFor="phone" className="text-sm font-medium text-gray-800">
                 Phone Number
               </label>
               <input
@@ -225,55 +205,33 @@ const DocumentUploadForm = () => {
                 value={formData.phone}
                 onChange={handleInputChange}
                 onBlur={() => handleBlur("phone")}
-                required
                 maxLength={10}
-                className={`w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-900 ${
+                className={`w-full mt-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 transition ${
                   touched.phone && errors.phone ? "border-red-500" : "border-gray-300"
                 }`}
-                aria-invalid={!!errors.phone}
-                aria-describedby="phone-error"
               />
               {touched.phone && errors.phone && (
-                <p className="text-red-500 text-sm mt-1" id="phone-error">
-                  {errors.phone}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
               )}
             </div>
           </div>
 
-          {/* File Upload Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FileUploadField
-              label="Aadhar Card Image"
-              fieldName="aadharCard"
-              icon={Image}
-              accept="image/*"
-            />
-            <FileUploadField
-              label="PAN Card Image"
-              fieldName="panCard"
-              icon={Image}
-              accept="image/*"
-            />
-            <FileUploadField
-              label="Agreement Document"
-              fieldName="agreementImage"
-              icon={FileText}
-              accept="image/*,.pdf"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <FileUploadField label="Aadhar Card Image" fieldName="aadharCard" icon={Image} accept="image/*" />
+            <FileUploadField label="PAN Card Image" fieldName="panCard" icon={Image} accept="image/*" />
+            <FileUploadField label="Agreement Document" fieldName="agreementImage" icon={FileText} accept="application/pdf,image/*" />
           </div>
 
-          {/* Submit Button */}
           <div className="flex justify-center">
             <button
               type="submit"
               disabled={
                 !!errors.name || !!errors.phone || isSubmitting || !touched.name || !touched.phone
               }
-              className={`b1 flex items-center gap-2 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition ${
+              className={`flex items-center gap-2 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition-transform duration-300 ${
                 !!errors.name || !!errors.phone || isSubmitting || !touched.name || !touched.phone
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-900 hover:bg-blue-700"
+                  : "bg-blue-900 hover:bg-blue-800 active:scale-95"
               }`}
             >
               <Upload className={`h-5 w-5 ${isSubmitting ? "animate-spin" : ""}`} />

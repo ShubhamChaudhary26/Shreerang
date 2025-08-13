@@ -3,6 +3,10 @@ import { Model } from "mongoose";
 import connectDB from "@/lib/db";
 import OTP, { IOTP } from "@/schema/otp.schema";
 import User from "@/schema/user.schema";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET || "supersecretkey"; // Use env in production
+const JWT_EXPIRES_IN = "7d"; // token validity
 
 export async function POST(request: Request) {
   await connectDB();
@@ -24,19 +28,25 @@ export async function POST(request: Request) {
     const otpRecord: IOTP | null = await OtpModel.findOne({ email, otp });
 
     if (!otpRecord) {
-      return NextResponse.json({ message: "Invalid OTP. Please request a new one." }, { status: 401 });
+      return NextResponse.json(
+        { message: "Invalid OTP. Please request a new one." },
+        { status: 401 }
+      );
     }
 
     // Check OTP expiry
     if (otpRecord.expiresAt.getTime() < Date.now()) {
       await OtpModel.deleteOne({ email });
-      return NextResponse.json({ message: "OTP expired. Please request a new one." }, { status: 401 });
+      return NextResponse.json(
+        { message: "OTP expired. Please request a new one." },
+        { status: 401 }
+      );
     }
 
     // Check if email is admin
     const isAdminEmail = email.toLowerCase() === "sc3617378@gmail.com";
 
-    // Find or create user (now always setting termsAgreed: true)
+    // Find or create user
     let user = await User.findOne({ email });
 
     if (user) {
@@ -45,7 +55,7 @@ export async function POST(request: Request) {
         {
           fullName: name || user.fullName,
           phone: phone || user.phone,
-          termsAgreed: true,  // <-- force set to true here
+          termsAgreed: true,
         },
         { new: true }
       );
@@ -54,17 +64,29 @@ export async function POST(request: Request) {
         email,
         fullName: name || "",
         phone: phone || "",
-        termsAgreed: true,  // <-- force set to true here
+        termsAgreed: true,
       });
     }
 
     // Delete OTP record after successful verification
     await OtpModel.deleteOne({ email });
 
-    // Return success response with redirect info
+    // Create JWT token with isAdmin flag
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        isAdmin: isAdminEmail,
+      },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    );
+
+    // Return success response with JWT
     return NextResponse.json(
       {
-        message: "OTP verified successfully. You can now proceed!",
+        message: "OTP verified successfully.",
+        token, // JWT to store in client (localStorage / cookies)
         isAdmin: isAdminEmail,
         redirectTo: isAdminEmail ? "/admin" : "/",
       },
