@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import nodemailer from "nodemailer";
-import fetch from "node-fetch"; // Cloudinary URL se image fetch
+import fetch from "node-fetch";
 import connectDB from "@/lib/db";
 import DocumentUpload from "@/schema/DocumentUpload";
 import { v2 as cloudinary } from "cloudinary";
@@ -15,46 +15,29 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-async function embedImageWithLabelFromURL(
-  pdfDoc: PDFDocument,
-  page,
-  imageUrl: string,
-  label: string,
-  yStart: number,
-  maxWidth: number,
-  maxHeight: number,
-  font: any
-) {
+// Embed image in PDF helper
+async function embedImageWithLabelFromURL(pdfDoc: PDFDocument, page, imageUrl: string, label: string, yStart: number, maxWidth: number, maxHeight: number, font: any) {
   if (!imageUrl) return yStart;
-
   const imageBytes = await fetch(imageUrl).then((res) => res.arrayBuffer());
-  let image;
-  if (imageUrl.toLowerCase().endsWith(".png")) {
-    image = await pdfDoc.embedPng(imageBytes);
-  } else {
-    image = await pdfDoc.embedJpg(imageBytes);
-  }
+  const image = imageUrl.toLowerCase().endsWith(".png")
+    ? await pdfDoc.embedPng(imageBytes)
+    : await pdfDoc.embedJpg(imageBytes);
 
   const { width: pageWidth } = page.getSize();
-  const widthScale = maxWidth / image.width;
-  const heightScale = maxHeight / image.height;
-  const scale = Math.min(widthScale, heightScale, 1);
-
+  const scale = Math.min(maxWidth / image.width, maxHeight / image.height, 1);
   const imgWidth = image.width * scale;
   const imgHeight = image.height * scale;
   const x = (pageWidth - imgWidth) / 2;
 
   page.drawImage(image, { x, y: yStart - imgHeight, width: imgWidth, height: imgHeight });
-
   const labelY = yStart - imgHeight - 25;
   const textWidth = font.widthOfTextAtSize(label, 16);
   const labelX = (pageWidth - textWidth) / 2;
-
   page.drawText(label, { x: labelX, y: labelY, size: 16, font, color: rgb(0, 0, 0) });
-
   return labelY - 40;
 }
 
+// Generate PDF & send email
 async function processPDFandSendMail(newDoc) {
   const pdfDoc = await PDFDocument.create();
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -94,13 +77,26 @@ async function processPDFandSendMail(newDoc) {
   });
 
   await transporter.sendMail({
-    from: `"Shereerang" <${process.env.EmailUser}>`,
+    from: `"Shreerang" <${process.env.EmailUser}>`,
     to: process.env.RECEIVE_EMAIL,
     subject: "New Rent Agreement Submission",
     text: `New submission from ${newDoc.name} (${newDoc.phone})`,
     attachments: [{ filename: "submission.pdf", content: pdfBuffer }],
   });
 }
+
+// Upload to Cloudinary
+const uploadToCloudinary = async (file: File | null) => {
+  if (!file) return "";
+  const buffer = Buffer.from(await file.arrayBuffer());
+  return new Promise<string>((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream({ folder: "rent_agreements" }, (err, result) => {
+      if (err) reject(err);
+      else resolve(result?.secure_url || "");
+    });
+    stream.end(buffer);
+  });
+};
 
 export async function POST(req: Request) {
   try {
@@ -113,24 +109,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
     }
 
-    const uploadToCloudinary = async (file: File | null) => {
-      if (!file) return "";
-      const buffer = Buffer.from(await file.arrayBuffer());
-      return new Promise<string>((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream({ folder: "rent_agreements" }, (err, result) => {
-          if (err) reject(err);
-          else resolve(result?.secure_url || "");
-        });
-        stream.end(buffer);
-      });
-    };
-
     const aadharCard = await uploadToCloudinary(form.get("aadharCard") as File);
     const panCard = await uploadToCloudinary(form.get("panCard") as File);
     const agreementImage = await uploadToCloudinary(form.get("agreementImage") as File);
 
     const newDoc = await DocumentUpload.create({ name, phone, aadharCard, panCard, agreementImage });
 
+    // Send email & generate PDF asynchronously
     processPDFandSendMail(newDoc).catch(console.error);
 
     return NextResponse.json({ success: true, data: newDoc });
