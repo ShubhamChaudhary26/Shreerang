@@ -201,20 +201,24 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {features.map(({ id, icon: Icon, title, description }) => (
-                <Card key={id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4"> {/* blue bg */}
-                      <Icon className="w-8 h-8 text-blue-600" /> {/* blue icon */}
-                    </div>
-                    <CardTitle>{title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-center">{description}</CardDescription>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+  {features.map(({ id, icon: Icon, title, description }) => (
+    <Card
+      key={id}
+      className="hover:shadow-lg transition-shadow border-l-1 border-r-1 border-blue-500"
+    >
+      <CardHeader className="text-center">
+        <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <Icon className="w-8 h-8 text-blue-600" />
+        </div>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <CardDescription className="text-center">{description}</CardDescription>
+      </CardContent>
+    </Card>
+  ))}
+</div>
+
           </div>
         </section>
 
@@ -230,7 +234,7 @@ export default function Home() {
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Contact us today for professional property rental services and legal agreements that protect your interests.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center ">
               <Button variant="premium" size="lg" asChild>
                 <Link href="/contact" className="flex items-center gap-2 justify-center">
                   <ArrowRight className="w-5 h-5" />

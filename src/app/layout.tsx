@@ -11,10 +11,10 @@ const roboto = Roboto({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://shreerang.com'), // ✅ Added to remove metadata warning
-  title: 'MintSurvey',
-  description: 'Data Driven Insights',
+  title: 'Shreerang',
+  description: 'Rent Agreement',
   icons: {
-    icon: '/inspirationcard1.jpg',
+    icon: '/L.png',
   },
 };
 

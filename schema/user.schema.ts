@@ -12,7 +12,6 @@ const userSchema: Schema = new Schema(
       required: [true, 'Email is required'],
       unique: true,
       trim: true,
-      lowercase: true,
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address'],
     },
     phone: {
@@ -22,12 +21,8 @@ const userSchema: Schema = new Schema(
     },
     role: {
       type: String,
-      enum: ['admin', 'user'],  // candidate hata ke user rakha
+      enum: ['admin', 'user'], 
       default: 'user',
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
     },
   },
   {

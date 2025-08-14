@@ -109,10 +109,11 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await fetch("/api/joinus/verifyotp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp: fullOtp }),
-      });
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email, otp: fullOtp, name, phone }),
+});
+
 
       const data = await response.json();
 
@@ -124,12 +125,12 @@ const LoginPage: React.FC = () => {
           title: "✅ Verification Successful",
           text: "Redirecting to agreement page...",
           icon: "success",
-          timer: 5000,
+          timer: 3000,
           showConfirmButton: false,
         });
 
         setTimeout(() => {
-          router.push("/agreement");
+          router.push("/admin");
         }, 2000);
       } else {
         setOtpError(data.message || "Invalid or expired OTP.");

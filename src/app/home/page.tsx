@@ -1,29 +1,30 @@
-// SOLUTION 1: Try this corrected version
 import Home from '../../components/Home/Home';
 import React from 'react';
 import { Metadata } from 'next';
 
-// Make sure this export is EXACTLY like this - before the component
+// SEO & social metadata for Shreerang
 export const metadata: Metadata = {
-  title: 'Empowering Businesses Through Data - Mintsurvey',
-  description: 'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at Mintsurvey.',
+  title: 'Shreerang Associates - Digital E-Governance Solutions',
+  description: 'Shreerang Associates empowers individuals and businesses with digital e-governance, legal, and property solutions across India.',
+  metadataBase: new URL('https://rentyourpropertywithus.vercel.app'),
   openGraph: {
-    title: 'Empowering Businesses Through Data - Mintsurvey',
-    description: 'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at Mintsurvey.',
-    images: ['/home/ContentWithImage1.png'],
-    url: 'https://yourdomain.com',
+    title: 'Shreerang Associates - Digital E-Governance Solutions',
+    description: 'Shreerang Associates empowers individuals and businesses with digital e-governance, legal, and property solutions across India.',
+    images: [
+      {
+        url: 'https://rentyourpropertywithus.vercel.app/home/ContentWithImage1.png', // absolute URL
+        width: 1200,
+        height: 630,
+        alt: 'Shreerang Preview',
+      },
+    ],
+    url: 'https://rentyourpropertywithus.vercel.app',
     type: 'website',
-    siteName: 'Mintsurvey',
+    siteName: 'Shreerang Associates',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Empowering Businesses Through Data - Mintsurvey',
-    description: 'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at Mintsurvey.',
-    images: ['/home/ContentWithImage1.png'],
-  },
+  
 };
 
-// Component name should start with capital letter
 export default function HomePage() {
   return (
     <div>

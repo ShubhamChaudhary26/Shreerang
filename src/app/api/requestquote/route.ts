@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     });
 
     const mailOptions = {
-      from: `"MintSurvey Form" <${process.env.EmailUser}>`,
+      from: `"Shreerang Associate Form" <${process.env.EmailUser}>`,
       to: process.env.ADMIN_EMAIL,
       subject: `New Contact Form Submission from ${fullName || 'Unknown User'}`,
       html: `

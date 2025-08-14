@@ -156,20 +156,21 @@ export default function About() {
             service for our clients.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className="bg-white border rounded-lg p-6 shadow hover:shadow-lg transition"
-              >
-                <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <value.icon className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
-              </div>
-            ))}
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+  {values.map((value, index) => (
+    <div
+      key={index}
+      className="bg-white border-l-2 border-r-2 border-blue-500 rounded-lg p-6 shadow hover:shadow-lg transition"
+    >
+      <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <value.icon className="w-8 h-8 text-blue-600" />
+      </div>
+      <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
+      <p className="text-gray-600">{value.description}</p>
+    </div>
+  ))}
+</div>
+
         </div>
       </section>
 
@@ -236,40 +237,41 @@ export default function About() {
             Recognition and milestones we&apos;re proud of
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            {
-              icon: (
-                <Award className="h-16 w-16 text-primary mx-auto mb-4 text-blue-500" />
-              ),
-              title: "Best E-Governance Platform 2023",
-              desc: "Recognized by Digital India Awards",
-            },
-            {
-              icon: (
-                <TrendingUp className="h-16 w-16 text-primary mx-auto mb-4 text-blue-500" />
-              ),
-              title: "Fastest Growing Fintech",
-              desc: "200% year-on-year growth",
-            },
-            {
-              icon: (
-                <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4 text-blue-500" />
-              ),
-              title: "ISO 27001 Certified",
-              desc: "International security standards",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="bg-white p-8 rounded-lg text-center shadow-md"
-            >
-              {item.icon}
-              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-muted-foreground">{item.desc}</p>
-            </div>
-          ))}
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-5">
+  {[
+    {
+      icon: (
+        <Award className="h-16 w-16 text-primary mx-auto mb-4 text-blue-500" />
+      ),
+      title: "Best E-Governance Platform 2023",
+      desc: "Recognized by Digital India Awards",
+    },
+    {
+      icon: (
+        <TrendingUp className="h-16 w-16 text-primary mx-auto mb-4 text-blue-500" />
+      ),
+      title: "Fastest Growing Fintech",
+      desc: "200% year-on-year growth",
+    },
+    {
+      icon: (
+        <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4 text-blue-500" />
+      ),
+      title: "ISO 27001 Certified",
+      desc: "International security standards",
+    },
+  ].map((item, i) => (
+    <div
+      key={i}
+      className="bg-white p-8 rounded-lg text-center shadow-md border border-blue-500"
+    >
+      {item.icon}
+      <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+      <p className="text-muted-foreground">{item.desc}</p>
+    </div>
+  ))}
+</div>
+
       </div>
 
       {/* Team Section */}
@@ -281,11 +283,11 @@ export default function About() {
             property rental services.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto ">
             {team.map((member, index) => (
               <div
                 key={index}
-                className="bg-white border rounded-lg p-6 shadow hover:shadow-lg transition"
+                className="bg-white border rounded-lg p-6 shadow hover:shadow-lg transition border border-blue-500"
               >
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-10 h-10 text-white" />

@@ -2,8 +2,8 @@
 export default function Head() {
   return (
     <>
-      <title>MintSurvey</title>
-      <link rel="icon" href="/Icon.png" />
+      <title>Shreerang Associate</title>
+      <link rel="icon" href="/L.png" />
       
     </>
   );

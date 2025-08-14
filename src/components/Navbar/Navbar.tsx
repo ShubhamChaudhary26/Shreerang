@@ -44,7 +44,7 @@ const Navbar = () => {
               <Home className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900 font-sans">
-              Shreerang <span className="text-blue-600">Rent</span>
+              Shreerang <span className="text-blue-600">Associate</span>
             </span>
           </Link>
 

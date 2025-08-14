@@ -20,12 +20,10 @@ const otpSchema: Schema = new Schema(
     },
     name: {
       type: String,
-      required: true,
       trim: true,
     },
     phone: {
       type: String,
-      required: true,
       trim: true,
     },
     otp: {
@@ -39,7 +37,6 @@ const otpSchema: Schema = new Schema(
     },
     expiresAt: {
       type: Date,
-      required: true,
     },
   },
   {

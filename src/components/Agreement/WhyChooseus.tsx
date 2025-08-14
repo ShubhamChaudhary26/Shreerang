@@ -45,20 +45,25 @@ const WhyChooseShreerang = () => {
       {/* How It Works */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
+  <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {processSteps.map(({ step, title, desc }) => (
-              <div key={step} className="bg-gray-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
-                <div className="w-12 h-12 rounded-full bg-blue-100 mx-auto flex items-center justify-center text-blue-600 font-bold text-lg">
-                  {step}
-                </div>
-                <h3 className="text-xl font-semibold mt-4 mb-2">{title}</h3>
-                <p className="text-gray-600">{desc}</p>
-              </div>
-            ))}
-          </div>
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    {processSteps.map(({ step, title, desc }) => (
+      <div
+        key={step}
+        className="bg-gray-50 rounded-2xl p-6 shadow hover:shadow-lg transition 
+                   border border-blue-300 hover:border-blue-500"
+      >
+        <div className="w-12 h-12 rounded-full bg-blue-100 mx-auto flex items-center justify-center text-blue-600 font-bold text-lg">
+          {step}
         </div>
+        <h3 className="text-xl font-semibold mt-4 mb-2">{title}</h3>
+        <p className="text-gray-600">{desc}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
       </section>
     </div>
   );
