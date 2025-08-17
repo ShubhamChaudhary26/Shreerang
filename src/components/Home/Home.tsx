@@ -11,6 +11,7 @@ import UploadImage from "./UploadImage";
 const Home = () => {
   return (
     <>
+    
         <HeroBanner />
         {/* <UploadImage /> */}
 

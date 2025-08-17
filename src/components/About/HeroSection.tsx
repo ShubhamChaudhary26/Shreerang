@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import WhoWeAreDescription from "./WhoAreDescription";
 import Image from "next/image";
+import ShreerangTestimonials from "../Home/Reviews";
 
 export default function About() {
   const values = [
@@ -300,7 +301,7 @@ export default function About() {
           </div>
         </div>
       </section>
-
+      <ShreerangTestimonials />
       {/* CTA Section */}
       <section className="py-10 bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
         <div className="container mx-auto px-4 text-center">

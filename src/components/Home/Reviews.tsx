@@ -113,16 +113,16 @@ export default function ShreerangTestimonials() {
             <Card
               key={idx}
               className={clsx(
-                "testimonial-card flex-shrink-0 snap-center items-center justify-center",
+                "testimonial-card flex-shrink-0 snap-center items-center justify-center mt-10",
                 "w-full max-w-[350px] h-[320px]",
                 "sm:w-[280px] sm:h-[340px]",
                 "lg:w-[350px] lg:h-auto",
-                "bg-white rounded-2xl mb-20 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
+                "bg-white  mb-20 shadow-lg 0 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
               )}
             >
-              <CardContent className="flex flex-col justify-between h-full">
+              <CardContent className="flex flex-col justify-between h-full border border-blue-500 rounded-md">
                 <div>
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center mb-4 ">
                     {[...Array(t.rating)].map((_, i) => (
                       <StarIcon
                         key={i}
@@ -134,7 +134,7 @@ export default function ShreerangTestimonials() {
                     &quot;{t.text}&quot;
                   </p>
                 </div>
-                <div className="text-center border-t pt-4">
+                <div className="text-center border-t border-blue-500 pt-4">
                   <p className="font-semibold text-lg text-gray-900">{t.name}</p>
                   <p className="text-sm text-primary font-medium">{t.designation}</p>
                   <p className="text-xs text-gray-500">{t.location}</p>

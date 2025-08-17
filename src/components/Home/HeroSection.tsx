@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Shield,
   FileText,
   Users,
   Key,
-  Home as HomeIcon,
-  FileCheck,
   ArrowRight,
 } from "lucide-react";
 import Head from "next/head";
@@ -24,17 +22,19 @@ function cn(...classes: (string | undefined | false)[]) {
 // --- Button component ---
 const Button = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string; size?: string; asChild?: boolean }
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: string;
+    size?: string;
+    asChild?: boolean;
+  }
 >(({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
-  const Comp = asChild ? React.Fragment : "button";
-
   const baseClasses =
     "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
 
   const variantClasses: Record<string, string> = {
     default: "bg-primary text-white hover:bg-primary/90 shadow-md",
     outline: "border border-gray-300 text-gray-700 hover:bg-gray-100",
-    premium: "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg",  // replaced yellow gradient with blue
+    premium: "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg",
   };
 
   const sizeClasses: Record<string, string> = {
@@ -49,10 +49,12 @@ const Button = React.forwardRef<
     className
   );
 
-  if (asChild) {
-    return React.Children.only(props.children)
-      ? React.cloneElement(props.children as React.ReactElement, { className: classes, ref, ...props })
-      : null;
+  if (asChild && props.children) {
+    return React.cloneElement(props.children as React.ReactElement, {
+      className: classes,
+      ref,
+      ...props,
+    });
   }
 
   return (
@@ -64,40 +66,64 @@ const Button = React.forwardRef<
 Button.displayName = "Button";
 
 // --- Card components ---
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("rounded-lg border border-gray-200 bg-white shadow-sm", className)}
-    {...props}
-  />
-));
+const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("rounded-lg border border-gray-200 bg-white shadow-sm", className)}
+      {...props}
+    />
+  )
+);
 Card.displayName = "Card";
 
-const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />
-));
+const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />
+  )
+);
 CardHeader.displayName = "CardHeader";
 
-const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(({ className, ...props }, ref) => (
-  <h3 ref={ref} className={cn("text-2xl font-semibold leading-none tracking-tight", className)} {...props} />
-));
+const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    <h3 ref={ref} className={cn("text-2xl font-semibold leading-none tracking-tight", className)} {...props} />
+  )
+);
 CardTitle.displayName = "CardTitle";
 
-const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(({ className, ...props }, ref) => (
-  <p ref={ref} className={cn("text-sm text-gray-600", className)} {...props} />
-));
+const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, ...props }, ref) => (
+    <p ref={ref} className={cn("text-sm text-gray-600", className)} {...props} />
+  )
+);
 CardDescription.displayName = "CardDescription";
 
-const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-));
+const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+  )
+);
 CardContent.displayName = "CardContent";
 
-
-
 // --- Main Home page ---
-
 export default function Home() {
+  // Hero background images
+  const heroImages = [
+  "https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=1470&q=80",
+  "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1470&q=80",
+  "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=1470&q=80",
+  // "https://unsplash.com/photos/white-and-red-wooden-house-miniature-on-brown-table-rgJ1J8SDEAY",
+];
+
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   const features = [
     {
       id: "trusted",
@@ -125,27 +151,9 @@ export default function Home() {
     },
   ];
 
-  const faqs = [
-    {
-      id: "faq1",
-      title: "Is the online agreement legally valid?",
-      content: "Yes, agreements are e-stamped and legally valid across India.",
-    },
-    {
-      id: "faq2",
-      title: "Do you offer doorstep service?",
-      content: "Absolutely. Our executive visits for biometric KYC and signing.",
-    },
-    {
-      id: "faq3",
-      title: "How long does it take?",
-      content: "Most agreements are completed within 24-72 hours.",
-    },
-  ];
-
   return (
     <>
-    <Head>
+      <Head>
         <title>Shreerang | Property Rental & Rent Agreements</title>
         <meta
           name="description"
@@ -157,17 +165,16 @@ export default function Home() {
         {/* Hero */}
         <section
           id="hero"
-          className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center"
+          className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center transition-all duration-1000"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=1470&q=80')",
+            backgroundImage: `url('${heroImages[currentImage]}')`,
           }}
         >
-          <div className="absolute inset-0 bg-blue-600 bg-opacity-70"></div> {/* blue overlay */}
+          <div className="absolute inset-0 bg-blue-600 bg-opacity-70"></div>
           <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 font-sans">
               Professional Property Rental <br />
-              <span className="text-yellow-300">& Agreement Services</span> {/* blue text */}
+              <span className="text-yellow-300">& Agreement Services</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
               Your trusted partner for hassle-free property rentals with comprehensive legal protection and expert guidance every step of the way.
@@ -180,8 +187,8 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button className="border border-gray-300   hover:bg-yellow-300"  size="lg" asChild>
-                <Link href="/login"  className="flex items-center gap-2 text-white " >
+              <Button className="border border-gray-300 hover:bg-yellow-300" size="lg" asChild>
+                <Link href="/login" className="flex items-center gap-2 text-white">
                   <Users className="w-5 h-5 text-white" />
                   Join Us
                 </Link>
@@ -189,6 +196,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+
         <MarqueeTicker />
 
         {/* Features Section */}
@@ -201,50 +209,45 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-  {features.map(({ id, icon: Icon, title, description }) => (
-    <Card
-      key={id}
-      className="hover:shadow-lg transition-shadow border-l-1 border-r-1 border-blue-500"
-    >
-      <CardHeader className="text-center">
-        <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-          <Icon className="w-8 h-8 text-blue-600" />
-        </div>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <CardDescription className="text-center">{description}</CardDescription>
-      </CardContent>
-    </Card>
-  ))}
-</div>
-
+              {features.map(({ id, icon: Icon, title, description }) => (
+                <Card key={id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader className="text-center">
+                    <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <Icon className="w-8 h-8 text-blue-600" />
+                    </div>
+                    <CardTitle>{title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-center">{description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 
-             <RentAgreementSlider />
-        
+        <RentAgreementSlider />
 
-       <FAQSection />
+        <FAQSection />
 
         {/* CTA Section */}
-        <section className="py-10 bg-blue-600 text-white text-center"> {/* blue bg */}
+        <section className="py-10 bg-blue-600 text-white text-center">
           <div className="max-w-4xl mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 font-sans">Ready to Get Started?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Contact us today for professional property rental services and legal agreements that protect your interests.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center ">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="premium" size="lg" asChild>
                 <Link href="/contact" className="flex items-center gap-2 justify-center">
                   <ArrowRight className="w-5 h-5" />
                   Contact Us
                 </Link>
               </Button>
-             <Button className="border border-gray-300   hover:bg-yellow-300"  size="lg" asChild>
-                <Link href="/agreement"  className="flex items-center gap-2 text-white " >
+              <Button className="border border-gray-300 hover:bg-yellow-300" size="lg" asChild>
+                <Link href="/agreement" className="flex items-center gap-2 text-white">
                   <Users className="w-5 h-5 text-white" />
-               Get Agreement Now
+                  Get Agreement Now
                 </Link>
               </Button>
             </div>
