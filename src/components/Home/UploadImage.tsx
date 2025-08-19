@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Upload, Image } from "lucide-react";
-import ReCAPTCHA from "react-google-recaptcha"; // ✅ ADD
 
 const DocumentUploadForm = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +14,6 @@ const DocumentUploadForm = () => {
     renterPan: null as File | null,
   });
 
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null); // ✅ reCAPTCHA
   const [errors, setErrors] = useState({ name: "", phone: "" });
   const [touched, setTouched] = useState({ name: false, phone: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,7 +60,7 @@ const DocumentUploadForm = () => {
   ) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      const maxSize = 2 * 1024 * 1024; // 2MB for all images
+      const maxSize = 2 * 1024 * 1024; // 2MB
       if (file.size > maxSize) {
         alert(`${fieldName} image must be less than 2MB`);
         return;
@@ -80,12 +78,6 @@ const DocumentUploadForm = () => {
       return;
     }
 
-    if (!captchaToken) {
-      alert("Please complete the reCAPTCHA.");
-      setIsSubmitting(false);
-      return;
-    }
-
     const data = new FormData();
     data.append("name", formData.name.trim());
     data.append("phone", formData.phone.trim());
@@ -94,9 +86,6 @@ const DocumentUploadForm = () => {
     if (formData.ownerIndex2) data.append("ownerIndex2", formData.ownerIndex2);
     if (formData.renterAadhar) data.append("renterAadhar", formData.renterAadhar);
     if (formData.renterPan) data.append("renterPan", formData.renterPan);
-
-    // ✅ Add captcha token
-    data.append("captcha", captchaToken);
 
     try {
       const res = await fetch("/api/document-upload", {
@@ -117,7 +106,6 @@ const DocumentUploadForm = () => {
           renterPan: null,
         });
         setTouched({ name: false, phone: false });
-        setCaptchaToken(null);
       } else {
         alert(result.message || "Upload failed");
       }
@@ -187,10 +175,7 @@ const DocumentUploadForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Full Name */}
             <div>
-              <label
-                htmlFor="name"
-                className="text-sm font-medium text-gray-800"
-              >
+              <label htmlFor="name" className="text-sm font-medium text-gray-800">
                 Full Name
               </label>
               <input
@@ -214,10 +199,7 @@ const DocumentUploadForm = () => {
 
             {/* Phone Number */}
             <div>
-              <label
-                htmlFor="phone"
-                className="text-sm font-medium text-gray-800"
-              >
+              <label htmlFor="phone" className="text-sm font-medium text-gray-800">
                 Phone Number
               </label>
               <input
@@ -256,14 +238,6 @@ const DocumentUploadForm = () => {
             <FileUploadField label="Renter PAN Card" fieldName="renterPan" />
           </div>
 
-          {/* ✅ reCAPTCHA */}
-          <div className="flex justify-center">
-            <ReCAPTCHA
-              sitekey="6LcMaKsrAAAAAGGtm4lNp7YkL7ZtSr-V-Sy12_-4"
-              onChange={(token) => setCaptchaToken(token)}
-            />
-          </div>
-
           {/* Submit Button */}
           <div className="flex justify-center">
             <button
@@ -273,16 +247,14 @@ const DocumentUploadForm = () => {
                 !!errors.phone ||
                 isSubmitting ||
                 !touched.name ||
-                !touched.phone ||
-                !captchaToken
+                !touched.phone
               }
               className={`flex items-center gap-2 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition-transform duration-300 ${
                 !!errors.name ||
                 !!errors.phone ||
                 isSubmitting ||
                 !touched.name ||
-                !touched.phone ||
-                !captchaToken
+                !touched.phone
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-900 hover:bg-blue-800 active:scale-95"
               }`}

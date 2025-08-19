@@ -14,7 +14,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Embed image in PDF
+// ✅ Helper: Embed image in PDF
 async function embedImageWithLabelFromURL(
   pdfDoc: PDFDocument,
   page,
@@ -45,7 +45,7 @@ async function embedImageWithLabelFromURL(
   return labelY - 40;
 }
 
-// Generate PDF & send email
+// ✅ Helper: Generate PDF & send mail
 async function processPDFandSendMail(newDoc) {
   const pdfDoc = await PDFDocument.create();
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -59,7 +59,6 @@ async function processPDFandSendMail(newDoc) {
   page1.drawText(`Phone: ${newDoc.phone}`, { x: 50, y, size: 16, font });
   y -= 40;
 
-  // Owner Docs
   if (newDoc.ownerAadhar) {
     y = await embedImageWithLabelFromURL(pdfDoc, page1, newDoc.ownerAadhar, "Owner Aadhar Card", y, 500, 500, font);
   }
@@ -71,8 +70,6 @@ async function processPDFandSendMail(newDoc) {
     const page3 = pdfDoc.addPage([595, 842]);
     await embedImageWithLabelFromURL(pdfDoc, page3, newDoc.ownerIndex2, "Owner Index 2 Photo Copy", 800, 500, 600, font);
   }
-
-  // Renter Docs
   if (newDoc.renterAadhar) {
     const page4 = pdfDoc.addPage([595, 842]);
     await embedImageWithLabelFromURL(pdfDoc, page4, newDoc.renterAadhar, "Renter Aadhar Card", 800, 500, 600, font);
@@ -86,12 +83,14 @@ async function processPDFandSendMail(newDoc) {
   const pdfBuffer = Buffer.from(pdfBytes);
 
   const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EmailUser,
-      pass: process.env.EmailPassword,
-    },
-  });
+  host: "smtp.gmail.com",
+  port: 465, // SSL
+  secure: true, // use SSL
+  auth: {
+    user: process.env.EmailUser,
+    pass: process.env.EmailPassword,
+  },
+});
 
   await transporter.sendMail({
     from: `"Shreerang" <${process.env.EmailUser}>`,
@@ -102,7 +101,7 @@ async function processPDFandSendMail(newDoc) {
   });
 }
 
-// Upload to Cloudinary
+// ✅ Helper: Upload to Cloudinary
 const uploadToCloudinary = async (file: File | null) => {
   if (!file) return "";
   const buffer = Buffer.from(await file.arrayBuffer());
@@ -115,6 +114,7 @@ const uploadToCloudinary = async (file: File | null) => {
   });
 };
 
+// ✅ API Route
 export async function POST(req: Request) {
   try {
     await connectDB();
@@ -122,42 +122,17 @@ export async function POST(req: Request) {
 
     const name = form.get("name") as string;
     const phone = form.get("phone") as string;
-    const recaptchaToken = form.get("g-recaptcha-response") as string; // ✅ frontend se milega
 
-    // ✅ Validate required fields
-    if (!name || !phone || !recaptchaToken) {
-      return NextResponse.json(
-        { success: false, error: "Missing fields or reCAPTCHA" },
-        { status: 400 }
-      );
+    if (!name || !phone) {
+      return NextResponse.json({ success: false, error: "Missing fields" }, { status: 400 });
     }
 
-    // ✅ Verify reCAPTCHA with Google
-    const verifyRes = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
-      }
-    );
-    const verifyData = await verifyRes.json();
-
-    if (!verifyData.success) {
-      return NextResponse.json(
-        { success: false, error: "Failed reCAPTCHA verification" },
-        { status: 400 }
-      );
-    }
-
-    // ✅ Upload files
     const ownerAadhar = await uploadToCloudinary(form.get("ownerAadhar") as File);
     const ownerPan = await uploadToCloudinary(form.get("ownerPan") as File);
     const ownerIndex2 = await uploadToCloudinary(form.get("ownerIndex2") as File);
     const renterAadhar = await uploadToCloudinary(form.get("renterAadhar") as File);
     const renterPan = await uploadToCloudinary(form.get("renterPan") as File);
 
-    // ✅ Save in DB
     const newDoc = await DocumentUpload.create({
       name,
       phone,
@@ -168,16 +143,11 @@ export async function POST(req: Request) {
       renterPan,
     });
 
-    // ✅ Send email & generate PDF asynchronously
     processPDFandSendMail(newDoc).catch(console.error);
 
     return NextResponse.json({ success: true, data: newDoc });
   } catch (error) {
     console.error("Error uploading document:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });
   }
 }
-
