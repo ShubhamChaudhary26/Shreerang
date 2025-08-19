@@ -83,7 +83,7 @@ const Footer = () => {
                 href="/login"
                 className="block text-gray-500 hover:text-blue-600 transition duration-300"
               >
-                Get-Started 
+                Get-Started
               </Link>
               <Link
                 href="/agreement"
@@ -113,22 +113,24 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900">Contact Info</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Contact Info
+            </h3>
             <div className="space-y-3 text-gray-500">
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-blue-600" />
-                <span>+1 (555) 123-4567</span>
+                <span>7498776389</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-blue-600" />
-                <span>info@shreerang.com</span>
+                <span>rentagreementwithus@gmail.com</span>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="w-4 h-4 text-blue-600 mt-0.5" />
                 <span>
-                  123 Business District
+                  Moshi Dudulgoan
                   <br />
-                  New York, NY 10001
+                  Pune 412105
                 </span>
               </div>
             </div>
@@ -136,8 +138,17 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-300 mt-12 pt-8 text-center">
-          <p className="text-gray-500">
-            © {currentYear} Shreerang. All rights reserved.
+          <p className="text-gray-500 text-center text-sm">
+            © {currentYear} Shreerang Associate. All rights reserved. | Made
+            with <span className="text-red-500">❤️</span> by{" "}
+            <a
+              href="https://www.shubh26.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              Shubh26
+            </a>
           </p>
         </div>
       </div>

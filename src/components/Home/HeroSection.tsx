@@ -112,7 +112,6 @@ export default function Home() {
   "https://images.unsplash.com/photo-1502672023488-70e25813eb80?auto=format&fit=crop&w=1470&q=80",
   "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=1470&q=80",
   "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?auto=format&fit=crop&w=1470&q=80",
-  // "https://unsplash.com/photos/white-and-red-wooden-house-miniature-on-brown-table-rgJ1J8SDEAY",
 ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -173,8 +172,8 @@ export default function Home() {
           <div className="absolute inset-0 bg-blue-600 bg-opacity-70"></div>
           <div className="relative z-10 max-w-4xl mx-auto px-4 text-center text-white">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 font-sans">
-              Professional Property Rental <br />
-              <span className="text-yellow-300">& Agreement Services</span>
+              Professional Property Rental 
+              <span className="text-yellow-300"> & Agreement Services</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
               Your trusted partner for hassle-free property rentals with comprehensive legal protection and expert guidance every step of the way.
