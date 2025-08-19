@@ -121,7 +121,7 @@ export async function POST(req: Request) {
     const form = await req.formData();
 
     // 🛡️ reCAPTCHA verification
-    const token = form.get("recaptcha") as string;
+    const token = form.get("captcha") as string; // instead of "recaptcha"
     if (!token) {
       return NextResponse.json({ success: false, error: "reCAPTCHA token missing" }, { status: 400 });
     }
