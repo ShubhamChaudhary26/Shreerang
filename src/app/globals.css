@@ -150,3 +150,37 @@ body {
   animation: textShimmer 3s linear infinite;
 }
 
+/* Color animation */
+@keyframes textColorChange {
+  0%   { color: #f90303; }   /* red */
+  25%  { color: #ffa200; }   /* amber */
+  50%  { color: #009d69; }   /* green */
+  75%  { color: #0062ff; }   /* blue */
+  100% { color: #4c00ff; }   /* purple */
+}
+
+/* Pulse + Scale */
+@keyframes textPulse {
+  0%, 100% { transform: scale(1); text-shadow: none; }
+  50%      { transform: scale(1.1);  }
+}
+
+/* Combine both animations */
+.animate-text-combo {
+  animation: textColorChange 4s infinite alternate, textPulse 1.8s infinite ease-in-out;
+}
+
+/* Telephone ring animation */
+@keyframes phoneRing {
+  0%   { transform: rotate(0deg); }
+  20%  { transform: rotate(-20deg); }
+  40%  { transform: rotate(20deg); }
+  60%  { transform: rotate(-15deg); }
+  80%  { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.animate-phone {
+  display: inline-block;
+  animation: phoneRing 1.2s infinite ease-in-out;
+}

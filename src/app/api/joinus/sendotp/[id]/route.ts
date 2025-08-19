@@ -48,15 +48,15 @@ export async function POST(request: Request) {
     const mailOptions = {
   from: process.env.EmailUser,
   to: email,
-  subject: 'Your OTP Code for Login - Shreerang Rent Agreement',
+  subject: 'Your OTP Code for Login - Shreerang Associate',
   html: `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-      <h2>Hello from Shreerang!</h2>
+      <h2>Hello from Shreerang Associate!</h2>
       <p>Your OTP code to access the Rent Agreement service is: <strong>${otp}</strong></p>
       <p>This OTP will expire in 5 minutes.</p>
       <p>Please enter this code to proceed with your rent agreement.</p>
       <p>Thank you,</p>
-      <p>Shreerang Team</p>
+      <p>Shreerang Associate Team</p>
     </div>
   `,
 };

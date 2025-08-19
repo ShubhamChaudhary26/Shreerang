@@ -44,31 +44,11 @@ export default function About() {
     },
   ];
 
-  const team = [
-    {
-      name: "David Thompson",
-      role: "Founder & CEO",
-      description:
-        "15+ years in real estate and property law, dedicated to simplifying property rentals.",
-    },
-    {
-      name: "Lisa Rodriguez",
-      role: "Legal Director",
-      description:
-        "Expert in property law with 12+ years of experience in rental agreements and contracts.",
-    },
-    {
-      name: "Mark Johnson",
-      role: "Property Manager",
-      description:
-        "Specialist in property management with extensive knowledge of the rental market.",
-    },
-  ];
+
 
   const achievements = [
-    { number: "5000+", label: "Happy Clients" },
-    { number: "10+", label: "Years Experience" },
-    { number: "15000+", label: "Agreements Created" },
+    { number: "100%", label: "Happy Clients" },
+    { number: "5+", label: "Years Experience" },
     { number: "99%", label: "Client Satisfaction" },
   ];
 
@@ -133,7 +113,7 @@ export default function About() {
             involved.
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {achievements.map((achievement, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
@@ -182,7 +162,7 @@ export default function About() {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
             <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
               <p>
-                Founded in 2013, Shreerang began with a simple mission: to make
+                Founded in 2020, Shreerang began with a simple mission: to make
                 property rental services more accessible, transparent, and
                 secure for everyone. Our founder, David Thompson, experienced
                 firsthand the complexities and challenges of traditional
@@ -275,32 +255,7 @@ export default function About() {
 
       </div>
 
-      {/* Team Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our Team</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
-            Experienced professionals dedicated to providing exceptional
-            property rental services.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto ">
-            {team.map((member, index) => (
-              <div
-                key={index}
-                className="bg-white border rounded-lg p-6 shadow hover:shadow-lg transition border border-blue-500"
-              >
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold">{member.name}</h3>
-                <p className="text-blue-600 font-medium">{member.role}</p>
-                <p className="text-gray-600 mt-2">{member.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
       <ShreerangTestimonials />
       {/* CTA Section */}
       <section className="py-10 bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
@@ -324,7 +279,7 @@ export default function About() {
               className="flex items-center justify-center gap-2 border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition"
             >
               <Phone className="w-5 h-5" />
-              Call (555) 123-4567
+             +91 7498776389
             </a>
           </div>
         </div>

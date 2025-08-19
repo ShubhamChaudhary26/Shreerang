@@ -3,9 +3,11 @@ import mongoose, { Schema, Model, Document } from "mongoose";
 export interface IDocumentUpload {
   name: string;
   phone: string;
-  aadharCard: string;
-  panCard: string;
-  agreementImage: string;
+  ownerAadhar: string;
+  ownerPan: string;
+  ownerIndex2: string;
+  renterAadhar: string;
+  renterPan: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -16,9 +18,11 @@ const DocumentUploadSchema = new Schema<DocumentUploadDocument>(
   {
     name: { type: String, required: true },
     phone: { type: String, required: true },
-    aadharCard: { type: String, required: true },
-    panCard: { type: String, required: true },
-    agreementImage: { type: String, required: true },
+    ownerAadhar: { type: String, required: true },
+    ownerPan: { type: String, required: true },
+    ownerIndex2: { type: String, required: true },
+    renterAadhar: { type: String, required: true },
+    renterPan: { type: String, required: true },
   },
   { timestamps: true }
 );

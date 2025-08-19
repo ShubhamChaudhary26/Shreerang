@@ -25,7 +25,7 @@ const Footer = () => {
                 <Home className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-gray-900 font-sans">
-                Shreerang <span className="text-blue-600">Rent</span>
+                Shreerang <span className="text-blue-600">Associate</span>
               </span>
             </Link>
             <p className="text-gray-500 leading-relaxed">
@@ -119,7 +119,7 @@ const Footer = () => {
             <div className="space-y-3 text-gray-500">
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-blue-600" />
-                <span>7498776389</span>
+                <span> +91 7498776389</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-blue-600" />

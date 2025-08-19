@@ -1,17 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Upload, FileText, Image } from "lucide-react";
+import { Upload, Image } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha"; // ✅ ADD
 
 const DocumentUploadForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    aadharCard: null as File | null,
-    panCard: null as File | null,
-    agreementImage: null as File | null,
+    ownerAadhar: null as File | null,
+    ownerPan: null as File | null,
+    ownerIndex2: null as File | null,
+    renterAadhar: null as File | null,
+    renterPan: null as File | null,
   });
 
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null); // ✅ reCAPTCHA
   const [errors, setErrors] = useState({ name: "", phone: "" });
   const [touched, setTouched] = useState({ name: false, phone: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,14 +62,9 @@ const DocumentUploadForm = () => {
   ) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      const maxSize =
-        fieldName === "agreementImage" ? 5 * 1024 * 1024 : 2 * 1024 * 1024;
+      const maxSize = 2 * 1024 * 1024; // 2MB for all images
       if (file.size > maxSize) {
-        alert(
-          `${fieldName === "agreementImage" ? "Agreement" : "Image"} file size should be less than ${
-            fieldName === "agreementImage" ? "5MB" : "2MB"
-          }`
-        );
+        alert(`${fieldName} image must be less than 2MB`);
         return;
       }
     }
@@ -81,12 +80,23 @@ const DocumentUploadForm = () => {
       return;
     }
 
+    if (!captchaToken) {
+      alert("Please complete the reCAPTCHA.");
+      setIsSubmitting(false);
+      return;
+    }
+
     const data = new FormData();
     data.append("name", formData.name.trim());
     data.append("phone", formData.phone.trim());
-    if (formData.aadharCard) data.append("aadharCard", formData.aadharCard);
-    if (formData.panCard) data.append("panCard", formData.panCard);
-    if (formData.agreementImage) data.append("agreementImage", formData.agreementImage);
+    if (formData.ownerAadhar) data.append("ownerAadhar", formData.ownerAadhar);
+    if (formData.ownerPan) data.append("ownerPan", formData.ownerPan);
+    if (formData.ownerIndex2) data.append("ownerIndex2", formData.ownerIndex2);
+    if (formData.renterAadhar) data.append("renterAadhar", formData.renterAadhar);
+    if (formData.renterPan) data.append("renterPan", formData.renterPan);
+
+    // ✅ Add captcha token
+    data.append("captcha", captchaToken);
 
     try {
       const res = await fetch("/api/document-upload", {
@@ -100,13 +110,16 @@ const DocumentUploadForm = () => {
         setFormData({
           name: "",
           phone: "",
-          aadharCard: null,
-          panCard: null,
-          agreementImage: null,
+          ownerAadhar: null,
+          ownerPan: null,
+          ownerIndex2: null,
+          renterAadhar: null,
+          renterPan: null,
         });
         setTouched({ name: false, phone: false });
+        setCaptchaToken(null);
       } else {
-        alert("Upload failed");
+        alert(result.message || "Upload failed");
       }
     } catch (error) {
       alert("Error submitting the form. Please try again.");
@@ -118,13 +131,9 @@ const DocumentUploadForm = () => {
   const FileUploadField = ({
     label,
     fieldName,
-    icon: Icon,
-    accept,
   }: {
     label: string;
     fieldName: keyof typeof formData;
-    icon: any;
-    accept: string;
   }) => (
     <div className="space-y-2">
       <label htmlFor={fieldName} className="text-sm font-medium text-gray-800">
@@ -134,7 +143,7 @@ const DocumentUploadForm = () => {
         <input
           id={fieldName}
           type="file"
-          accept={accept}
+          accept="image/*"
           onChange={(e) => handleFileChange(e, fieldName)}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
@@ -146,11 +155,11 @@ const DocumentUploadForm = () => {
           }`}
         >
           <div className="pointer-events-none">
-            <Icon className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+            <Image className="mx-auto h-8 w-8 text-gray-400 mb-2" />
             <p className="text-sm text-gray-600">
               {formData[fieldName]
                 ? (formData[fieldName] as File).name
-                : `Click to upload ${label.toLowerCase()}`}
+                : `Click to upload ${label}`}
             </p>
           </div>
         </div>
@@ -159,21 +168,29 @@ const DocumentUploadForm = () => {
   );
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="agreement">
+    <div
+      className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+      id="agreement"
+    >
       <div className="bg-white shadow-none md:shadow-sm rounded-2xl p-6 sm:p-10 lg:p-12 border border-gray-100">
         <div className="text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
             Rent Agreement Document Submission
           </h2>
           <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
-            Please fill in your details and upload the required documents. Our team will contact you shortly.
+            Please fill in your details and upload the required documents. Our
+            team will contact you shortly.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Full Name */}
             <div>
-              <label htmlFor="name" className="text-sm font-medium text-gray-800">
+              <label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-800"
+              >
                 Full Name
               </label>
               <input
@@ -185,7 +202,9 @@ const DocumentUploadForm = () => {
                 onChange={handleInputChange}
                 onBlur={() => handleBlur("name")}
                 className={`w-full mt-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 transition ${
-                  touched.name && errors.name ? "border-red-500" : "border-gray-300"
+                  touched.name && errors.name
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
               {touched.name && errors.name && (
@@ -193,8 +212,12 @@ const DocumentUploadForm = () => {
               )}
             </div>
 
+            {/* Phone Number */}
             <div>
-              <label htmlFor="phone" className="text-sm font-medium text-gray-800">
+              <label
+                htmlFor="phone"
+                className="text-sm font-medium text-gray-800"
+              >
                 Phone Number
               </label>
               <input
@@ -207,7 +230,9 @@ const DocumentUploadForm = () => {
                 onBlur={() => handleBlur("phone")}
                 maxLength={10}
                 className={`w-full mt-1 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800 transition ${
-                  touched.phone && errors.phone ? "border-red-500" : "border-gray-300"
+                  touched.phone && errors.phone
+                    ? "border-red-500"
+                    : "border-gray-300"
                 }`}
               />
               {touched.phone && errors.phone && (
@@ -216,25 +241,55 @@ const DocumentUploadForm = () => {
             </div>
           </div>
 
+          {/* Owner Docs */}
+          <h3 className="text-lg font-semibold text-gray-700">Owner Documents</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FileUploadField label="Aadhar Card Image" fieldName="aadharCard" icon={Image} accept="image/*" />
-            <FileUploadField label="PAN Card Image" fieldName="panCard" icon={Image} accept="image/*" />
-            <FileUploadField label="Agreement Document" fieldName="agreementImage" icon={FileText} accept="application/pdf,image/*" />
+            <FileUploadField label="Owner Aadhar Card" fieldName="ownerAadhar" />
+            <FileUploadField label="Owner PAN Card" fieldName="ownerPan" />
+            <FileUploadField label="Owner Index 2 Photo Copy" fieldName="ownerIndex2" />
           </div>
 
+          {/* Renter Docs */}
+          <h3 className="text-lg font-semibold text-gray-700">Renter Documents</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <FileUploadField label="Renter Aadhar Card" fieldName="renterAadhar" />
+            <FileUploadField label="Renter PAN Card" fieldName="renterPan" />
+          </div>
+
+          {/* ✅ reCAPTCHA */}
+          <div className="flex justify-center">
+            <ReCAPTCHA
+              sitekey="6LcMaKsrAAAAAGGtm4lNp7YkL7ZtSr-V-Sy12_-4"
+              onChange={(token) => setCaptchaToken(token)}
+            />
+          </div>
+
+          {/* Submit Button */}
           <div className="flex justify-center">
             <button
               type="submit"
               disabled={
-                !!errors.name || !!errors.phone || isSubmitting || !touched.name || !touched.phone
+                !!errors.name ||
+                !!errors.phone ||
+                isSubmitting ||
+                !touched.name ||
+                !touched.phone ||
+                !captchaToken
               }
               className={`flex items-center gap-2 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition-transform duration-300 ${
-                !!errors.name || !!errors.phone || isSubmitting || !touched.name || !touched.phone
+                !!errors.name ||
+                !!errors.phone ||
+                isSubmitting ||
+                !touched.name ||
+                !touched.phone ||
+                !captchaToken
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-900 hover:bg-blue-800 active:scale-95"
               }`}
             >
-              <Upload className={`h-5 w-5 ${isSubmitting ? "animate-spin" : ""}`} />
+              <Upload
+                className={`h-5 w-5 ${isSubmitting ? "animate-spin" : ""}`}
+              />
               {isSubmitting ? "Submitting..." : "Submit Documents"}
             </button>
           </div>

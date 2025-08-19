@@ -159,108 +159,130 @@ const LoginPage: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80 -z-10" />
 
       {/* Form */}
-      <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 space-y-6 border border-gray-200 relative z-10">
-        <h2 className="text-3xl font-bold text-center text-gray-900">Get Started</h2>
+    <div className="w-full max-w-md bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 space-y-6 border border-gray-200 relative z-10">
+  <h2 className="text-3xl font-bold text-center text-gray-900">Get Started</h2>
 
-        <div className="space-y-4">
-          {/* Full Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={handleNameChange}
-              readOnly={otpSent}
-              placeholder="Enter your full name"
-              disabled={otpSent || loading}
-              className="w-full rounded-lg border border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-            />
+  {/* Contact Info Section */}
+ <div className="text-center">
+  <p className="flex flex-wrap items-center justify-center gap-2 font-semibold text-gray-800 text-base sm:text-lg">
+    <span className="animate-phone">📞</span> Need Help? Call Now:
+    <a
+      href="tel:+919876543210"
+      className=" font-bold px-2 text-base sm:text-lg animate-text-combo "
+    >
+      +91 98765 43210
+    </a>
+  </p>
+</div>
+
+
+
+
+
+
+
+
+
+  <div className="space-y-4">
+    {/* Full Name */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+      <input
+        type="text"
+        value={name}
+        onChange={handleNameChange}
+        readOnly={otpSent}
+        placeholder="Enter your full name"
+        disabled={otpSent || loading}
+        className="w-full rounded-lg border border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+      />
+    </div>
+
+    {/* Phone */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+      <input
+        type="tel"
+        value={phone}
+        onChange={handlePhoneChange}
+        readOnly={otpSent}
+        placeholder="Enter your phone number"
+        disabled={otpSent || loading}
+        className="w-full rounded-lg border border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+      />
+    </div>
+
+    {/* Email */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+      <input
+        type="email"
+        value={email}
+        onChange={handleEmailChange}
+        readOnly={otpSent}
+        placeholder="Enter your email"
+        disabled={otpSent || loading}
+        className="w-full rounded-lg border border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
+      />
+    </div>
+
+    {/* Buttons */}
+    {!otpSent ? (
+      <button
+        onClick={handleGetOtp}
+        disabled={loading || !email || !name.trim() || !phone.trim() || !validateEmailFull(email)}
+        className="w-full py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {loading ? "Sending OTP..." : "Get OTP"}
+      </button>
+    ) : (
+      <>
+        {/* OTP Input */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Enter OTP</label>
+          <div className="flex justify-between mt-2 gap-2">
+            {otpDigits.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                value={digit}
+                onChange={(e) => handleOtpDigitChange(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                maxLength={1}
+                ref={(el) => {
+                  otpInputRefs.current[index] = el;
+                }}
+                placeholder="-"
+                disabled={loading}
+                className="w-12 h-12 text-center text-lg font-semibold border rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
+              />
+            ))}
           </div>
-
-          {/* Phone */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-            <input
-              type="tel"
-              value={phone}
-              onChange={handlePhoneChange}
-              readOnly={otpSent}
-              placeholder="Enter your phone number"
-              disabled={otpSent || loading}
-              className="w-full rounded-lg border border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-            />
-          </div>
-
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={handleEmailChange}
-              readOnly={otpSent}
-              placeholder="Enter your email"
-              disabled={otpSent || loading}
-              className="w-full rounded-lg border border-gray-300 shadow-sm p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-            />
-          </div>
-
-          {/* Buttons */}
-          {!otpSent ? (
-            <button
-              onClick={handleGetOtp}
-              disabled={loading || !email || !name.trim() || !phone.trim() || !validateEmailFull(email)}
-              className="w-full py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? "Sending OTP..." : "Get OTP"}
-            </button>
-          ) : (
-            <>
-              {/* OTP Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Enter OTP</label>
-                <div className="flex justify-between mt-2 gap-2">
-                  {otpDigits.map((digit, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      value={digit}
-                      onChange={(e) => handleOtpDigitChange(e, index)}
-                      onKeyDown={(e) => handleKeyDown(e, index)}
-                      maxLength={1}
-                      ref={(el) => {
-                        otpInputRefs.current[index] = el;
-                      }}
-                      placeholder="-"
-                      disabled={loading}
-                      className="w-12 h-12 text-center text-lg font-semibold border rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <button
-                onClick={handleVerifyOtp}
-                disabled={loading || !isOtpComplete}
-                className="w-full py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? "Verifying..." : "Login"}
-              </button>
-            </>
-          )}
-
-          {/* Messages */}
-          {(error || otpError || (success && otpSent)) && (
-            <div className="mt-2 text-center">
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              {otpError && <p className="text-red-500 text-sm">{otpError}</p>}
-              {success && otpSent && !otpError && (
-                <p className="text-green-600 text-sm font-semibold">{success}</p>
-              )}
-            </div>
-          )}
         </div>
+
+        <button
+          onClick={handleVerifyOtp}
+          disabled={loading || !isOtpComplete}
+          className="w-full py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Verifying..." : "Login"}
+        </button>
+      </>
+    )}
+
+    {/* Messages */}
+    {(error || otpError || (success && otpSent)) && (
+      <div className="mt-2 text-center">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {otpError && <p className="text-red-500 text-sm">{otpError}</p>}
+        {success && otpSent && !otpError && (
+          <p className="text-green-600 text-sm font-semibold">{success}</p>
+        )}
       </div>
+    )}
+  </div>
+</div>
+
     </div>
   );
 };

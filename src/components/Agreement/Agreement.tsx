@@ -146,7 +146,6 @@ const Accordion = ({ items }: { items: AccordionItemType[] }) => {
   );
 };
 
-
 // --- Main Page ---
 export default function RegistrationAgreement() {
   const [aadhar, setAadhar] = useState<File | null>(null);
@@ -200,93 +199,90 @@ export default function RegistrationAgreement() {
   return (
     <div className="min-h-screen bg-gray-50 ">
       {/* Hero */}
-  <section className="relative py-20 text-white overflow-hidden">
-      {/* Background Image */}
-       <div className="absolute inset-0">
-              <Image
-                src="/hero-property.jpg" // public folder me image ka path
-                alt="Property Background"
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-              />
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-indigo-600/80"></div>
-            </div>
+      <section className="relative py-20 text-white overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image
+            src="/hero-property.jpg" // public folder me image ka path
+            alt="Property Background"
+            fill
+            style={{ objectFit: "cover" }}
+            priority
+          />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-indigo-600/80"></div>
+        </div>
 
         {/* Gradient Overlay */}
-      <div className="relative container mx-auto px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">
-          Rent Agreement Document Submission
-        </h1>
+        <div className="relative container mx-auto px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Rent Agreement Document Submission
+          </h1>
 
-        <p className="text-xl max-w-3xl mx-auto leading-relaxed">
-          Fast, secure and fully compliant. Upload Aadhaar, PAN and your
-          agreement PDF to get started.
-        </p>
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed">
+            Fast, secure and fully compliant. Upload Aadhaar, PAN and your
+            agreement PDF to get started.
+          </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-8">
-          <Link href="/agreement#agreement">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-6 rounded shadow-lg transition">
-              Create Agreement Now
-            </button>
-          </Link>
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-8">
+            <Link href="/agreement#agreement">
+              <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-6 rounded shadow-lg transition">
+                Create Agreement Now
+              </button>
+            </Link>
 
-          <Link href="/agreement#faq">
-            <button className="bg-white text-blue-600 font-semibold py-2 px-6 rounded shadow transition hover:bg-gray-100">
-              View FAQs
-            </button>
-          </Link>
+            <Link href="/agreement#faq">
+              <button className="bg-white text-blue-600 font-semibold py-2 px-6 rounded shadow transition hover:bg-gray-100">
+                View FAQs
+              </button>
+            </Link>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Form */}
-    <DocumentUploadForm />
+      {/* Form */}
+      <DocumentUploadForm />
 
       <WhyChooseShreerang />
       {/* FAQs */}
       <section className="py-16 bg-gray-100" id="faq">
-  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 className="text-2xl sm:text-3xl font-semibold mb-8 text-center">
-      Frequently Asked Questions
-    </h2>
-    <div className="w-full">
-      <Accordion items={faqs} />
-    </div>
-  </div>
-</section>
-
-
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-8 text-center">
+            Frequently Asked Questions
+          </h2>
+          <div className="w-full">
+            <Accordion items={faqs} />
+          </div>
+        </div>
+      </section>
 
       <section className="py-10 bg-gradient-to-r from-blue-700 to-indigo-600 text-white">
-              <div className="container mx-auto px-4 text-center">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Ready to Work With Us?
-                </h2>
-                <p className="text-xl mb-8 max-w-2xl mx-auto">
-                  Let our experienced team help you with all your property rental and
-                  legal documentation needs.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link
-                    href="/login"
-                    className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-medium hover:bg-yellow-500 transition"
-                  >
-                    Get Started Today
-                  </Link>
-                  <a
-                    href="tel:5551234567"
-                    className="flex items-center justify-center gap-2 border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition"
-                  >
-                    <Phone className="w-5 h-5" />
-                    Call (555) 123-4567
-                  </a>
-                </div>
-              </div>
-            </section>
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Ready to Work With Us?
+          </h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Let our experienced team help you with all your property rental and
+            legal documentation needs.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/login"
+              className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-medium hover:bg-yellow-500 transition"
+            >
+              Get Started Today
+            </Link>
+            <a
+              href="tel:5551234567"
+              className="flex items-center justify-center gap-2 border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-700 transition"
+            >
+              <Phone className="w-5 h-5" />
+              +91 7498776389
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
-    
   );
 }

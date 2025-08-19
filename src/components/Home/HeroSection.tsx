@@ -65,7 +65,6 @@ const Button = React.forwardRef<
 });
 Button.displayName = "Button";
 
-// --- Card components ---
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
@@ -179,17 +178,17 @@ export default function Home() {
               Your trusted partner for hassle-free property rentals with comprehensive legal protection and expert guidance every step of the way.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="premium" size="lg" asChild>
+              <Button className="bg-yellow-400" size="lg" asChild>
                 <Link href="/agreement" className="flex items-center gap-2">
                   <FileText className="w-5 h-5" />
                   Get Agreement Now
-                  <ArrowRight className="w-5 h-5" />
+                  
                 </Link>
               </Button>
-              <Button className="border border-gray-300 hover:bg-yellow-300" size="lg" asChild>
+              <Button className="border border-gray-300 hover:bg-blue-600 transition-colors duration-300" size="lg" asChild>
                 <Link href="/login" className="flex items-center gap-2 text-white">
                   <Users className="w-5 h-5 text-white" />
-                  Join Us
+                  Call Us For Your Rent Agreement
                 </Link>
               </Button>
             </div>
