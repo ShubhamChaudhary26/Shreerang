@@ -83,14 +83,14 @@ async function processPDFandSendMail(newDoc) {
   const pdfBuffer = Buffer.from(pdfBytes);
 
   const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465, // SSL
-  secure: true, // use SSL
-  auth: {
-    user: process.env.EmailUser,
-    pass: process.env.EmailPassword,
-  },
-});
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EmailUser,
+      pass: process.env.EmailPassword,
+    },
+  });
 
   await transporter.sendMail({
     from: `"Shreerang" <${process.env.EmailUser}>`,
@@ -120,6 +120,24 @@ export async function POST(req: Request) {
     await connectDB();
     const form = await req.formData();
 
+    // 🛡️ reCAPTCHA verification
+    const token = form.get("recaptcha") as string;
+    if (!token) {
+      return NextResponse.json({ success: false, error: "reCAPTCHA token missing" }, { status: 400 });
+    }
+
+    const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+    });
+    const verifyData = await verifyRes.json();
+
+    if (!verifyData.success) {
+      return NextResponse.json({ success: false, error: "Invalid reCAPTCHA" }, { status: 400 });
+    }
+
+    // ✅ Continue normal process
     const name = form.get("name") as string;
     const phone = form.get("phone") as string;
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Upload, Image } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const DocumentUploadForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,9 @@ const DocumentUploadForm = () => {
   const [errors, setErrors] = useState({ name: "", phone: "" });
   const [touched, setTouched] = useState({ name: false, phone: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const validate = () => {
     let nameError = "";
@@ -78,9 +82,16 @@ const DocumentUploadForm = () => {
       return;
     }
 
+    if (!captchaToken) {
+      alert("Please complete the reCAPTCHA");
+      setIsSubmitting(false);
+      return;
+    }
+
     const data = new FormData();
     data.append("name", formData.name.trim());
     data.append("phone", formData.phone.trim());
+    data.append("captcha", captchaToken);
     if (formData.ownerAadhar) data.append("ownerAadhar", formData.ownerAadhar);
     if (formData.ownerPan) data.append("ownerPan", formData.ownerPan);
     if (formData.ownerIndex2) data.append("ownerIndex2", formData.ownerIndex2);
@@ -106,6 +117,8 @@ const DocumentUploadForm = () => {
           renterPan: null,
         });
         setTouched({ name: false, phone: false });
+        setCaptchaToken(null);
+        recaptchaRef.current?.reset();
       } else {
         alert(result.message || "Upload failed");
       }
@@ -238,6 +251,15 @@ const DocumentUploadForm = () => {
             <FileUploadField label="Renter PAN Card" fieldName="renterPan" />
           </div>
 
+          {/* reCAPTCHA */}
+          <div className="flex justify-center">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string}
+              onChange={(token) => setCaptchaToken(token)}
+              ref={recaptchaRef}
+            />
+          </div>
+
           {/* Submit Button */}
           <div className="flex justify-center">
             <button
@@ -247,14 +269,16 @@ const DocumentUploadForm = () => {
                 !!errors.phone ||
                 isSubmitting ||
                 !touched.name ||
-                !touched.phone
+                !touched.phone ||
+                !captchaToken
               }
               className={`flex items-center gap-2 text-white text-lg font-semibold py-3 px-8 rounded-xl shadow-lg transition-transform duration-300 ${
                 !!errors.name ||
                 !!errors.phone ||
                 isSubmitting ||
                 !touched.name ||
-                !touched.phone
+                !touched.phone ||
+                !captchaToken
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-900 hover:bg-blue-800 active:scale-95"
               }`}
