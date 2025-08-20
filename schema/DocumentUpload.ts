@@ -1,34 +1,60 @@
-import mongoose, { Schema, Model, Document } from "mongoose";
+import mongoose, { Schema, Document, Model, models } from "mongoose";
 
-export interface IDocumentUpload {
+export interface IDocumentUpload extends Document {
   name: string;
   phone: string;
-  ownerAadhar: string;
-  ownerPan: string;
-  ownerIndex2: string;
-  renterAadhar: string;
-  renterPan: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+
+  ownerAadhar?: string; // URL
+  ownerPan?: string;    // URL
+  ownerIndex2?: string; // URL
+  renterAadhar?: string;// URL
+  renterPan?: string;   // URL
+
+  // OCR raw text
+  ownerAadharText?: string;
+  ownerPanText?: string;
+  ownerIndex2Text?: string;
+  renterAadharText?: string;
+  renterPanText?: string;
+
+  // Parsed (clean) fields
+  ownerAadharNumber?: string;
+  ownerPanNumber?: string;
+  renterAadharNumber?: string;
+  renterPanNumber?: string;
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export type DocumentUploadDocument = IDocumentUpload & Document;
-
-const DocumentUploadSchema = new Schema<DocumentUploadDocument>(
+const DocumentUploadSchema = new Schema<IDocumentUpload>(
   {
     name: { type: String, required: true },
     phone: { type: String, required: true },
-    ownerAadhar: { type: String, required: true },
-    ownerPan: { type: String, required: true },
-    ownerIndex2: { type: String, required: true },
-    renterAadhar: { type: String, required: true },
-    renterPan: { type: String, required: true },
+
+    ownerAadhar: String,
+    ownerPan: String,
+    ownerIndex2: String,
+    renterAadhar: String,
+    renterPan: String,
+
+    ownerAadharText: String,
+    ownerPanText: String,
+    ownerIndex2Text: String,
+    renterAadharText: String,
+    renterPanText: String,
+
+    ownerAadharNumber: String,
+    ownerPanNumber: String,
+    renterAadharNumber: String,
+    renterPanNumber: String,
   },
   { timestamps: true }
 );
 
-const DocumentUpload: Model<DocumentUploadDocument> =
-  mongoose.models.DocumentUpload ||
-  mongoose.model<DocumentUploadDocument>("DocumentUpload", DocumentUploadSchema);
+// 👇 Cast properly to Model<IDocumentUpload>
+const DocumentUpload: Model<IDocumentUpload> =
+  (models.DocumentUpload as Model<IDocumentUpload>) ||
+  mongoose.model<IDocumentUpload>("DocumentUpload", DocumentUploadSchema);
 
 export default DocumentUpload;
