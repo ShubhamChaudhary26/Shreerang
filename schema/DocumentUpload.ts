@@ -1,46 +1,34 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Schema, Model, Document } from "mongoose";
 
-// plain object interface (lean() ke liye)
 export interface IDocumentUpload {
   name: string;
   phone: string;
-  ownerAadhar?: string;
-  ownerPan?: string;
-  ownerIndex2?: string;
-  renterAadhar?: string;
-  renterPan?: string;
-  ownerAadharText?: string;
-  ownerPanText?: string;
-  ownerIndex2Text?: string;
-  renterAadharText?: string;
-  renterPanText?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  ownerAadhar: string;
+  ownerPan: string;
+  ownerIndex2: string;
+  renterAadhar: string;
+  renterPan: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-// mongoose document type (schema ke liye)
-export type IDocumentUploadDoc = IDocumentUpload & Document;
+export type DocumentUploadDocument = IDocumentUpload & Document;
 
-const DocumentUploadSchema = new Schema<IDocumentUploadDoc>(
+const DocumentUploadSchema = new Schema<DocumentUploadDocument>(
   {
     name: { type: String, required: true },
     phone: { type: String, required: true },
-    ownerAadhar: String,
-    ownerPan: String,
-    ownerIndex2: String,
-    renterAadhar: String,
-    renterPan: String,
-    ownerAadharText: String,
-    ownerPanText: String,
-    ownerIndex2Text: String,
-    renterAadharText: String,
-    renterPanText: String,
+    ownerAadhar: { type: String, required: true },
+    ownerPan: { type: String, required: true },
+    ownerIndex2: { type: String, required: true },
+    renterAadhar: { type: String, required: true },
+    renterPan: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-const DocumentUpload: Model<IDocumentUploadDoc> =
+const DocumentUpload: Model<DocumentUploadDocument> =
   mongoose.models.DocumentUpload ||
-  mongoose.model<IDocumentUploadDoc>("DocumentUpload", DocumentUploadSchema);
+  mongoose.model<DocumentUploadDocument>("DocumentUpload", DocumentUploadSchema);
 
 export default DocumentUpload;
