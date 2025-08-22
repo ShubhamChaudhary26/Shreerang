@@ -3,11 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import { Upload, Image } from "lucide-react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { ShieldCheck, Lock, Headset, Users } from "lucide-react";
 
 const DocumentUploadForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    rentAmount: "",
+    depositAmount: "",
     ownerAadhar: null as File | null,
     ownerPan: null as File | null,
     ownerIndex2: null as File | null,
@@ -15,8 +18,18 @@ const DocumentUploadForm = () => {
     renterPan: null as File | null,
   });
 
-  const [errors, setErrors] = useState({ name: "", phone: "" });
-  const [touched, setTouched] = useState({ name: false, phone: false });
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    rentAmount: "",
+    depositAmount: "",
+  });
+  const [touched, setTouched] = useState({
+    name: false,
+    phone: false,
+    rentAmount: false,
+    depositAmount: false,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
@@ -25,6 +38,8 @@ const DocumentUploadForm = () => {
   const validate = () => {
     let nameError = "";
     let phoneError = "";
+    let rentAmountError = "";
+    let depositAmountError = "";
 
     if (touched.name || isSubmitting) {
       if (!formData.name.trim()) {
@@ -42,8 +57,13 @@ const DocumentUploadForm = () => {
       }
     }
 
-    setErrors({ name: nameError, phone: phoneError });
-    return !(nameError || phoneError);
+    setErrors({
+      name: nameError,
+      phone: phoneError,
+      rentAmount: rentAmountError,
+      depositAmount: depositAmountError,
+    });
+    return !(nameError || phoneError || rentAmountError || depositAmountError);
   };
 
   useEffect(() => {
@@ -91,11 +111,15 @@ const DocumentUploadForm = () => {
     const data = new FormData();
     data.append("name", formData.name.trim());
     data.append("phone", formData.phone.trim());
+    data.append("rentAmount", formData.rentAmount.trim());
+    data.append("depositAmount", formData.depositAmount.trim());
+
     data.append("captcha", captchaToken);
     if (formData.ownerAadhar) data.append("ownerAadhar", formData.ownerAadhar);
     if (formData.ownerPan) data.append("ownerPan", formData.ownerPan);
     if (formData.ownerIndex2) data.append("ownerIndex2", formData.ownerIndex2);
-    if (formData.renterAadhar) data.append("renterAadhar", formData.renterAadhar);
+    if (formData.renterAadhar)
+      data.append("renterAadhar", formData.renterAadhar);
     if (formData.renterPan) data.append("renterPan", formData.renterPan);
 
     try {
@@ -110,13 +134,20 @@ const DocumentUploadForm = () => {
         setFormData({
           name: "",
           phone: "",
+          rentAmount: "",
+          depositAmount: "",
           ownerAadhar: null,
           ownerPan: null,
           ownerIndex2: null,
           renterAadhar: null,
           renterPan: null,
         });
-        setTouched({ name: false, phone: false });
+        setTouched({
+          name: false,
+          phone: false,
+          rentAmount: false,
+          depositAmount: false,
+        });
         setCaptchaToken(null);
         recaptchaRef.current?.reset();
       } else {
@@ -180,15 +211,54 @@ const DocumentUploadForm = () => {
           </h2>
           <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
             Please fill in your details and upload the required documents. Our
-            team will contact you shortly.
+            team will contact you.
           </p>
+          <div className="mt-6 text-gray-700 max-w-2xl mx-auto">
+            <div className="mt-6 text-gray-700 max-w-2xl mx-auto">
+              {/* Trust Points */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5  mb-4 text-green-600" />
+                  <p className="font-medium">१००% कायदेशीर मान्यता</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Lock className="w-5 h-5 mb-4 text-blue-600" />
+                  <p className="font-medium">सुरक्षित व गोपनीय</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Headset className="w-5 h-5 mb-4 text-yellow-600" />
+                  <p className="font-medium">समर्पित सहाय्य</p>
+                </div>
+              </div>
+
+              {/* Assurance Line */}
+              <p className="mt-4 text-sm text-gray-500 text-center">
+                आपली माहिती आमच्याकडे पूर्णपणे सुरक्षित आहे. आम्ही गोपनीयता जपतो
+                आणि सरकारी मान्यताप्राप्त भाडेकरार आपल्या दारापर्यंत पोहोचवतो.
+              </p>
+
+              {/* Extra Trust for Marathi Users */}
+              <div className="flex items-center gap-2 justify-center mt-3">
+                <p className="text-sm text-gray-600 text-center">
+                  हजारो समाधानी ग्राहकांनी आमच्यावर विश्वास ठेवला आहे. आम्ही
+                  पारदर्शक प्रक्रिया, कायदेशीर सुरक्षितता आणि जलद सेवा याची हमी
+                  देतो.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10" noValidate>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Full Name */}
             <div>
-              <label htmlFor="name" className="text-sm font-medium text-gray-800">
+              <label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-800"
+              >
                 Full Name
               </label>
               <input
@@ -212,13 +282,18 @@ const DocumentUploadForm = () => {
 
             {/* Phone Number */}
             <div>
-              <label htmlFor="phone" className="text-sm font-medium text-gray-800">
+              <label
+                htmlFor="phone"
+                className="text-sm font-medium text-gray-800"
+              >
                 Phone Number
               </label>
               <input
                 id="phone"
                 name="phone"
                 type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 placeholder="Enter your 10-digit phone number"
                 value={formData.phone}
                 onChange={handleInputChange}
@@ -234,20 +309,75 @@ const DocumentUploadForm = () => {
                 <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
               )}
             </div>
+
+            {/* Per Month Rent Amount */}
+            <div>
+              <label
+                htmlFor="rentAmount"
+                className="text-sm font-medium text-gray-800"
+              >
+                Per Month Rent Amount
+              </label>
+              <input
+                id="rentAmount"
+                name="rentAmount"
+                type="number"
+                inputMode="numeric"
+                placeholder="Enter rent amount"
+                value={formData.rentAmount}
+                onChange={handleInputChange}
+                onBlur={() => handleBlur("rentAmount")}
+                className="w-full mt-1 px-4 py-3 border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800 transition"
+              />
+            </div>
+
+            {/* Refundable Deposit Amount */}
+            <div>
+              <label
+                htmlFor="depositAmount"
+                className="text-sm font-medium text-gray-800"
+              >
+                Refundable Deposit Amount
+              </label>
+              <input
+                id="depositAmount"
+                name="depositAmount"
+                type="number"
+                inputMode="numeric"
+                placeholder="Enter deposit amount"
+                value={formData.depositAmount}
+                onChange={handleInputChange}
+                onBlur={() => handleBlur("depositAmount")}
+                className="w-full mt-1 px-4 py-3 border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800 transition"
+              />
+            </div>
           </div>
 
           {/* Owner Docs */}
-          <h3 className="text-lg font-semibold text-gray-700">Owner Documents</h3>
+          <h3 className="text-lg font-semibold text-gray-700">
+            Owner Documents
+          </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FileUploadField label="Owner Aadhar Card" fieldName="ownerAadhar" />
+            <FileUploadField
+              label="Owner Aadhar Card"
+              fieldName="ownerAadhar"
+            />
             <FileUploadField label="Owner PAN Card" fieldName="ownerPan" />
-            <FileUploadField label="Owner Index 2 Photo Copy" fieldName="ownerIndex2" />
+            <FileUploadField
+              label="Owner Index 2 Photo Copy"
+              fieldName="ownerIndex2"
+            />
           </div>
 
           {/* Renter Docs */}
-          <h3 className="text-lg font-semibold text-gray-700">Renter Documents</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FileUploadField label="Renter Aadhar Card" fieldName="renterAadhar" />
+          <h3 className="text-lg font-semibold text-gray-700">
+            Renter Documents
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 ">
+            <FileUploadField
+              label="Renter Aadhar Card"
+              fieldName="renterAadhar"
+            />
             <FileUploadField label="Renter PAN Card" fieldName="renterPan" />
           </div>
 

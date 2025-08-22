@@ -6,12 +6,15 @@ import connectDB from '@/lib/db';
 import OTP, { IOTP } from '@/schema/otp.schema';
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EmailUser,
     pass: process.env.EmailPassword,
   },
+  tls: { rejectUnauthorized: false }, // add this
 });
+
+
 
 export async function POST(request: Request) {
   await connectDB();
