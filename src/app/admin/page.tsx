@@ -96,7 +96,7 @@ const AdminDocumentsTable = () => {
 
   return (
     <div className="p-4 flex justify-center">
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-7xl">
         <h2 className="text-2xl font-bold mb-4">Uploaded Documents</h2>
 
         {isMobile ? (
@@ -104,59 +104,70 @@ const AdminDocumentsTable = () => {
             {documents.map((doc) => (
               <div
                 key={doc._id}
-                className="bg-white border rounded-lg shadow-md p-4 flex flex-col gap-2"
+                className="bg-white border rounded-lg shadow-md p-4 flex flex-col gap-2 "
               >
-                <div>
-                  <strong>Name:</strong> {doc.name || "-"}
+                <div className="text-center">
+                  <strong >Name:</strong> {doc.name || "-"}
                 </div>
-                <div>
+                <div className="text-center">
                   <strong>Phone:</strong> {doc.phone || "-"}
                 </div>
-                <div>
+                <div className="text-center">
                   <strong>Rent Amount:</strong> {doc.rentAmount || "-"}
                 </div>
-                <div>
+                <div className="text-center">
                   <strong>Deposit Amount:</strong> {doc.depositAmount || "-"}
                 </div>
-                <div>
-                  <strong>Owner Aadhar:</strong>{" "}
+                <div className="text-center">
+                  <div className="flex justify-center mt-2 mb-2">
                   {renderImageWithClick(
                     doc.ownerAadhar!,
                     doc._id + "_ownerAadhar",
                     "Owner Aadhar"
                   )}
+                  </div>
+                  <strong>Owner Aadhar</strong>{" "}
                 </div>
-                <div>
-                  <strong>Owner PAN:</strong>{" "}
-                  {renderImageWithClick(
-                    doc.ownerPan!,
-                    doc._id + "_ownerPan",
-                    "Owner PAN"
-                  )}
+                <div className="text-center">
+                  <div className="flex justify-center mt-2 mb-2">
+                    {renderImageWithClick(
+                      doc.ownerPan!,
+                      doc._id + "_ownerPan",
+                      "Owner PAN"
+                    )}
+                  </div>
+                    <strong>Owner PAN</strong>
                 </div>
-                <div>
-                  <strong>Owner Index2:</strong>{" "}
-                  {renderImageWithClick(
-                    doc.ownerIndex2!,
-                    doc._id + "_ownerIndex2",
-                    "Owner Index2"
-                  )}
+                <div className="text-center">
+                  <div className="flex justify-center mt-2 mb-2">
+                    {renderImageWithClick(
+                      doc.ownerIndex2!,
+                      doc._id + "_ownerIndex2",
+                      "Owner Index2"
+                    )}
+                  </div>
+                    <strong>Owner Index2</strong>{" "}
                 </div>
-                <div>
-                  <strong>Renter Aadhar:</strong>{" "}
-                  {renderImageWithClick(
-                    doc.renterAadhar!,
-                    doc._id + "_renterAadhar",
-                    "Renter Aadhar"
-                  )}
+                <div className="text-center">
+                  <div className="flex justify-center mt-2 mb-2">
+                    {renderImageWithClick(
+                      doc.renterAadhar!,
+                      doc._id + "_renterAadhar",
+                      "Renter Aadhar"
+                    )}
+                  </div>
+                    <strong>Renter Aadhar</strong>{" "}
                 </div>
-                <div>
-                  <strong>Renter PAN:</strong>{" "}
+                <div className="text-center">
+                  <div className="flex justify-center mt-2 mb-2">
+
                   {renderImageWithClick(
                     doc.renterPan!,
                     doc._id + "_renterPan",
                     "Renter PAN"
                   )}
+                  </div>
+                  <strong>Renter PAN</strong>{" "}
                 </div>
               </div>
             ))}
