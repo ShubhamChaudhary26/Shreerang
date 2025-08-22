@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { MessageCircle, Send, UserCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import bgImage from "../../../public/whatsapp.jpg"; // adjust path if needed
+import { FaWhatsapp } from "react-icons/fa";
 
 export default function ChatButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,12 +63,14 @@ export default function ChatButton() {
         {!isOpen && showPrompt && (
           <motion.div
             key="prompt"
-            initial={{ opacity: 0, y: 0 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 0.8, y: -5 }}
             exit={{ opacity: 0 }}
-            className="fixed bottom-[70px] left-3 px-4 py-1 bg-blue-600 text-white rounded-full text-sm z-40"
+            className="fixed bottom-[70px] md:bottom-[82px] left-2 md:left-5 flex items-center gap-2 px-4 py-2 
+             bg-green-600 text-white rounded-full shadow-lg text-sm font-medium z-40"
           >
-            Talk to us!
+            {" "}
+            Talk to us!{" "}
           </motion.div>
         )}
       </AnimatePresence>
@@ -78,9 +81,9 @@ export default function ChatButton() {
           whileTap={{ scale: 0.9 }}
           whileHover={{ scale: 1.1 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 left-3 bg-blue-600 text-white p-3 rounded-full shadow-lg z-50"
+          className="fixed bottom-3 left-1 bg-green-600 text-white p-3 rounded-full shadow-lg z-50"
         >
-          <MessageCircle className="w-6 h-6" />
+          <FaWhatsapp className="w-7 h-7 sm:w-10 sm:h-10" />
         </motion.button>
       )}
 
