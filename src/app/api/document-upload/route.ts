@@ -258,7 +258,7 @@ export async function POST(req: Request) {
       renterPan,
     });
 
-    processPDFandSendMail(newDoc).catch(console.error);
+ await processPDFandSendMail(newDoc);
 
     return NextResponse.json({ success: true, data: newDoc });
   } catch (error) {

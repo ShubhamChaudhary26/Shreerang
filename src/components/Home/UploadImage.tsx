@@ -32,6 +32,14 @@ const DocumentUploadForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState("");
+
+  useEffect(() => {
+    if (successMsg) {
+      const timer = setTimeout(() => setSuccessMsg(""), 12000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMsg]);
 
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
@@ -130,7 +138,10 @@ const DocumentUploadForm = () => {
       const result = await res.json();
 
       if (result.success) {
-        alert("Documents submitted successfully!");
+        setSuccessMsg(
+          "✅ Thank you for your message. Welcome to The Shreerang Associates Rent Agreement Services. Our team will connect with you shortly 🙏🙏"
+        );
+
         setFormData({
           name: "",
           phone: "",
@@ -151,7 +162,7 @@ const DocumentUploadForm = () => {
         setCaptchaToken(null);
         recaptchaRef.current?.reset();
       } else {
-        alert(result.message || "Upload failed");
+        setSuccessMsg("❌ Upload failed. Please try again.");
       }
     } catch (error) {
       alert("Error submitting the form. Please try again.");
@@ -420,6 +431,23 @@ const DocumentUploadForm = () => {
             </button>
           </div>
         </form>
+        {successMsg && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+    <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md mx-4">
+      <h2 className="text-xl font-bold text-green-700 mb-4">Thank you!</h2>
+      <p className="text-gray-700 mb-6">
+        {successMsg}
+      </p>
+      <button
+        onClick={() => setSuccessMsg("")}
+        className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );
