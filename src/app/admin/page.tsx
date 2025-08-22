@@ -42,7 +42,7 @@ const AdminDocumentsTable = () => {
           typeof window !== "undefined"
             ? ""
             : process.env.NEXT_PUBLIC_BASE_URL || "";
-        const res = await fetch(`${baseUrl}/api/get-documents`);
+        const res = await fetch("/api/get-documents", { cache: "no-store" });
         const data = await res.json();
         if (data.success) setDocuments(data.documents);
       } catch (err) {
