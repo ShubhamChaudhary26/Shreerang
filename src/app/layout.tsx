@@ -93,7 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* </UserProvider> */}
 
         {/* ✅ Vercel Web Analytics */}
-        {/* <Analytics /> */}
+        <Analytics />
       </body>
     </html>
   );
