@@ -6,20 +6,20 @@ export const metadata: Metadata = {
   title: 'shreerang',
   description:
     'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
-  metadataBase: new URL('https://shreerang.com'), // ✅ Added for consistency
+  metadataBase: new URL('https://rentagreementwithus.com'), // ✅ Added for consistency
   openGraph: {
     title: 'shreerang',
     description:
       'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
     images: [
       {
-        url: 'https://yourdomain.com/home/ContentWithImage1.png', // ✅ Absolute URL
+        url: 'https://rentagreementwithus.com/Logo.png', // ✅ Absolute URL
         width: 1200,
         height: 630,
         alt: 'shreerang Preview',
       },
     ],
-    url: 'https://shreerang.com',
+    url: 'https://rentagreementwithus.com',
     type: 'website',
     siteName: 'shreerang',
   },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: 'shreerang',
     description:
       'Unlock smarter decisions with insightful data and cutting-edge media intelligence solutions at shreerang.',
-    images: ['https://yourdomain.com/home/ContentWithImage1.png'],
+    images: ['https://rentagreementwithus.com/Logo.png'],
   },
 };
 

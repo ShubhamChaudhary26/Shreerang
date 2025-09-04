@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IOTP extends Document {
+export interface IOTP extends Document {    
   email: string;
   name: string;
   phone: string;
