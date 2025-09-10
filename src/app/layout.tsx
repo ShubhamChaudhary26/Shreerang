@@ -88,8 +88,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <UserProvider>
           <LayoutWrapper>
-            {<h1 className='text-center mx-auto my-10 justify-center'>Our website is currently under construction. Please check back later. </h1>}
-            {/* {children} */} 
+            {/* {<h1 className='text-center mx-auto my-10 justify-center'>Our website is currently under construction. Please check back later. </h1>} */}
+            {children} 
             </LayoutWrapper>
         </UserProvider>
 
